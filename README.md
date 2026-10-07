@@ -116,8 +116,9 @@ for each. See the [Everything interface and protocol](docs/everything.md).
 [Project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/)
 
 Point and Box use curated annotated images with fixed foreground prompts.
-One **Run both models** shows the original and refined initial decoder outputs,
-the outputs after two corrections, and measured target IoU at every stage.
+Run the initial prompt to compare the original and refined decoder outputs.
+Use the sidebar buttons to add the two preset correction points in order.
+Previous / Next restores saved images, prompts and target IoU for each stage.
 Everything accepts uploads and measures both automatic generation paths.
 The FSD animation has playback and step controls.
 See the [qualitative comparison protocol](docs/showcase.md).
@@ -139,31 +140,43 @@ Values are transcribed from the supplied manuscript, `main.pdf`, Tables 1, 3, 5�
 
 ### Point prompts: initial and after correction
 
-| Dataset / backbone | Original initial | Refined initial | Original +1 click | Refined +1 click | Original +2 clicks | Refined +2 clicks | Final Δ (pp) |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| COCO val2017 / TinySAM | 46.77 | **55.65** | 59.62 | **64.43** | 63.55 | **69.44** | +5.89 |
-| COCO val2017 / MobileSAM | 50.89 | **55.00** | 59.74 | **64.45** | 62.90 | **69.50** | +6.61 |
-| COCO val2017 / ViT-H | 53.57 | **60.83** | 67.26 | **70.47** | 71.69 | **74.80** | +3.11 |
-| LVIS v1 val / TinySAM | 53.65 | **56.26** | 53.31 | **62.70** | 54.51 | **66.32** | +11.82 |
-| LVIS v1 val / MobileSAM | 51.41 | **54.43** | 52.37 | **60.91** | 54.13 | **65.86** | +11.73 |
-| LVIS v1 val / ViT-H † | 60.50 | **62.01** | 68.10 | **68.55** | 70.70 | **72.62** | +1.92 † |
-| SA-11K / TinySAM | 66.83 | **70.14** | 75.88 | **76.27** | 78.59 | **78.73** | +0.14 |
-| SA-11K / MobileSAM † | 64.60 | **68.21** | 73.40 | **74.84** | 76.20 | **79.20** | +3.00 † |
-| SA-11K / ViT-H † | 76.50 | **78.22** | 83.40 | **84.32** | 85.10 | **86.52** | +1.42 † |
+![First-click original versus refined IoU and gains at all three prompt stages](site/assets/results/point-comparison.png)
+
+[Vector figure (SVG)](site/assets/results/point-comparison.svg)
+
+The bars compare the initial prompt; the adjacent columns show gains at all three stages, with the initial stage highlighted. Table values are **Original → Refined**; Δ is the gain at that same stage, in percentage points (pp).
+
+| Dataset / backbone | **Initial IoU (%)** | **Initial Δ (pp)** | +1 click IoU (%) | +1 Δ (pp) | +2 clicks IoU (%) | +2 Δ (pp) |
+|---|---:|---:|---:|---:|---:|---:|
+| COCO val2017 / TinySAM | 46.77 → **55.65** | **+8.88** | 59.62 → **64.43** | +4.81 | 63.55 → **69.44** | +5.89 |
+| COCO val2017 / MobileSAM | 50.89 → **55.00** | **+4.10** | 59.74 → **64.45** | +4.71 | 62.90 → **69.50** | +6.61 |
+| COCO val2017 / ViT-H | 53.57 → **60.83** | **+7.26** | 67.26 → **70.47** | +3.21 | 71.69 → **74.80** | +3.11 |
+| LVIS v1 val / TinySAM | 53.65 → **56.26** | **+2.61** | 53.31 → **62.70** | +9.40 | 54.51 → **66.32** | +11.82 |
+| LVIS v1 val / MobileSAM | 51.41 → **54.43** | **+3.02** | 52.37 → **60.91** | +8.54 | 54.13 → **65.86** | +11.73 |
+| LVIS v1 val / ViT-H † | 60.50 → **62.01** | **+1.51** | 68.10 → **68.55** | +0.45 | 70.70 → **72.62** | +1.92 |
+| SA-11K / TinySAM | 66.83 → **70.14** | **+3.31** | 75.88 → **76.27** | +0.39 | 78.59 → **78.73** | +0.14 |
+| SA-11K / MobileSAM † | 64.60 → **68.21** | **+3.61** | 73.40 → **74.84** | +1.44 | 76.20 → **79.20** | +3.00 |
+| SA-11K / ViT-H † | 76.50 → **78.22** | **+1.72** | 83.40 → **84.32** | +0.92 | 85.10 → **86.52** | +1.42 |
 
 ### Box prompts: initial and after correction
 
-| Dataset / backbone | Original initial | Refined initial | Original +1 click | Refined +1 click | Original +2 clicks | Refined +2 clicks | Final Δ (pp) |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| COCO val2017 / TinySAM | 74.99 | **76.52** | 74.42 | **77.68** | 74.29 | **78.36** | +4.08 |
-| COCO val2017 / MobileSAM | 74.45 | **76.03** | 72.57 | **77.03** | 71.95 | **77.23** | +5.28 |
-| COCO val2017 / ViT-H | 77.28 | **78.17** | 77.76 | **78.56** | 78.00 | **78.70** | +0.70 |
-| LVIS v1 val / TinySAM | 73.81 | **75.47** | 70.37 | **76.57** | 69.29 | **77.13** | +7.84 |
-| LVIS v1 val / MobileSAM | 72.81 | **74.45** | 67.30 | **75.36** | 65.49 | **75.68** | +10.20 |
-| LVIS v1 val / ViT-H † | 77.80 | **77.86** | 78.30 | **78.45** | 78.50 | **78.60** | +0.10 † |
-| SA-11K / TinySAM | 82.90 | **84.16** | 83.79 | **84.84** | 84.24 | **85.18** | +0.95 |
-| SA-11K / MobileSAM † | 82.00 | **83.50** | 82.40 | **84.08** | 82.70 | **84.32** | +1.62 † |
-| SA-11K / ViT-H † | 86.70 | **87.86** | 86.70 | **88.07** | 87.10 | **88.10** | +1.00 † |
+![Initial-box original versus refined IoU and gains at all three prompt stages](site/assets/results/box-comparison.png)
+
+[Vector figure (SVG)](site/assets/results/box-comparison.svg)
+
+The bars compare the initial prompt; the adjacent columns show gains at all three stages, with the initial stage highlighted. Table values are **Original → Refined**; Δ is the gain at that same stage, in percentage points (pp).
+
+| Dataset / backbone | **Initial IoU (%)** | **Initial Δ (pp)** | +1 click IoU (%) | +1 Δ (pp) | +2 clicks IoU (%) | +2 Δ (pp) |
+|---|---:|---:|---:|---:|---:|---:|
+| COCO val2017 / TinySAM | 74.99 → **76.52** | **+1.52** | 74.42 → **77.68** | +3.26 | 74.29 → **78.36** | +4.08 |
+| COCO val2017 / MobileSAM | 74.45 → **76.03** | **+1.58** | 72.57 → **77.03** | +4.46 | 71.95 → **77.23** | +5.28 |
+| COCO val2017 / ViT-H | 77.28 → **78.17** | **+0.89** | 77.76 → **78.56** | +0.80 | 78.00 → **78.70** | +0.70 |
+| LVIS v1 val / TinySAM | 73.81 → **75.47** | **+1.66** | 70.37 → **76.57** | +6.20 | 69.29 → **77.13** | +7.84 |
+| LVIS v1 val / MobileSAM | 72.81 → **74.45** | **+1.64** | 67.30 → **75.36** | +8.06 | 65.49 → **75.68** | +10.20 |
+| LVIS v1 val / ViT-H † | 77.80 → **77.86** | **+0.06** | 78.30 → **78.45** | +0.15 | 78.50 → **78.60** | +0.10 |
+| SA-11K / TinySAM | 82.90 → **84.16** | **+1.26** | 83.79 → **84.84** | +1.05 | 84.24 → **85.18** | +0.95 |
+| SA-11K / MobileSAM † | 82.00 → **83.50** | **+1.50** | 82.40 → **84.08** | +1.68 | 82.70 → **84.32** | +1.62 |
+| SA-11K / ViT-H † | 86.70 → **87.86** | **+1.16** | 86.70 → **88.07** | +1.37 | 87.10 → **88.10** | +1.00 |
 
 ### Segment Everything: ViT-H versus FSD-SAM
 

@@ -337,13 +337,14 @@ def build_demo(project):
                         gr.HTML('<p class="studio-note">Curated Point / Box targets · foreground clicks.<br>Everything supports uploads · FP32.</p>')
                     with gr.Column(scale=3,min_width=300,elem_id='canvas-card'):
                         with gr.Group(visible=False,elem_id='prompt-pair-results') as prompt_group:
-                            stage_title = gr.HTML('<div class="prompt-stage-heading"><b>Initial prompt</b><span>Original / refined · same prompt</span></div>',elem_id='current-stage-title')
+                            with gr.Row(elem_id='prompt-stage-bar'):
+                                stage_title = gr.HTML('<div class="prompt-stage-heading"><b>Initial prompt</b><span>Original / refined · same prompt</span></div>',elem_id='current-stage-title')
+                                with gr.Row(elem_id='history-actions'):
+                                    previous_result = gr.Button('← Previous result',interactive=False,size='sm',min_width=110,elem_id='previous-result')
+                                    next_result = gr.Button('Next result →',interactive=False,size='sm',min_width=110,elem_id='next-result')
                             with gr.Row(equal_height=True,elem_id='prompt-image-row'):
                                 original = gr.Image(label='Original · initial prompt',interactive=False,type='numpy',height=300,min_width=120,elem_id='prompt-original')
                                 refined = gr.Image(label='Refined · initial prompt',interactive=False,type='numpy',height=300,min_width=120,elem_id='prompt-refined')
-                            with gr.Row(elem_id='history-actions'):
-                                previous_result = gr.Button('← Previous result',interactive=False,size='sm',min_width=110,elem_id='previous-result')
-                                next_result = gr.Button('Next result →',interactive=False,size='sm',min_width=110,elem_id='next-result')
                             point_scores = gr.HTML(prompt_metrics(),elem_id='prompt-iou-results')
                         with gr.Group(elem_id='every-pair-results') as pair_group:
                             with gr.Row(equal_height=True,elem_id='every-image-row'):

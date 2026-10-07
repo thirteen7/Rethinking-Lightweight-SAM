@@ -7,7 +7,7 @@ import logging
 
 LOCAL_PROJECT = Path(__file__).resolve().parent.parent.parent
 local_checkout = (LOCAL_PROJECT/'demo/gradio_app.py').is_file()
-PROJECT = Path(os.environ.get('SAM_DEMO_PROJECT',str(LOCAL_PROJECT) if local_checkout else '/tmp/rethinking-lightweight-sam-paired-v9'))
+PROJECT = Path(os.environ.get('SAM_DEMO_PROJECT',str(LOCAL_PROJECT) if local_checkout else '/tmp/rethinking-lightweight-sam-paired-v10'))
 if local_checkout and not os.environ.get('SPACE_ID'):
     os.environ.setdefault('SAM_DEMO_LOCAL','1')
 if not (PROJECT/'demo/gradio_app.py').is_file():
