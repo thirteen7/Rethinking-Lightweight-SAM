@@ -21,6 +21,8 @@ Prompt-Adaptive Refinement and Efficient Segment Everything Inference.
 Choose TinySAM or MobileSAM and explore **Point**, **Box**, or **Everything**.
 The research studio includes built-in images, FSD-SAM and Dense SAM generation,
 independent instance colors, opacity controls, and a mask inventory.
+It opens with a recorded Orange bowl preview; run segmentation to generate
+a new result. Songbird and Brown bear photographs are also included.
 Inference runs on ZeroGPU. Uploads and predictions use temporary
 Space storage; image state and previous logits remain in session memory.
 

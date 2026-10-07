@@ -5,7 +5,7 @@ import subprocess
 import sys
 import logging
 
-PROJECT = Path(os.environ.get('SAM_DEMO_PROJECT','/tmp/rethinking-lightweight-sam'))
+PROJECT = Path(os.environ.get('SAM_DEMO_PROJECT','/tmp/rethinking-lightweight-sam-showcase-v3'))
 if not (PROJECT/'demo/gradio_app.py').is_file():
     subprocess.run(['git','clone','--depth','1',
         'https://github.com/thirteen7/Rethinking-Lightweight-SAM.git',str(PROJECT)],check=True)
