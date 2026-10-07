@@ -257,10 +257,10 @@
       "paper_tables": [
         5
       ],
-      "baseline_note": "Paper Tables 5. Each complete method generates its own corrective-click trajectory."
+      "baseline_note": "Paper Tables 5. Each complete method generates its own corrective-click trajectory. ViT-H original values are historical reference figures (Appendix E)."
     },
     "sa1b": {
-      "label": "SA-11K / SA-1B cap64",
+      "label": "SA-11K",
       "images": 11186,
       "targets": 618098,
       "coverage": "All validation images \u00b7 up to 64 targets per image \u00b7 fixed selection without replacement",
@@ -327,7 +327,7 @@
           ]
         }
       },
-      "baseline_note": "Paper Table 6. MobileSAM original values are historical reference figures (Appendix E), not a newly matched evaluation.",
+      "baseline_note": "Paper Table 6. MobileSAM and ViT-H original values are historical reference figures (Appendix E), not a newly matched evaluation.",
       "gains": {
         "tinysam": {
           "point": [

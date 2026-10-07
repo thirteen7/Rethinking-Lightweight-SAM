@@ -135,7 +135,7 @@ See [demo/README.md](demo/README.md) for deployment.
 
 ## Results
 
-Values are transcribed from the supplied manuscript, `main.pdf`, Tables 1, 3, 5–7 (pages 11–14). Initial means one foreground center click or one GT box; +1/+2 mean cumulative corrective clicks. All interaction values are instance-averaged legacy IoU (%). Differences are copied from the paper, which calculates them before rounding. **† Historical original-model figures:** MobileSAM on SA-11K (and ViT-H on LVIS/SA-11K in the full results) are reference comparisons, not newly matched controls; see manuscript Appendix E.
+Values are transcribed from the supplied manuscript, `main.pdf`, Tables 1, 3, 5–7 (pages 11–14). Initial means one foreground center click or one GT box; +1/+2 mean cumulative corrective clicks. All interaction values are instance-averaged legacy IoU (%). Differences are copied from the paper, which calculates them before rounding. **† Historical original-model figures:** MobileSAM on SA-11K (and ViT-H on LVIS/SA-11K) are reference comparisons, not newly matched controls; see manuscript Appendix E.
 
 ### Point prompts: initial and after correction
 
@@ -143,10 +143,13 @@ Values are transcribed from the supplied manuscript, `main.pdf`, Tables 1, 3, 5�
 |---|---:|---:|---:|---:|---:|---:|---:|
 | COCO val2017 / TinySAM | 46.77 | **55.65** | 59.62 | **64.43** | 63.55 | **69.44** | +5.89 |
 | COCO val2017 / MobileSAM | 50.89 | **55.00** | 59.74 | **64.45** | 62.90 | **69.50** | +6.61 |
+| COCO val2017 / ViT-H | 53.57 | **60.83** | 67.26 | **70.47** | 71.69 | **74.80** | +3.11 |
 | LVIS v1 val / TinySAM | 53.65 | **56.26** | 53.31 | **62.70** | 54.51 | **66.32** | +11.82 |
 | LVIS v1 val / MobileSAM | 51.41 | **54.43** | 52.37 | **60.91** | 54.13 | **65.86** | +11.73 |
+| LVIS v1 val / ViT-H † | 60.50 | **62.01** | 68.10 | **68.55** | 70.70 | **72.62** | +1.92 † |
 | SA-11K / TinySAM | 66.83 | **70.14** | 75.88 | **76.27** | 78.59 | **78.73** | +0.14 |
 | SA-11K / MobileSAM † | 64.60 | **68.21** | 73.40 | **74.84** | 76.20 | **79.20** | +3.00 † |
+| SA-11K / ViT-H † | 76.50 | **78.22** | 83.40 | **84.32** | 85.10 | **86.52** | +1.42 † |
 
 ### Box prompts: initial and after correction
 
@@ -154,10 +157,13 @@ Values are transcribed from the supplied manuscript, `main.pdf`, Tables 1, 3, 5�
 |---|---:|---:|---:|---:|---:|---:|---:|
 | COCO val2017 / TinySAM | 74.99 | **76.52** | 74.42 | **77.68** | 74.29 | **78.36** | +4.08 |
 | COCO val2017 / MobileSAM | 74.45 | **76.03** | 72.57 | **77.03** | 71.95 | **77.23** | +5.28 |
+| COCO val2017 / ViT-H | 77.28 | **78.17** | 77.76 | **78.56** | 78.00 | **78.70** | +0.70 |
 | LVIS v1 val / TinySAM | 73.81 | **75.47** | 70.37 | **76.57** | 69.29 | **77.13** | +7.84 |
 | LVIS v1 val / MobileSAM | 72.81 | **74.45** | 67.30 | **75.36** | 65.49 | **75.68** | +10.20 |
+| LVIS v1 val / ViT-H † | 77.80 | **77.86** | 78.30 | **78.45** | 78.50 | **78.60** | +0.10 † |
 | SA-11K / TinySAM | 82.90 | **84.16** | 83.79 | **84.84** | 84.24 | **85.18** | +0.95 |
 | SA-11K / MobileSAM † | 82.00 | **83.50** | 82.40 | **84.08** | 82.70 | **84.32** | +1.62 † |
+| SA-11K / ViT-H † | 86.70 | **87.86** | 86.70 | **88.07** | 87.10 | **88.10** | +1.00 † |
 
 ### Segment Everything: ViT-H versus FSD-SAM
 

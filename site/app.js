@@ -199,14 +199,14 @@ function renderBenchmarks() {
   let markup = "";
   for (const value of [0,25,50,75,100]) {
     const x = left + width * value / 100;
-    markup += `<line x1="${x}" y1="22" x2="${x}" y2="260" stroke="#eceef5" stroke-dasharray="3 5"/><text x="${x}" y="286" font-size="10" text-anchor="middle" fill="#9ca3b4">${value}</text>`;
+    markup += `<line x1="${x}" y1="22" x2="${x}" y2="385" stroke="#eceef5" stroke-dasharray="3 5"/><text x="${x}" y="410" font-size="10" text-anchor="middle" fill="#9ca3b4">${value}</text>`;
   }
-  for (const [index,model,color] of [[0,"tinysam","#7860de"],[1,"mobilesam","#268e90"]]) {
-    const top = 43 + index * 126, ours = dataset[model][prompt][stage], baseline = dataset.original[model][prompt][stage];
+  for (const [index,model,color] of [[0,"tinysam","#7860de"],[1,"mobilesam","#268e90"],[2,"vith","#a4783c"]]) {
+    const top = 43 + index * 120, ours = dataset[model][prompt][stage], baseline = dataset.original[model][prompt][stage];
     const gain = dataset.gains[model][prompt][stage], historical = dataset.baseline_kind[model] === "historical_reference";
     markup += `<text x="10" y="${top}" font-size="13" font-weight="600" fill="#454b62">${names[model]}</text><text x="10" y="${top+27}" font-size="10" fill="#9fa6b7">Original${historical?" †":""}</text><rect x="${left}" y="${top+12}" width="${width*baseline/100}" height="21" rx="4" fill="#cbd0dd"/><text x="${left+width*baseline/100+7}" y="${top+27}" font-size="11" fill="#888fa2">${baseline.toFixed(2)}</text>`;
     markup += `<text x="10" y="${top+62}" font-size="10" fill="${color}">Ours</text><rect x="${left}" y="${top+47}" width="${width*ours/100}" height="21" rx="4" fill="${color}"/><text x="${left+width*ours/100+7}" y="${top+62}" font-size="11" font-weight="600" fill="${color}">${ours.toFixed(2)}</text><text x="579" y="${top+41}" font-size="15" font-weight="650" text-anchor="end" fill="${color}">+${gain.toFixed(2)}<tspan font-size="9"> pp${historical?" †":""}</tspan></text>`;
-    const prefix = model === "tinysam" ? "tiny" : "mobile";
+    const prefix = {tinysam:"tiny",mobilesam:"mobile",vith:"vith"}[model];
     $(`#${prefix}-result`).innerHTML = ours.toFixed(2) + "<span>%</span>";
     $(`#${prefix}-original`).textContent = `Original${historical?" †":""}: ${baseline.toFixed(2)}%`;
     $(`#${prefix}-gain`).textContent = `+${gain.toFixed(2)} pp ${historical?"reported difference †":"vs original"}`;
@@ -215,8 +215,8 @@ function renderBenchmarks() {
   $("#benchmark-chart").setAttribute("aria-label", `${dataset.label}; ${stageLabel}; paper reported original versus refined IoU.`);
   $("#chart-title").textContent = dataset.label;
   $("#chart-coverage").textContent = dataset.coverage + ". " + dataset.baseline_note;
-  $("#stat-prompt").textContent = $("#stat-prompt-mobile").textContent = prompt.toUpperCase();
-  $("#stat-stage").textContent = $("#stat-stage-mobile").textContent = stageLabel;
+  $("#stat-prompt").textContent = $("#stat-prompt-mobile").textContent = $("#stat-prompt-vith").textContent = prompt.toUpperCase();
+  $("#stat-stage").textContent = $("#stat-stage-mobile").textContent = $("#stat-stage-vith").textContent = stageLabel;
   $("#target-count").textContent = number(dataset.targets);
   $("#image-count").textContent = number(dataset.images) + " valid images";
 }
@@ -224,7 +224,7 @@ function wireBenchmarks() {
   $$('[data-dataset]').forEach(button=>button.addEventListener('click',()=>{state.dataset=button.dataset.dataset;active($$('[data-dataset]'),button);renderBenchmarks();}));
   $$('[data-benchmark-prompt]').forEach(button=>button.addEventListener('click',()=>{state.benchmarkPrompt=button.dataset.benchmarkPrompt;active($$('[data-benchmark-prompt]'),button);renderBenchmarks();}));
   $$('[data-benchmark-stage]').forEach(button=>button.addEventListener('click',()=>{state.benchmarkStage=Number(button.dataset.benchmarkStage);active($$('[data-benchmark-stage]'),button);renderBenchmarks();}));
-  $("#results-table").innerHTML = ["coco","lvis","sa1b"].flatMap(key=>["tinysam","mobilesam"].map(model=>{
+  $("#results-table").innerHTML = ["coco","lvis","sa1b"].flatMap(key=>["tinysam","mobilesam","vith"].map(model=>{
     const data=benchmarks.datasets[key], historical=data.baseline_kind[model]==='historical_reference';
     const cells=['point','box'].flatMap(prompt=>[0,1,2].map(stage=>`<td class="paired-result-cell"><span>${data.original[model][prompt][stage].toFixed(2)} → <b>${data[model][prompt][stage].toFixed(2)}</b></span><small>+${data.gains[model][prompt][stage].toFixed(2)} pp${historical?' †':''}</small></td>`)).join('');
     return `<tr><td><b>${data.label}</b><span class="table-model">${names[model]}${historical?' †':''}</span></td>${cells}</tr>`;
