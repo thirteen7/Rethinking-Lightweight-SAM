@@ -30,9 +30,12 @@ independent of interactive application timings.
 Create a public **Gradio** Space under `thirteen7/Rethinking-Lightweight-SAM`.
 Upload `app.py`, `README.md`, and `requirements.txt` from `demo/space/` into the
 Space's repository root. The launcher obtains the public project code and
-serves the same frontend with the inference API. Use the free available
-hardware; the application performs CPU inference and does not request paid
-hardware or a GPU allocation.
+serves a card-based Gradio application with the same complete-model interface.
+Select free **ZeroGPU** hardware. The model tensors are initialized at startup;
+GPU execution is scoped to the prediction function. Image state and previous
+logits are retained in temporary CPU session memory between interaction rounds.
+Gradio uploads and rendered outputs use a temporary file cache, cleaned on a
+15-minute schedule. The application does not request paid hardware.
 
 Set `site/config.json` → `space_url` to the Space's public address after the
 application is running. The project page then opens the hosted interactive app.
