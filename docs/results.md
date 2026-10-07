@@ -46,6 +46,10 @@ The bars compare the initial prompt; the adjacent columns show gains at all thre
 
 ## Segment Everything timing
 
+![Dense SAM versus FSD-SAM timing on ViT-H, TinySAM and EdgeSAM](../site/assets/results/fsd-time-comparison.png)
+
+[Vector figure (SVG)](../site/assets/results/fsd-time-comparison.svg)
+
 | Backbone / policy | ms/image ↓ | Speedup | AR@300 (%) ↑ | ΔAR (pp) |
 |---|---:|---:|---:|---:|
 | TinySAM / Dense | 3,423 | 1.00× | 15.797 | — |
@@ -64,7 +68,7 @@ Paper Table 7: COCO100 **development subset**, 100 images / 709 targets, NVIDIA 
 
 The supplied manuscript SHA256 is `60997914209376b776a5372a1ed4053670ef9773de0f90b8de6a5a1ff7398438`. Displayed interaction values use the paper’s two decimal places; timing and AR use Table 7 precision. [Machine-readable interaction values](../site/benchmarks.json) · [Machine-readable timing values](../site/paper-everything.json). Curated image IoUs are recomputed against their own target annotations and are separate from these aggregate values.
 
-The PNG and SVG figures above are generated from `site/benchmarks.json`. To regenerate them, install matplotlib and run `python docs/figures/plot_prompt_results.py`. The same 0–100 IoU axis and 0–12 pp gain color scale are used for both prompt modes.
+The PNG and SVG figures are generated from `site/benchmarks.json` (interaction) and `site/paper-everything.json` (timing). With matplotlib installed, run `python docs/figures/plot_prompt_results.py` or `python docs/figures/plot_everything_time.py`. The interaction figures share a 0–100 IoU axis and 0–12 pp gain color scale; the timing figure starts at 0 ms.
 
 ## TinySAM LVIS acceptance addendum
 

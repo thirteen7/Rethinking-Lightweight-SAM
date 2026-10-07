@@ -160,12 +160,20 @@ python demo/space/app.py
 | SA-11K / MobileSAM † | 82.00 → **83.50** | **+1.50** | 82.40 → **84.08** | +1.68 | 82.70 → **84.32** | +1.62 |
 | SA-11K / ViT-H † | 86.70 → **87.86** | **+1.16** | 86.70 → **88.07** | +1.37 | 87.10 → **88.10** | +1.00 |
 
-### Segment Everything：ViT-H 与 FSD-SAM 时间对比
+### Segment Everything：Dense SAM 与 FSD-SAM 时间对比
+
+![Dense SAM 与 FSD-SAM 在 ViT-H、TinySAM、EdgeSAM 上的整图分割耗时对比](site/assets/results/fsd-time-comparison.png)
+
+[矢量图 (SVG)](site/assets/results/fsd-time-comparison.svg)
 
 | 骨干 / 策略 | ms/图 ↓ | 加速比 | AR@300 (%) ↑ | ΔAR (pp) |
 |---|---:|---:|---:|---:|
 | SAM ViT-H / Dense | 6,067 | 1.00× | 48.322 | — |
 | SAM ViT-H / FSD-SAM | 3,043 | 1.99× | 48.237 | -0.085 |
+| TinySAM / Dense | 3,423 | 1.00× | 15.797 | — |
+| TinySAM / FSD-SAM | 1,274 | 2.69× | 15.331 | -0.465 |
+| EdgeSAM / Dense | 3,772 | 1.00× | 29.803 | — |
+| EdgeSAM / FSD-SAM | 1,350 | 2.79× | 29.563 | -0.240 |
 
 论文表 7：COCO100 开发子集，100 图／709 目标；NVIDIA RTX 5060 Ti，FP32，32 × 32 网格，64 提示／批。每种配置预热 3 次，每图计时 3 次，质量使用第 0 次结果；CUDA 同步计时，包括图像编码和完整掩码生成。排除图片读取、模型加载、编译、预热、写盘及 GT 评估。论文的秒／图乘以 1000 转为毫秒／图。该开发子集平均时间与 Demo 当前图片的实测耗时分别显示。完整结果见 [docs/results.md](docs/results.md)。
 

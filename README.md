@@ -178,12 +178,20 @@ The bars compare the initial prompt; the adjacent columns show gains at all thre
 | SA-11K / MobileSAM † | 82.00 → **83.50** | **+1.50** | 82.40 → **84.08** | +1.68 | 82.70 → **84.32** | +1.62 |
 | SA-11K / ViT-H † | 86.70 → **87.86** | **+1.16** | 86.70 → **88.07** | +1.37 | 87.10 → **88.10** | +1.00 |
 
-### Segment Everything: ViT-H versus FSD-SAM
+### Segment Everything: Dense SAM versus FSD-SAM
+
+![Dense SAM versus FSD-SAM timing on ViT-H, TinySAM and EdgeSAM](site/assets/results/fsd-time-comparison.png)
+
+[Vector figure (SVG)](site/assets/results/fsd-time-comparison.svg)
 
 | Backbone / policy | ms/image ↓ | Speedup | AR@300 (%) ↑ | ΔAR (pp) |
 |---|---:|---:|---:|---:|
 | SAM ViT-H / Dense | 6,067 | 1.00× | 48.322 | — |
 | SAM ViT-H / FSD-SAM | 3,043 | 1.99× | 48.237 | -0.085 |
+| TinySAM / Dense | 3,423 | 1.00× | 15.797 | — |
+| TinySAM / FSD-SAM | 1,274 | 2.69× | 15.331 | -0.465 |
+| EdgeSAM / Dense | 3,772 | 1.00× | 29.803 | — |
+| EdgeSAM / FSD-SAM | 1,350 | 2.79× | 29.563 | -0.240 |
 
 Paper Table 7: COCO100 **development subset**, 100 images / 709 targets, NVIDIA RTX 5060 Ti, FP32, 32 × 32 grid, 64 prompts/batch. Three warm-ups; each image is timed three times, with quality from repetition 0. CUDA-synchronized end-to-end generation includes encoding and mask processing. Image reading, model loading, compilation, warm-up, disk writes and GT evaluation are excluded. Seconds in the paper are converted to milliseconds (×1000). These dataset averages are separate from the live demo’s current-image measurements and portable decoder settings.
 
