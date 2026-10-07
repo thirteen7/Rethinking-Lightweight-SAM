@@ -1,9 +1,1997 @@
 {
-  "format": "project_qualitative_examples_v1",
+  "format": "original_lightweight_qualitative_v2",
   "device": "cpu",
-  "description": "Recorded predictions. Reference is canonical frozen-decoder candidate 0 under the same prompt and mask feedback; no dataset-average claim.",
+  "description": "Curated measured-IoU comparisons of the original lightweight checkpoint and the released prompt-adaptive model. Identical prompts; independent mask feedback per method. Not dataset-average results.",
   "gt": "Legacy 1024-resized / bilinear-restored GT",
   "examples": [
+    {
+      "id": "train",
+      "title": "Train at a station",
+      "dataset": "COCO",
+      "image_id": 217400,
+      "annotation_id": 174678,
+      "width": 640,
+      "height": 480,
+      "image": "assets/examples/train.jpg",
+      "image_sha256": "0bf52c9409ae0eeb5cd056d2cd8a48217073f9be09137b76e39a8c6f2411229d",
+      "source_url": "http://farm4.staticflickr.com/3701/9998539994_ed1c0167e4_z.jpg",
+      "license_id": 4,
+      "modes": [
+        "point",
+        "box"
+      ],
+      "visible_for": {
+        "tinysam": [
+          "point"
+        ]
+      },
+      "featured_for": {
+        "tinysam": [
+          "point"
+        ]
+      },
+      "trajectories": {
+        "tinysam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 2,
+              "points": [
+                {
+                  "x": 394.375,
+                  "y": 253.125,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.8901078104972839,
+                0.6546168327331543,
+                0.07851864397525787
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-tinysam-point-1-reference.png",
+                "intersection": 926,
+                "union": 88667,
+                "iou_percent": 1.0443569761015936,
+                "mask_sha256": "7226b8bcbdbf449571013b34b7a354b1519c6d9a97e1805f8cb92f351654bfef"
+              },
+              "refined": {
+                "mask": "assets/examples/train-tinysam-point-1-refined.png",
+                "intersection": 83680,
+                "union": 89342,
+                "iou_percent": 93.66255512524904,
+                "mask_sha256": "75b0b73d12124370aa834ce56c37fc15f2f539baea786214e9b618570b66acd9"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 394.375,
+                  "y": 253.125,
+                  "label": 1
+                },
+                {
+                  "x": 92.5,
+                  "y": 295.0,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 2,
+              "original_scores": [
+                0.15816186368465424,
+                0.8896057605743408,
+                0.9638142585754395
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-tinysam-point-2-reference.png",
+                "intersection": 87731,
+                "union": 156269,
+                "iou_percent": 56.14101325278846,
+                "mask_sha256": "6637ef7e99cb444cd3bfd7dc2693024cf49e5350115cd115a056e689dba425ea"
+              },
+              "refined": {
+                "mask": "assets/examples/train-tinysam-point-2-refined.png",
+                "intersection": 87489,
+                "union": 209099,
+                "iou_percent": 41.840946154692276,
+                "mask_sha256": "9872eecca50223420e3ec6077ecce823c36294e88085770b8d2afc26c74c897e"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 394.375,
+                  "y": 253.125,
+                  "label": 1
+                },
+                {
+                  "x": 92.5,
+                  "y": 295.0,
+                  "label": 1
+                },
+                {
+                  "x": 460.0,
+                  "y": 55.0,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.6363194584846497,
+                0.9583905935287476,
+                0.9366292953491211
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-tinysam-point-3-reference.png",
+                "intersection": 83200,
+                "union": 89151,
+                "iou_percent": 93.32480847102107,
+                "mask_sha256": "cb55c7ec3d0b2e4b5acea434cddc910c812d378493f18d940f1fbaade20cdc31"
+              },
+              "refined": {
+                "mask": "assets/examples/train-tinysam-point-3-refined.png",
+                "intersection": 86854,
+                "union": 91854,
+                "iou_percent": 94.55657891871884,
+                "mask_sha256": "d1794a7bcb2a18c37ab221508f1572a2286132f68c0edbbf64ad795da9b5975b"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 2,
+              "points": [],
+              "box": [
+                0.0,
+                130.87,
+                535.96,
+                367.64
+              ],
+              "original_candidate": 1,
+              "original_scores": [
+                0.9430932402610779,
+                0.9989069700241089,
+                0.9983402490615845
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-tinysam-box-1-reference.png",
+                "intersection": 83910,
+                "union": 89443,
+                "iou_percent": 93.81393736793265,
+                "mask_sha256": "21cdb84fe7bcb9ea7774d7c100257ac9b83b3d32d88baec3cd0607901e4a13c4"
+              },
+              "refined": {
+                "mask": "assets/examples/train-tinysam-box-1-refined.png",
+                "intersection": 85401,
+                "union": 90154,
+                "iou_percent": 94.72791002063137,
+                "mask_sha256": "ed6528165f897127eca2a1c07a610b2f8d806600263d4e9963cefa49be78597a"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 4,
+              "points": [
+                {
+                  "x": 310.0,
+                  "y": 150.0,
+                  "label": 0
+                }
+              ],
+              "box": [
+                0.0,
+                130.87,
+                535.96,
+                367.64
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.9757726192474365,
+                0.9993969202041626,
+                1.0057367086410522
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-tinysam-box-2-reference.png",
+                "intersection": 84481,
+                "union": 89441,
+                "iou_percent": 94.45444482955244,
+                "mask_sha256": "da1985f14913917fc5c3d768886d4ab1b2f7d6499ed877e3337d88c37ced58dc"
+              },
+              "refined": {
+                "mask": "assets/examples/train-tinysam-box-2-refined.png",
+                "intersection": 85705,
+                "union": 90061,
+                "iou_percent": 95.16327822253805,
+                "mask_sha256": "5572be869ee81fce0064a3700d4fd2ce71e47e085968c5982f9879c4d8d69936"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 2,
+              "points": [
+                {
+                  "x": 310.0,
+                  "y": 150.0,
+                  "label": 0
+                },
+                {
+                  "x": 247.5,
+                  "y": 335.0,
+                  "label": 1
+                }
+              ],
+              "box": [
+                0.0,
+                130.87,
+                535.96,
+                367.64
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.9805008769035339,
+                0.9950301647186279,
+                1.0021694898605347
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-tinysam-box-3-reference.png",
+                "intersection": 85670,
+                "union": 89565,
+                "iou_percent": 95.65120303690057,
+                "mask_sha256": "3cebac0d64f318916b6ce868558a340dcee7a531d6609a35ad816e1a0ee5fa38"
+              },
+              "refined": {
+                "mask": "assets/examples/train-tinysam-box-3-refined.png",
+                "intersection": 86054,
+                "union": 89929,
+                "iou_percent": 95.69104515784674,
+                "mask_sha256": "7eb3c25ed198418c983b6e24f7bcbe665ae660972625f5c2b92addd3a3987084"
+              }
+            }
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 394.375,
+                  "y": 253.125,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 2,
+              "original_scores": [
+                0.7741209864616394,
+                0.7333770990371704,
+                0.9616345167160034
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-mobilesam-point-1-reference.png",
+                "intersection": 82024,
+                "union": 89284,
+                "iou_percent": 91.86864387796246,
+                "mask_sha256": "3268e365084d260e98305be4b3bb5b0bf85cf99fc7771a85823daa87ea203e43"
+              },
+              "refined": {
+                "mask": "assets/examples/train-mobilesam-point-1-refined.png",
+                "intersection": 34079,
+                "union": 88794,
+                "iou_percent": 38.3798454850553,
+                "mask_sha256": "758b0cf8bbb4a2f09f3acd5ff5219cfe4270db960be6ae75c8fb50b34a3c99a7"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 394.375,
+                  "y": 253.125,
+                  "label": 1
+                },
+                {
+                  "x": 187.5,
+                  "y": 235.0,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.9594003558158875
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-mobilesam-point-2-reference.png",
+                "intersection": 82611,
+                "union": 89363,
+                "iou_percent": 92.44430021373499,
+                "mask_sha256": "c1e61849adb4f7d6f60860319fd753a79045455a4314586d1358059a032d4fce"
+              },
+              "refined": {
+                "mask": "assets/examples/train-mobilesam-point-2-refined.png",
+                "intersection": 82050,
+                "union": 89201,
+                "iou_percent": 91.98327373011513,
+                "mask_sha256": "169f45a2e46537ec66bea255a99e0987b482aba27594b36d4d2588d46f996462"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 394.375,
+                  "y": 253.125,
+                  "label": 1
+                },
+                {
+                  "x": 187.5,
+                  "y": 235.0,
+                  "label": 1
+                },
+                {
+                  "x": 535.0,
+                  "y": 275.0,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.9817126989364624
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-mobilesam-point-3-reference.png",
+                "intersection": 83114,
+                "union": 89457,
+                "iou_percent": 92.90944252545916,
+                "mask_sha256": "a0076e88d167093f6072773934da743312e2bd7e59e9c7bc60ac7a9dfbe885b7"
+              },
+              "refined": {
+                "mask": "assets/examples/train-mobilesam-point-3-refined.png",
+                "intersection": 83127,
+                "union": 89510,
+                "iou_percent": 92.86895318958776,
+                "mask_sha256": "0cdddef601567383ca41c529a29310cc223b3713545ac37c141a05ef952a546c"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                0.0,
+                130.87,
+                535.96,
+                367.64
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9710572957992554
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-mobilesam-box-1-reference.png",
+                "intersection": 83483,
+                "union": 89663,
+                "iou_percent": 93.10752484302333,
+                "mask_sha256": "6720b465bbe21eeab00052cf91bb2930f51b96d2382f8cc1395dbbcc0061f993"
+              },
+              "refined": {
+                "mask": "assets/examples/train-mobilesam-box-1-refined.png",
+                "intersection": 84666,
+                "union": 90103,
+                "iou_percent": 93.96579470161926,
+                "mask_sha256": "37a84ede92bf0e21ccda766b0b9ad726bbc257275c402bd0ec19a8e60a6f2e5e"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 257.5,
+                  "y": 325.0,
+                  "label": 1
+                }
+              ],
+              "box": [
+                0.0,
+                130.87,
+                535.96,
+                367.64
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9879197478294373
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-mobilesam-box-2-reference.png",
+                "intersection": 83852,
+                "union": 89632,
+                "iou_percent": 93.55141021063906,
+                "mask_sha256": "5b2dfbf615bff1f9353a29d110e3e2735a8cb2598e7e0b7efe221cf7cfce4b5b"
+              },
+              "refined": {
+                "mask": "assets/examples/train-mobilesam-box-2-refined.png",
+                "intersection": 85196,
+                "union": 90168,
+                "iou_percent": 94.48584863809778,
+                "mask_sha256": "90fb074493cfb0d67965a4d5d75366ac69c0e842429e91208bdec16193d1c42b"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 257.5,
+                  "y": 325.0,
+                  "label": 1
+                },
+                {
+                  "x": 72.5,
+                  "y": 287.5,
+                  "label": 1
+                }
+              ],
+              "box": [
+                0.0,
+                130.87,
+                535.96,
+                367.64
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9899601936340332
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/train-mobilesam-box-3-reference.png",
+                "intersection": 84575,
+                "union": 89722,
+                "iou_percent": 94.26339136443681,
+                "mask_sha256": "31e6bd0346b0487b03b16d50f643c0997258dd46ac0d7e747358cd610d03647b"
+              },
+              "refined": {
+                "mask": "assets/examples/train-mobilesam-box-3-refined.png",
+                "intersection": 85671,
+                "union": 90162,
+                "iou_percent": 95.01896586144939,
+                "mask_sha256": "ea06fdfc6bef5acbe5458ec7701b837d752306b5d8b20eaf162732769ffae8e4"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "elephant",
+      "title": "Elephant",
+      "dataset": "COCO",
+      "image_id": 414795,
+      "annotation_id": 1409580,
+      "width": 640,
+      "height": 480,
+      "image": "assets/examples/elephant.jpg",
+      "image_sha256": "8d3945f3c30be9a21aed6e9808f39e74a46bb20198f7bd29e24f4279e716af1e",
+      "source_url": "http://farm1.staticflickr.com/69/221842206_28bfc63fc8_z.jpg",
+      "license_id": 4,
+      "modes": [
+        "point",
+        "box"
+      ],
+      "visible_for": {
+        "tinysam": [
+          "box"
+        ]
+      },
+      "featured_for": {
+        "tinysam": [
+          "box"
+        ]
+      },
+      "trajectories": {
+        "tinysam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 192.5,
+                  "y": 317.5,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.9830206036567688,
+                0.9901531934738159,
+                0.869162917137146
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-tinysam-point-1-reference.png",
+                "intersection": 11970,
+                "union": 13135,
+                "iou_percent": 91.13056718690521,
+                "mask_sha256": "1205b396c2ae34654fc181000c102695c0b6893f4ad2caafc6310d5dd9c20f85"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-tinysam-point-1-refined.png",
+                "intersection": 11970,
+                "union": 13135,
+                "iou_percent": 91.13056718690521,
+                "mask_sha256": "1205b396c2ae34654fc181000c102695c0b6893f4ad2caafc6310d5dd9c20f85"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 192.5,
+                  "y": 317.5,
+                  "label": 1
+                },
+                {
+                  "x": 147.5,
+                  "y": 295.0,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.9911341071128845,
+                0.992199182510376,
+                0.9537001848220825
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-tinysam-point-2-reference.png",
+                "intersection": 11852,
+                "union": 13078,
+                "iou_percent": 90.62547790181985,
+                "mask_sha256": "d9f7343b3700613c718306c4fa7a48b5f43a5cf1dbb7a0af23182c0549fae6fe"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-tinysam-point-2-refined.png",
+                "intersection": 11866,
+                "union": 13097,
+                "iou_percent": 90.60090096968771,
+                "mask_sha256": "982fa72a08bdaeb367986520237834964a23956e3b81f5d5e9ef8dcf73e36856"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 192.5,
+                  "y": 317.5,
+                  "label": 1
+                },
+                {
+                  "x": 147.5,
+                  "y": 295.0,
+                  "label": 0
+                },
+                {
+                  "x": 270.0,
+                  "y": 337.5,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.9962674975395203,
+                0.9994776248931885,
+                0.9259157180786133
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-tinysam-point-3-reference.png",
+                "intersection": 11966,
+                "union": 13081,
+                "iou_percent": 91.47618683586882,
+                "mask_sha256": "56dd79577992b874fa5b9b4882d555a714656959d5656b3e8b2f7ada01bb7364"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-tinysam-point-3-refined.png",
+                "intersection": 12073,
+                "union": 13096,
+                "iou_percent": 92.18845448992059,
+                "mask_sha256": "2afd558b4e3bdcc86fc60386bcaeb9cde6cd5c61cce0d64b0b133ff43d541501"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 2,
+              "points": [],
+              "box": [
+                77.11,
+                265.29,
+                289.69,
+                367.07000000000005
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.8043789267539978,
+                0.9787523746490479,
+                0.9792395830154419
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-tinysam-box-1-reference.png",
+                "intersection": 12208,
+                "union": 15544,
+                "iou_percent": 78.53834276891405,
+                "mask_sha256": "c342745abe91de3a9b7d1bf9572f9ecfd9830ef5738ce73ae25fdd4266b94b30"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-tinysam-box-1-refined.png",
+                "intersection": 12103,
+                "union": 13144,
+                "iou_percent": 92.0800365185636,
+                "mask_sha256": "c135b19ef2454107b04aa4cf072989219f9b3609afa563a4de8a81017f62b88f"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 2,
+              "points": [
+                {
+                  "x": 85.0,
+                  "y": 332.5,
+                  "label": 1
+                }
+              ],
+              "box": [
+                77.11,
+                265.29,
+                289.69,
+                367.07000000000005
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.7899360060691833,
+                0.9118260145187378,
+                0.9676907062530518
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-tinysam-box-2-reference.png",
+                "intersection": 12160,
+                "union": 16351,
+                "iou_percent": 74.36854015044952,
+                "mask_sha256": "50fa4e6029cce1edb9393ac32fbb446ebe8e1181753758edeb6e0df97198d0cc"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-tinysam-box-2-refined.png",
+                "intersection": 12123,
+                "union": 13149,
+                "iou_percent": 92.19712525667352,
+                "mask_sha256": "2b65405553df8182cf1b337e10c8f765d3e9cc43d941202b4c96744abb419b91"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 85.0,
+                  "y": 332.5,
+                  "label": 1
+                },
+                {
+                  "x": 230.0,
+                  "y": 272.5,
+                  "label": 1
+                }
+              ],
+              "box": [
+                77.11,
+                265.29,
+                289.69,
+                367.07000000000005
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.9634456634521484,
+                0.9928810596466064,
+                1.0016546249389648
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-tinysam-box-3-reference.png",
+                "intersection": 12263,
+                "union": 16405,
+                "iou_percent": 74.75160012191405,
+                "mask_sha256": "b7392c49a796f436ec3e05e051db1489cf614c4abb4cda8787fe2631fb937cba"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-tinysam-box-3-refined.png",
+                "intersection": 12292,
+                "union": 16376,
+                "iou_percent": 75.06106497313141,
+                "mask_sha256": "95c22f89c68cb274f0023741d3d603e8ca980a3156d156f9d93c2d6ec3ce115f"
+              }
+            }
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 192.5,
+                  "y": 317.5,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.9872795343399048,
+                0.9888098239898682,
+                0.890080451965332
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-mobilesam-point-1-reference.png",
+                "intersection": 12142,
+                "union": 13181,
+                "iou_percent": 92.11744177224793,
+                "mask_sha256": "61491cb929f16d4d6e5337c9c64ba470ee3894300f5aab7bac117dfd8ea45222"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-mobilesam-point-1-refined.png",
+                "intersection": 12128,
+                "union": 13184,
+                "iou_percent": 91.99029126213593,
+                "mask_sha256": "495f70b74317056143cb7ee8e116a8002086eb982a92575a65e6ba93745bc41d"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 192.5,
+                  "y": 317.5,
+                  "label": 1
+                },
+                {
+                  "x": 142.5,
+                  "y": 360.0,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.9835318922996521
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-mobilesam-point-2-reference.png",
+                "intersection": 11940,
+                "union": 13081,
+                "iou_percent": 91.27742527329715,
+                "mask_sha256": "a443fd00c5987b434831c9e1e77f55573ee7b57ac54ba9e7eaa8ac1698cdd903"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-mobilesam-point-2-refined.png",
+                "intersection": 12002,
+                "union": 13100,
+                "iou_percent": 91.61832061068702,
+                "mask_sha256": "c91cbfbe5bcb1665f551f0be480d1055d5c328e5ae8334b76b9ba2f52aff3354"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 192.5,
+                  "y": 317.5,
+                  "label": 1
+                },
+                {
+                  "x": 142.5,
+                  "y": 360.0,
+                  "label": 0
+                },
+                {
+                  "x": 275.0,
+                  "y": 330.0,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.8716949820518494
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-mobilesam-point-3-reference.png",
+                "intersection": 12008,
+                "union": 13810,
+                "iou_percent": 86.95148443157133,
+                "mask_sha256": "6c832d779f19c92c2b2d21b87ff60e78234b0dcb0217de1f62ea57a6cb9172fe"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-mobilesam-point-3-refined.png",
+                "intersection": 12176,
+                "union": 13217,
+                "iou_percent": 92.12377998032837,
+                "mask_sha256": "dd2daabfadc5c1bc737de8332136ccb60f569dd8de7e1c3972ddd37969ac9429"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                77.11,
+                265.29,
+                289.69,
+                367.07000000000005
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9290315508842468
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-mobilesam-box-1-reference.png",
+                "intersection": 12015,
+                "union": 13101,
+                "iou_percent": 91.71055644607281,
+                "mask_sha256": "94cee115b9bb560f6b07f30b441b247d457d84a1d1f73c09d8fc8b1f7a401ce8"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-mobilesam-box-1-refined.png",
+                "intersection": 12107,
+                "union": 13119,
+                "iou_percent": 92.28599740833906,
+                "mask_sha256": "7150c105f3dff9564a75b1bf648cf3686b36cbf35ae69b701c999b1361547217"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 4,
+              "points": [
+                {
+                  "x": 100.0,
+                  "y": 317.5,
+                  "label": 1
+                }
+              ],
+              "box": [
+                77.11,
+                265.29,
+                289.69,
+                367.07000000000005
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9450520277023315
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-mobilesam-box-2-reference.png",
+                "intersection": 12151,
+                "union": 13317,
+                "iou_percent": 91.24427423593903,
+                "mask_sha256": "61dc29b64d73ec2124147de9f8eb68a4c1d4590ad6406174b53e4aaed1c6a7c5"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-mobilesam-box-2-refined.png",
+                "intersection": 12221,
+                "union": 16500,
+                "iou_percent": 74.06666666666666,
+                "mask_sha256": "d7ab3a8f32b2e749887fb5bc5497455a64713539dd4920c0e7ec2fb5f8e80893"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 100.0,
+                  "y": 317.5,
+                  "label": 1
+                },
+                {
+                  "x": 192.5,
+                  "y": 280.0,
+                  "label": 0
+                }
+              ],
+              "box": [
+                77.11,
+                265.29,
+                289.69,
+                367.07000000000005
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9872585535049438
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/elephant-mobilesam-box-3-reference.png",
+                "intersection": 12047,
+                "union": 13103,
+                "iou_percent": 91.94077692131573,
+                "mask_sha256": "107230fee6d8fc19610d3d43e323a31e6b251e5447f7063196358c0cf17197d3"
+              },
+              "refined": {
+                "mask": "assets/examples/elephant-mobilesam-box-3-refined.png",
+                "intersection": 12075,
+                "union": 13147,
+                "iou_percent": 91.84604852818133,
+                "mask_sha256": "f9c3b797224b521698950c72fe729cbd2d49df7c6a206ab162ae2f8cc4987e64"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bottle",
+      "title": "Bottle",
+      "dataset": "COCO",
+      "image_id": 79651,
+      "annotation_id": 89896,
+      "width": 640,
+      "height": 478,
+      "image": "assets/examples/bottle.jpg",
+      "image_sha256": "05107da6f72e8e495bbfaa0e8d638433cb5fd9c35d43bf193ff2b12db0c684bb",
+      "source_url": "http://farm4.staticflickr.com/3720/9659844494_a70f5d61c0_z.jpg",
+      "license_id": 4,
+      "modes": [
+        "point",
+        "box"
+      ],
+      "visible_for": {
+        "mobilesam": [
+          "point"
+        ]
+      },
+      "featured_for": {
+        "mobilesam": [
+          "point"
+        ]
+      },
+      "trajectories": {
+        "tinysam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 331.875,
+                  "y": 197.4483660130719,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.7074771523475647,
+                0.27398979663848877,
+                0.15416502952575684
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-tinysam-point-1-reference.png",
+                "intersection": 694,
+                "union": 31080,
+                "iou_percent": 2.232947232947233,
+                "mask_sha256": "ebd245995e17aaafc7e67a993b0f9f27ded828b16d59e142e2d900e98d66a9b4"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-tinysam-point-1-refined.png",
+                "intersection": 3284,
+                "union": 31080,
+                "iou_percent": 10.566280566280566,
+                "mask_sha256": "01b3ff9f6490b280d13cd0efeff0fd99360a2a7f193940bd7579a2a9fd27c158"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 331.875,
+                  "y": 197.4483660130719,
+                  "label": 1
+                },
+                {
+                  "x": 362.5,
+                  "y": 122.46797385620916,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 2,
+              "original_scores": [
+                0.4001544415950775,
+                0.8227043151855469,
+                0.9873850345611572
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-tinysam-point-2-reference.png",
+                "intersection": 29104,
+                "union": 31205,
+                "iou_percent": 93.26710463066816,
+                "mask_sha256": "c9194a72ee5bf89564747b712071f2808d38eca61d82c138f1b5881855553304"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-tinysam-point-2-refined.png",
+                "intersection": 29042,
+                "union": 31206,
+                "iou_percent": 93.06543613407678,
+                "mask_sha256": "02101a55caa67a322d64c8267a5b6966d3137ddc30c6bef578e023fbcf791942"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 331.875,
+                  "y": 197.4483660130719,
+                  "label": 1
+                },
+                {
+                  "x": 362.5,
+                  "y": 122.46797385620916,
+                  "label": 1
+                },
+                {
+                  "x": 280.0,
+                  "y": 304.9202614379085,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 2,
+              "original_scores": [
+                0.4519977867603302,
+                0.7385969161987305,
+                0.8716484308242798
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-tinysam-point-3-reference.png",
+                "intersection": 29284,
+                "union": 34333,
+                "iou_percent": 85.29403198089302,
+                "mask_sha256": "b2b20335546410e330c2818635ac7e619f5088a75a28474485093388a87e453e"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-tinysam-point-3-refined.png",
+                "intersection": 29513,
+                "union": 34392,
+                "iou_percent": 85.81356129332403,
+                "mask_sha256": "0db745e521c170e337db81643f29f1a09350b63c78f4ea67c9dab571571eb009"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [],
+              "box": [
+                280.21,
+                0.0,
+                385.28,
+                379.1
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.5304301977157593,
+                1.0143954753875732,
+                1.0210076570510864
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-tinysam-box-1-reference.png",
+                "intersection": 28964,
+                "union": 31174,
+                "iou_percent": 92.91075896580483,
+                "mask_sha256": "5a0e5d94518920c7a64d9b84db6d69fc9457fbf051630283d443f1a8196f05e8"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-tinysam-box-1-refined.png",
+                "intersection": 28964,
+                "union": 31174,
+                "iou_percent": 92.91075896580483,
+                "mask_sha256": "5a0e5d94518920c7a64d9b84db6d69fc9457fbf051630283d443f1a8196f05e8"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 280.0,
+                  "y": 249.9346405228758,
+                  "label": 1
+                }
+              ],
+              "box": [
+                280.21,
+                0.0,
+                385.28,
+                379.1
+              ],
+              "original_candidate": 1,
+              "original_scores": [
+                0.7503370642662048,
+                1.0052635669708252,
+                0.9993226528167725
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-tinysam-box-2-reference.png",
+                "intersection": 28872,
+                "union": 31178,
+                "iou_percent": 92.60375906087626,
+                "mask_sha256": "d4065dfccdcdbda847f1a609650c1a514361430985414d895543222c2c42b4b3"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-tinysam-box-2-refined.png",
+                "intersection": 29143,
+                "union": 31189,
+                "iou_percent": 93.43999486998621,
+                "mask_sha256": "789ffb623ecd177735767103bc7adbe5133aa99605c3a74567d9cb871c09a403"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 280.0,
+                  "y": 249.9346405228758,
+                  "label": 1
+                },
+                {
+                  "x": 360.0,
+                  "y": 354.90718954248365,
+                  "label": 1
+                }
+              ],
+              "box": [
+                280.21,
+                0.0,
+                385.28,
+                379.1
+              ],
+              "original_candidate": 1,
+              "original_scores": [
+                0.8255387544631958,
+                1.0032850503921509,
+                0.9968504905700684
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-tinysam-box-3-reference.png",
+                "intersection": 28840,
+                "union": 31181,
+                "iou_percent": 92.49222282800423,
+                "mask_sha256": "634a6d2383d6ab0dfc5f4ad4ec966b97d033afa39b16e48604d719b0f398ae11"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-tinysam-box-3-refined.png",
+                "intersection": 29161,
+                "union": 31201,
+                "iou_percent": 93.46174802089676,
+                "mask_sha256": "bc67e3d302558bdcee6b5837aeb4bb14b86b262b6a11dc2fd58a8809fcc41644"
+              }
+            }
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 3,
+              "points": [
+                {
+                  "x": 331.875,
+                  "y": 197.4483660130719,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.9311014413833618,
+                0.9687741994857788,
+                0.962177038192749
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-mobilesam-point-1-reference.png",
+                "intersection": 9802,
+                "union": 31080,
+                "iou_percent": 31.53796653796654,
+                "mask_sha256": "45e64e885ff1a623e9117d1e71a4c67e33987456f123e846973d47ec97747a29"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-mobilesam-point-1-refined.png",
+                "intersection": 28665,
+                "union": 31133,
+                "iou_percent": 92.07272026467093,
+                "mask_sha256": "6ec192015281f21a224052db0d2b9d6ca985d45b2668eac5df400a5f8b872e1f"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 331.875,
+                  "y": 197.4483660130719,
+                  "label": 1
+                },
+                {
+                  "x": 382.5,
+                  "y": 219.9424836601307,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.936683177947998
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-mobilesam-point-2-reference.png",
+                "intersection": 29173,
+                "union": 31191,
+                "iou_percent": 93.53018498925972,
+                "mask_sha256": "2005043648dd6993c8bdda29bb7502ecd00121dca58ea19ace4308bb7d67bb88"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-mobilesam-point-2-refined.png",
+                "intersection": 27257,
+                "union": 32624,
+                "iou_percent": 83.54892103972536,
+                "mask_sha256": "21d499391758c9aa3b6e3241509ccd7b87a0161df9907a6946af7680172d2fb2"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 331.875,
+                  "y": 197.4483660130719,
+                  "label": 1
+                },
+                {
+                  "x": 382.5,
+                  "y": 219.9424836601307,
+                  "label": 1
+                },
+                {
+                  "x": 385.0,
+                  "y": 289.92418300653594,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.9586633443832397
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-mobilesam-point-3-reference.png",
+                "intersection": 29132,
+                "union": 31187,
+                "iou_percent": 93.41071600346298,
+                "mask_sha256": "19136d309220775700762934256f230d3934fd336d2e18f46626ecc031e2a630"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-mobilesam-point-3-refined.png",
+                "intersection": 29223,
+                "union": 31172,
+                "iou_percent": 93.74759399461055,
+                "mask_sha256": "87463a47fe3f01d42d73d85e17332ce4bc1a6a203ac21553b507a13cfcd2797d"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                280.21,
+                0.0,
+                385.28,
+                379.1
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.998438835144043
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-mobilesam-box-1-reference.png",
+                "intersection": 28964,
+                "union": 31168,
+                "iou_percent": 92.92864476386038,
+                "mask_sha256": "638fe1b8ece0a9befd7c8d64903a7e29fc6036266457f4e36c0a50cd34532c52"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-mobilesam-box-1-refined.png",
+                "intersection": 29087,
+                "union": 31166,
+                "iou_percent": 93.32926907527434,
+                "mask_sha256": "0f571bab807f12ee02b5d0788807cb9a8a64e171251e43f6a53aaa85648b7f95"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 382.5,
+                  "y": 232.4392156862745,
+                  "label": 1
+                }
+              ],
+              "box": [
+                280.21,
+                0.0,
+                385.28,
+                379.1
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                1.0022460222244263
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-mobilesam-box-2-reference.png",
+                "intersection": 29105,
+                "union": 31173,
+                "iou_percent": 93.36605395694993,
+                "mask_sha256": "def85ee1f7af5066ec97db52d9d3e9f4f0c676da95b69e191cc7f5cb07198a03"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-mobilesam-box-2-refined.png",
+                "intersection": 29210,
+                "union": 31171,
+                "iou_percent": 93.70889608931378,
+                "mask_sha256": "a695585e8940514cd45c52985c3ecf1601f00032e2584d8f744d69d9861ff539"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 382.5,
+                  "y": 232.4392156862745,
+                  "label": 1
+                },
+                {
+                  "x": 380.0,
+                  "y": 314.91764705882355,
+                  "label": 1
+                }
+              ],
+              "box": [
+                280.21,
+                0.0,
+                385.28,
+                379.1
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.967159628868103
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bottle-mobilesam-box-3-reference.png",
+                "intersection": 29320,
+                "union": 31197,
+                "iou_percent": 93.98339583934353,
+                "mask_sha256": "95c431858c6d83abd19715772adaedb357688231655e49c25af117fc9aa247f9"
+              },
+              "refined": {
+                "mask": "assets/examples/bottle-mobilesam-box-3-refined.png",
+                "intersection": 29268,
+                "union": 31176,
+                "iou_percent": 93.87990762124711,
+                "mask_sha256": "6abd44ab8de6444fa129cf0260a27c63b96caee8c4cbe6ed0a14063659cbb171"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bed",
+      "title": "Bed in a hotel room",
+      "dataset": "COCO",
+      "image_id": 329080,
+      "annotation_id": 318591,
+      "width": 640,
+      "height": 480,
+      "image": "assets/examples/bed.jpg",
+      "image_sha256": "52eabab8da99db60a5f3e356ba6a1b7a418ede74e873aeb180586925590e27e6",
+      "source_url": "http://farm9.staticflickr.com/8092/8596784421_bdf8db0742_z.jpg",
+      "license_id": 4,
+      "modes": [
+        "point",
+        "box"
+      ],
+      "visible_for": {
+        "mobilesam": [
+          "box"
+        ]
+      },
+      "featured_for": {
+        "mobilesam": [
+          "box"
+        ]
+      },
+      "trajectories": {
+        "tinysam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 421.25,
+                  "y": 366.875,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.8662322163581848,
+                0.9118821620941162,
+                0.8432286977767944
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-tinysam-point-1-reference.png",
+                "intersection": 67989,
+                "union": 95436,
+                "iou_percent": 71.24041242298503,
+                "mask_sha256": "09b31af36daec014f3c61f605d0025af1dfbde9dbab9b061a4f97e1d841af8c2"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-tinysam-point-1-refined.png",
+                "intersection": 67989,
+                "union": 95436,
+                "iou_percent": 71.24041242298503,
+                "mask_sha256": "09b31af36daec014f3c61f605d0025af1dfbde9dbab9b061a4f97e1d841af8c2"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 421.25,
+                  "y": 366.875,
+                  "label": 1
+                },
+                {
+                  "x": 342.5,
+                  "y": 260.0,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 2,
+              "original_scores": [
+                0.2846387028694153,
+                0.5169215202331543,
+                0.7633699178695679
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-tinysam-point-2-reference.png",
+                "intersection": 88280,
+                "union": 98546,
+                "iou_percent": 89.58252998599639,
+                "mask_sha256": "af77277a25421e04def5cdc076e76d00e13f52a02190914e3e8321c6a97b454d"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-tinysam-point-2-refined.png",
+                "intersection": 87767,
+                "union": 98491,
+                "iou_percent": 89.11169548486664,
+                "mask_sha256": "0eb1b44e2565a31836fc9946c44cbc4ea4d325c1678ae8c8df49f4d14b416b08"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 421.25,
+                  "y": 366.875,
+                  "label": 1
+                },
+                {
+                  "x": 342.5,
+                  "y": 260.0,
+                  "label": 1
+                },
+                {
+                  "x": 460.0,
+                  "y": 475.0,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "original_candidate": 2,
+              "original_scores": [
+                0.5100905895233154,
+                0.7841013669967651,
+                0.9199786186218262
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-tinysam-point-3-reference.png",
+                "intersection": 87532,
+                "union": 98687,
+                "iou_percent": 88.6965861764974,
+                "mask_sha256": "c06aa12d8116b13c13b4b4883b798ff42e8e4fba3e36c32da5f5833f144cfa8b"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-tinysam-point-3-refined.png",
+                "intersection": 86110,
+                "union": 98217,
+                "iou_percent": 87.67321339482982,
+                "mask_sha256": "8fed8b7bf66877e663a44f225eeab2d88362978ed1b10c31015782fe37dc3d10"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [],
+              "box": [
+                111.1,
+                238.05,
+                616.99,
+                472.12
+              ],
+              "original_candidate": 1,
+              "original_scores": [
+                0.9002810716629028,
+                0.9693474769592285,
+                0.9603638648986816
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-tinysam-box-1-reference.png",
+                "intersection": 70243,
+                "union": 95627,
+                "iou_percent": 73.45519570832505,
+                "mask_sha256": "bbf514111f9f5832c02c4b9b37b74d5f96d7072a2e0e014820b9bae387f7a7cb"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-tinysam-box-1-refined.png",
+                "intersection": 70243,
+                "union": 95627,
+                "iou_percent": 73.45519570832505,
+                "mask_sha256": "bbf514111f9f5832c02c4b9b37b74d5f96d7072a2e0e014820b9bae387f7a7cb"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 4,
+              "points": [
+                {
+                  "x": 415.0,
+                  "y": 272.5,
+                  "label": 1
+                }
+              ],
+              "box": [
+                111.1,
+                238.05,
+                616.99,
+                472.12
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.842287003993988,
+                0.9685522317886353,
+                0.9752035140991211
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-tinysam-box-2-reference.png",
+                "intersection": 89968,
+                "union": 96582,
+                "iou_percent": 93.15193307241515,
+                "mask_sha256": "7d95ec1a47637873e4a98e026ecfb36d17fb54bdee306c39787f2ae5571840d1"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-tinysam-box-2-refined.png",
+                "intersection": 90205,
+                "union": 97009,
+                "iou_percent": 92.98621777360863,
+                "mask_sha256": "0fb50e151419b3c7bf4470c82b24a360233edc5961465ccb7fcdd04e997e3b71"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 2,
+              "points": [
+                {
+                  "x": 415.0,
+                  "y": 272.5,
+                  "label": 1
+                },
+                {
+                  "x": 452.5,
+                  "y": 475.0,
+                  "label": 0
+                }
+              ],
+              "box": [
+                111.1,
+                238.05,
+                616.99,
+                472.12
+              ],
+              "original_candidate": 2,
+              "original_scores": [
+                0.7941004633903503,
+                0.9911255836486816,
+                1.0116583108901978
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-tinysam-box-3-reference.png",
+                "intersection": 89521,
+                "union": 95681,
+                "iou_percent": 93.56194019711333,
+                "mask_sha256": "ced30dd99d56806c2461d857b75982cbd55efae07194d2cf383f1cb524303832"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-tinysam-box-3-refined.png",
+                "intersection": 90022,
+                "union": 96213,
+                "iou_percent": 93.56531861598745,
+                "mask_sha256": "866c5c8f7e965e063a7d531a58a420ab51e3546a82059c818618edda3693cde1"
+              }
+            }
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 421.25,
+                  "y": 366.875,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 1,
+              "original_scores": [
+                0.9696730971336365,
+                0.9913671016693115,
+                0.9641079902648926
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-mobilesam-point-1-reference.png",
+                "intersection": 69892,
+                "union": 95841,
+                "iou_percent": 72.92494861280663,
+                "mask_sha256": "d5c5ee589f671114c1ac9b3c66c2411fd28b6d189b14d4edf0bb3c5895461d15"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-mobilesam-point-1-refined.png",
+                "intersection": 69955,
+                "union": 95851,
+                "iou_percent": 72.98306746930132,
+                "mask_sha256": "fa649c286a504136c46c6f5d457078ffd086b94e2e8e3ffd25510e0496b81da4"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 421.25,
+                  "y": 366.875,
+                  "label": 1
+                },
+                {
+                  "x": 265.0,
+                  "y": 297.5,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.973443329334259
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-mobilesam-point-2-reference.png",
+                "intersection": 89099,
+                "union": 96763,
+                "iou_percent": 92.07961720905718,
+                "mask_sha256": "36911e304ae8d78817016f53e12d0ddd7c4cce0f0fbfdae2c45f608b7315a9e0"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-mobilesam-point-2-refined.png",
+                "intersection": 89084,
+                "union": 96746,
+                "iou_percent": 92.08029272528063,
+                "mask_sha256": "3e70c0fd787df1decb99c0672435f5e36f0527d0142df5a5241f4c63e10bcd98"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 421.25,
+                  "y": 366.875,
+                  "label": 1
+                },
+                {
+                  "x": 265.0,
+                  "y": 297.5,
+                  "label": 1
+                },
+                {
+                  "x": 240.0,
+                  "y": 290.0,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "original_candidate": 0,
+              "original_scores": [
+                0.9973170161247253
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-mobilesam-point-3-reference.png",
+                "intersection": 89477,
+                "union": 96725,
+                "iou_percent": 92.50659085034893,
+                "mask_sha256": "307e27a2cbeeafd4e9301c53bd484688ddde70d209481c31a1d4ca8f6cc6097b"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-mobilesam-point-3-refined.png",
+                "intersection": 89498,
+                "union": 96699,
+                "iou_percent": 92.55318048790576,
+                "mask_sha256": "da223ce260220e68f9d3656a3d41eb53b7e0171717c5733213ee359bedf51080"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                111.1,
+                238.05,
+                616.99,
+                472.12
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.9213619232177734
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-mobilesam-box-1-reference.png",
+                "intersection": 70114,
+                "union": 95972,
+                "iou_percent": 73.05672487808944,
+                "mask_sha256": "c0e4cff88d26ad8b2d371bad62e4438955b068c39b433fd5c51178ea3dd91b5d"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-mobilesam-box-1-refined.png",
+                "intersection": 85715,
+                "union": 97073,
+                "iou_percent": 88.29952715997238,
+                "mask_sha256": "67953b3ed3cd3c1e641e0c27d37623c38169918be8112bafddc56eb7ea524512"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 180.0,
+                  "y": 477.5,
+                  "label": 0
+                }
+              ],
+              "box": [
+                111.1,
+                238.05,
+                616.99,
+                472.12
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.8774693012237549
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-mobilesam-box-2-reference.png",
+                "intersection": 69839,
+                "union": 95476,
+                "iou_percent": 73.14822573212116,
+                "mask_sha256": "b366dd3ae2bc0e20b90faa514aedffed07a3c5f319af97f2740744058d81d006"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-mobilesam-box-2-refined.png",
+                "intersection": 84239,
+                "union": 96872,
+                "iou_percent": 86.95908002312329,
+                "mask_sha256": "f5d0485fd4708715812c22eb546c098d8ce0dbf01cec190cf7407840f044e4d9"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 180.0,
+                  "y": 477.5,
+                  "label": 0
+                },
+                {
+                  "x": 510.0,
+                  "y": 472.5,
+                  "label": 0
+                }
+              ],
+              "box": [
+                111.1,
+                238.05,
+                616.99,
+                472.12
+              ],
+              "original_candidate": 0,
+              "original_scores": [
+                0.48724037408828735
+              ],
+              "baseline_mask_feedback": "own_selected_logits",
+              "shared_corrective_clicks": "frozen error-point sampler applied to refined previous logits",
+              "reference": {
+                "mask": "assets/examples/bed-mobilesam-box-3-reference.png",
+                "intersection": 21875,
+                "union": 93210,
+                "iou_percent": 23.468511962235812,
+                "mask_sha256": "b94a0e6b54d2038845ceb498f7a54d100bd72188ac16c67f821cdacf74256ee3"
+              },
+              "refined": {
+                "mask": "assets/examples/bed-mobilesam-box-3-refined.png",
+                "intersection": 83577,
+                "union": 96632,
+                "iou_percent": 86.48998261445485,
+                "mask_sha256": "62d94d8a34f24cb6e37aa92af64abb10daf52f59a5cdbdeeda32aa64af768f80"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "bear",
       "title": "Brown bear",
@@ -404,408 +2392,15 @@
         "point",
         "box",
         "everything"
-      ]
-    },
-    {
-      "id": "bird",
-      "title": "Songbird",
-      "dataset": "COCO",
-      "image_id": 56545,
-      "annotation_id": 39194,
-      "width": 505,
-      "height": 640,
-      "image": "assets/examples/bird.jpg",
-      "image_sha256": "852f95c0f7d5d72ec994fcead05a2a5501e7459966a360d92c26a5827584c744",
-      "source_url": "http://farm3.staticflickr.com/2894/9470927378_921b919b7e_z.jpg",
-      "license_id": 4,
-      "trajectories": {
-        "tinysam": {
-          "point": [
-            {
-              "round": 1,
-              "candidate": 0,
-              "points": [
-                {
-                  "x": 238.75,
-                  "y": 326.25,
-                  "label": 1
-                }
-              ],
-              "box": null,
-              "refined": {
-                "mask": "assets/examples/bird-tinysam-point-1-refined.png",
-                "iou_percent": 87.65320795197772,
-                "intersection": 76807,
-                "union": 87626,
-                "mask_sha256": "19c4850f7ba96e093f601ffb6215d4c23464921358f2475c3a88ba32bb2d0129"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-tinysam-point-1-reference.png",
-                "iou_percent": 87.65320795197772,
-                "intersection": 76807,
-                "union": 87626,
-                "mask_sha256": "19c4850f7ba96e093f601ffb6215d4c23464921358f2475c3a88ba32bb2d0129"
-              }
-            },
-            {
-              "round": 2,
-              "candidate": 0,
-              "points": [
-                {
-                  "x": 238.75,
-                  "y": 326.25,
-                  "label": 1
-                },
-                {
-                  "x": 290.0,
-                  "y": 635.0,
-                  "label": 0
-                }
-              ],
-              "box": null,
-              "refined": {
-                "mask": "assets/examples/bird-tinysam-point-2-refined.png",
-                "iou_percent": 84.09800321322011,
-                "intersection": 73283,
-                "union": 87140,
-                "mask_sha256": "282e78d79f8782119800147865a064e2ee554756aad9ecc3d8222e739f3d187d"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-tinysam-point-2-reference.png",
-                "iou_percent": 83.84783107642873,
-                "intersection": 73065,
-                "union": 87140,
-                "mask_sha256": "fe1f3cfb7570f7cfc2bf10fa180c42cafdd26bf818160bff39c4486186655af4"
-              }
-            },
-            {
-              "round": 3,
-              "candidate": 0,
-              "points": [
-                {
-                  "x": 238.75,
-                  "y": 326.25,
-                  "label": 1
-                },
-                {
-                  "x": 290.0,
-                  "y": 635.0,
-                  "label": 0
-                },
-                {
-                  "x": 275.0,
-                  "y": 502.5,
-                  "label": 1
-                }
-              ],
-              "box": null,
-              "refined": {
-                "mask": "assets/examples/bird-tinysam-point-3-refined.png",
-                "iou_percent": 84.9307523723193,
-                "intersection": 74018,
-                "union": 87151,
-                "mask_sha256": "925e99b0dd2e696743ea6cb9cb2072e30da897a260e7ad31376c35b087c900ab"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-tinysam-point-3-reference.png",
-                "iou_percent": 84.68052877995042,
-                "intersection": 73794,
-                "union": 87144,
-                "mask_sha256": "f85a1e226d75e8a20b7aa3091e37f4f672c20fb7a414bcc4c848350ecdff14c7"
-              }
-            }
-          ],
-          "box": [
-            {
-              "round": 1,
-              "candidate": 2,
-              "points": [],
-              "box": [
-                131.56,
-                31.65,
-                367.28,
-                629.17
-              ],
-              "refined": {
-                "mask": "assets/examples/bird-tinysam-box-1-refined.png",
-                "iou_percent": 86.18931907770398,
-                "intersection": 79807,
-                "union": 92595,
-                "mask_sha256": "dd74f57b4869b4f1e2d965dcfda83148db588b2a40a13eb7114769215178f7d4"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-tinysam-box-1-reference.png",
-                "iou_percent": 85.42360544367735,
-                "intersection": 77457,
-                "union": 90674,
-                "mask_sha256": "afc48c059f5aa6ce7584f0d2bdee0e7db38c860d472af3c6025fef86adb35747"
-              }
-            },
-            {
-              "round": 2,
-              "candidate": 2,
-              "points": [
-                {
-                  "x": 175.0,
-                  "y": 570.0,
-                  "label": 0
-                }
-              ],
-              "box": [
-                131.56,
-                31.65,
-                367.28,
-                629.17
-              ],
-              "refined": {
-                "mask": "assets/examples/bird-tinysam-box-2-refined.png",
-                "iou_percent": 88.60411533899078,
-                "intersection": 77681,
-                "union": 87672,
-                "mask_sha256": "6bca85fe96f15e11430bc93d4438330f10ffaf76fbd1617c37350e4980eafbeb"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-tinysam-box-2-reference.png",
-                "iou_percent": 88.10828709095476,
-                "intersection": 77167,
-                "union": 87582,
-                "mask_sha256": "398b971331df84432df6da73178e98c62a8201f96249fa9e72a89795b0a196ec"
-              }
-            },
-            {
-              "round": 3,
-              "candidate": 4,
-              "points": [
-                {
-                  "x": 175.0,
-                  "y": 570.0,
-                  "label": 0
-                },
-                {
-                  "x": 285.0,
-                  "y": 635.0,
-                  "label": 0
-                }
-              ],
-              "box": [
-                131.56,
-                31.65,
-                367.28,
-                629.17
-              ],
-              "refined": {
-                "mask": "assets/examples/bird-tinysam-box-3-refined.png",
-                "iou_percent": 87.34232324736776,
-                "intersection": 76235,
-                "union": 87283,
-                "mask_sha256": "2172fb3a4b6cb78f025c6f27e95ccad7b7b6f0f2dc1b2b75b0f1eaa661f39f06"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-tinysam-box-3-reference.png",
-                "iou_percent": 86.73358187553771,
-                "intersection": 75610,
-                "union": 87175,
-                "mask_sha256": "8c2f5d47ff2d8e42c3accce06ec1f214cc3e9892885d1a619b8fead391848be8"
-              }
-            }
-          ]
-        },
-        "mobilesam": {
-          "point": [
-            {
-              "round": 1,
-              "candidate": 0,
-              "points": [
-                {
-                  "x": 238.75,
-                  "y": 326.25,
-                  "label": 1
-                }
-              ],
-              "box": null,
-              "refined": {
-                "mask": "assets/examples/bird-mobilesam-point-1-refined.png",
-                "iou_percent": 87.44803995967787,
-                "intersection": 77207,
-                "union": 88289,
-                "mask_sha256": "eccd382160f7956da53fd5b1afbeb95dd027de8ad777fa5dc6bee99e98a70329"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-mobilesam-point-1-reference.png",
-                "iou_percent": 87.44803995967787,
-                "intersection": 77207,
-                "union": 88289,
-                "mask_sha256": "eccd382160f7956da53fd5b1afbeb95dd027de8ad777fa5dc6bee99e98a70329"
-              }
-            },
-            {
-              "round": 2,
-              "candidate": 0,
-              "points": [
-                {
-                  "x": 238.75,
-                  "y": 326.25,
-                  "label": 1
-                },
-                {
-                  "x": 232.5,
-                  "y": 515.0,
-                  "label": 1
-                }
-              ],
-              "box": null,
-              "refined": {
-                "mask": "assets/examples/bird-mobilesam-point-2-refined.png",
-                "iou_percent": 84.90505891978621,
-                "intersection": 79905,
-                "union": 94111,
-                "mask_sha256": "7a13b9b88b731d47f4fb8545469b4e804f2d074058fa88307935c99034dcc453"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-mobilesam-point-2-reference.png",
-                "iou_percent": 85.21985151779447,
-                "intersection": 80122,
-                "union": 94018,
-                "mask_sha256": "b1ccca97a270d322b830408b4fcdfa87371ec9e17242329f290dedadcb190793"
-              }
-            },
-            {
-              "round": 3,
-              "candidate": 0,
-              "points": [
-                {
-                  "x": 238.75,
-                  "y": 326.25,
-                  "label": 1
-                },
-                {
-                  "x": 232.5,
-                  "y": 515.0,
-                  "label": 1
-                },
-                {
-                  "x": 455.0,
-                  "y": 445.0,
-                  "label": 0
-                }
-              ],
-              "box": null,
-              "refined": {
-                "mask": "assets/examples/bird-mobilesam-point-3-refined.png",
-                "iou_percent": 85.24249347611881,
-                "intersection": 78724,
-                "union": 92353,
-                "mask_sha256": "775dc4fad1bb8865c4a9ad3d03ce5a78a3e24509efe41e6305862522639aea3f"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-mobilesam-point-3-reference.png",
-                "iou_percent": 85.24249347611881,
-                "intersection": 78724,
-                "union": 92353,
-                "mask_sha256": "775dc4fad1bb8865c4a9ad3d03ce5a78a3e24509efe41e6305862522639aea3f"
-              }
-            }
-          ],
-          "box": [
-            {
-              "round": 1,
-              "candidate": 1,
-              "points": [],
-              "box": [
-                131.56,
-                31.65,
-                367.28,
-                629.17
-              ],
-              "refined": {
-                "mask": "assets/examples/bird-mobilesam-box-1-refined.png",
-                "iou_percent": 84.8525978609045,
-                "intersection": 78145,
-                "union": 92095,
-                "mask_sha256": "b59e8ea2dd2edb5da3cfa7a9596ed40dd83074b7fea14d1fc6f36b3e8673d96c"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-mobilesam-box-1-reference.png",
-                "iou_percent": 86.60137668588058,
-                "intersection": 77374,
-                "union": 89345,
-                "mask_sha256": "f76fba4c1477a052c15570aac9615d5874d13cb5da37a9a06cfe1f1f5ccf1c84"
-              }
-            },
-            {
-              "round": 2,
-              "candidate": 1,
-              "points": [
-                {
-                  "x": 292.5,
-                  "y": 635.0,
-                  "label": 0
-                }
-              ],
-              "box": [
-                131.56,
-                31.65,
-                367.28,
-                629.17
-              ],
-              "refined": {
-                "mask": "assets/examples/bird-mobilesam-box-2-refined.png",
-                "iou_percent": 84.49407959713042,
-                "intersection": 77852,
-                "union": 92139,
-                "mask_sha256": "8e7d7a8b3c47d708db165cc180522809dea61dd8b1ed733ba0c57488694d45a1"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-mobilesam-box-2-reference.png",
-                "iou_percent": 86.14578727167591,
-                "intersection": 75978,
-                "union": 88197,
-                "mask_sha256": "e08e03f2052667462efee71724fb4ee17e7d4c8de8bb1f6e5ba7305b4b7d3458"
-              }
-            },
-            {
-              "round": 3,
-              "candidate": 1,
-              "points": [
-                {
-                  "x": 292.5,
-                  "y": 635.0,
-                  "label": 0
-                },
-                {
-                  "x": 330.0,
-                  "y": 455.0,
-                  "label": 1
-                }
-              ],
-              "box": [
-                131.56,
-                31.65,
-                367.28,
-                629.17
-              ],
-              "refined": {
-                "mask": "assets/examples/bird-mobilesam-box-3-refined.png",
-                "iou_percent": 85.35851270739843,
-                "intersection": 78558,
-                "union": 92033,
-                "mask_sha256": "2185f59aeec3eca5393cb7e1d3b1b2e446161ce5a0a8b7b64e815057f9225a5d"
-              },
-              "reference": {
-                "mask": "assets/examples/bird-mobilesam-box-3-reference.png",
-                "iou_percent": 80.34725552600602,
-                "intersection": 73717,
-                "union": 91748,
-                "mask_sha256": "65b73fea3bd0d98b75af41548cbb1f22b4d7befe8b8b075d6dc777d592c16803"
-              }
-            }
-          ]
-        }
-      },
-      "modes": [
-        "point",
-        "box"
-      ]
+      ],
+      "visible_for": {
+        "tinysam": [
+          "everything"
+        ],
+        "mobilesam": [
+          "everything"
+        ]
+      }
     },
     {
       "id": "fruit",
@@ -822,7 +2417,15 @@
       "trajectories": {},
       "modes": [
         "everything"
-      ]
+      ],
+      "visible_for": {
+        "tinysam": [
+          "everything"
+        ],
+        "mobilesam": [
+          "everything"
+        ]
+      }
     }
   ],
   "licenses": [
@@ -870,5 +2473,21 @@
   "models": {
     "tinysam": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875",
     "mobilesam": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2"
+  },
+  "baseline_protocol": {
+    "tinysam": "Official decoder forward: three public masks, highest native predicted-IoU score, for Point and Box.",
+    "mobilesam": "Official decoder forward: Point round 1 uses three public masks and highest native predicted-IoU score; Box uses native single-mask output. Later point rounds use native single-mask output."
+  },
+  "default_examples": {
+    "tinysam": {
+      "point": "train",
+      "box": "elephant",
+      "everything": "fruit"
+    },
+    "mobilesam": {
+      "point": "bottle",
+      "box": "bed",
+      "everything": "fruit"
+    }
   }
 }

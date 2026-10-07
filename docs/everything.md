@@ -42,9 +42,14 @@ These grid settings change the sampling density.
 ## Website and application
 
 The GitHub Pages explorer displays recorded, prompt-free predictions. Switch
-to Everything and select individual instances to inspect their geometry.
+to Everything to see the automatic point grid beside an interactive FSD
+walkthrough. Click its six stages to follow shared image terms, independent
+prompt factors, preview evidence, request selection, suffix completion, and
+native mask filtering. Counts come from the selected recorded run; the diagram
+is a schematic. Switch to **Instance masks** to inspect real mask geometry.
 The hosted/local research studio additionally runs uploaded images, offers
 both generators, and shows the actual instance inventory and inference time.
+Its FSD walkthrough updates with the current run's request and instance counts.
 
 Example times describe those individual runs and their execution device.
 They are not dataset-average timings, speedup claims, or accuracy results.

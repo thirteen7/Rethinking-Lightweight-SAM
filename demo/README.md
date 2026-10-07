@@ -37,6 +37,9 @@ SAM_DEMO_DEVICE=cpu SAM_DEMO_PROJECT="$PWD" python demo/space/app.py
 
 The studio provides Point, Box and Everything modes, built-in images, native
 FSD-SAM/Dense SAM generation, opacity controls and an instance inventory.
+Everything pairs an automatic grid with an interactive FSD walkthrough and a
+switch to actual masks. The Original vs refined tab shows the curated original
+TinySAM/MobileSAM comparisons from the project page.
 Use [docs/everything.md](../docs/everything.md) for generator settings.
 
 Create a public **Gradio** Space under `thirteen7/Rethinking-Lightweight-SAM`.

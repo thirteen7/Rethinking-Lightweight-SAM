@@ -111,7 +111,7 @@ colored instance overlays, and individual-mask inspection. See the
 
 ## Interactive application
 
-The [project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) includes a qualitative example explorer, interactive benchmark charts, and model downloads. The explorer displays recorded Point, Box, and Everything predictions.
+The [project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) includes a qualitative example explorer, interactive benchmark charts, and model downloads. Point and Box compare original TinySAM/MobileSAM predictions with prompt-adaptive refinement; Everything pairs its automatic grid with a clickable FSD walkthrough and real instance masks. See the [qualitative comparison protocol](docs/showcase.md).
 
 For inference on uploaded images, run the same frontend with the Python backend:
 

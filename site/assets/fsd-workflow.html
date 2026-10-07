@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FSD-SAM · Decoding walkthrough</title>
+  <style>
+    :root{color-scheme:light;--ink:#30364a;--muted:#8a90a3;--violet:#7962dd;--teal:#319995;--line:#e8e8f2}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#fcfcff;color:var(--ink)}
+    .map{max-width:760px;margin:auto;padding:24px 24px 20px;background:radial-gradient(ellipse at 90% 5%,#f0ebfc 0,transparent 45%),radial-gradient(ellipse at 5% 80%,#edf8f7 0,transparent 42%)}
+    .eyebrow{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.15em;color:var(--violet);font-weight:650}.eyebrow span:last-child{font-size:8px;letter-spacing:.12em;color:#9995ad;border:1px solid #e5dfef;border-radius:5px;padding:4px 7px}
+    h1{font-size:25px;line-height:1.2;letter-spacing:-.035em;margin:14px 0 8px;font-weight:650}h1 em{font-style:normal;color:var(--violet)}.intro{font-size:11px;line-height:1.6;color:var(--muted);margin:0 0 20px;max-width:450px}
+    .nodes{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"basis factors" "selection preview" "suffix masks";gap:30px 38px}
+    .arrows{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+    .node{position:relative;z-index:1;text-align:left;min-width:0;min-height:106px;border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:#fff;box-shadow:0 5px 13px #4b467505;cursor:pointer;font:inherit;color:inherit;transition:border-color .18s,box-shadow .18s,transform .18s}
+    .node:hover{transform:translateY(-2px);border-color:#c7b9ee}.node.active{border-color:#b5a2e7;background:linear-gradient(120deg,#fff,#f9f6ff);box-shadow:0 0 0 3px #7962dd0c}.node:focus-visible{outline:2px solid var(--violet);outline-offset:4px}
+    .node-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.number{font-size:9px;letter-spacing:.1em;color:#a5a7b5}.badge{font-size:8px;color:#8c8ca2;background:#f4f4fa;border-radius:4px;padding:3px 5px}.node b{display:block;font-size:12px;font-weight:620;letter-spacing:-.015em;line-height:1.25}.node .sub{display:block;font-size:9px;color:#8c90a1;line-height:1.5;margin-top:5px}.node .mark{height:17px;display:flex;align-items:center;gap:4px;margin-top:9px;color:var(--teal);font-size:9px}.pixels{display:grid;grid-template-columns:repeat(6,6px);gap:2px}.pixels i{width:6px;height:6px;background:#d8d1ee;border-radius:1px}.pixels i:nth-child(3n){background:#a8d4cf}.factors span{border:1px solid #ddd5ef;padding:2px 6px;border-radius:4px;color:#8975bd;font-size:9px}.preview svg{height:17px;width:68px}.waves i{height:10px;width:18px;border-radius:3px;background:#d8cdf1}.waves i:nth-child(2){background:#b9a6e5}.waves i:nth-child(3){background:#9f89d8}.waves i:nth-child(4){background:#7962dd}.suffix .mini-bars{display:flex;gap:3px}.mini-bars i{width:7px;height:13px;background:#a8d7cc;border-radius:2px}.mini-bars i:nth-child(2){height:9px}.mini-bars i:nth-child(3){height:16px}.mask-shapes i{width:19px;height:14px;background:#c4b4e8;border-radius:7px 5px 6px 3px;transform:rotate(-10deg)}.mask-shapes i:nth-child(2){background:#abd6cc;transform:rotate(12deg)}.mask-shapes i:nth-child(3){background:#efc79d;border-radius:50%}
+    .detail{margin-top:19px;padding:13px 15px;border:1px solid #e6e1f0;background:#ffffffbd;border-radius:11px;min-height:81px}.detail-label{font-size:8px;letter-spacing:.13em;color:var(--violet);display:flex;justify-content:space-between}.detail-label span:last-child{color:#a7a2b6}.detail p{font-size:11px;color:#7a7f94;line-height:1.65;margin:8px 0 0}.footer{display:flex;justify-content:space-between;gap:10px;font-size:8px;color:#a2a3b4;margin-top:13px;line-height:1.5}.footer strong{font-weight:550;color:#7c8798}
+    .map{padding:18px}.nodes{gap:20px 32px}.node{min-height:88px;padding:10px 12px}.node-top{margin-bottom:5px}.node .mark{margin-top:6px}h1{font-size:22px;margin:10px 0 6px}.intro{font-size:10px;margin-bottom:12px}.detail{margin-top:13px;padding:10px 12px;min-height:72px}.footer{margin-top:9px}
+    @media(max-width:420px){.map{padding:17px 15px}.nodes{gap:20px 24px}.node{padding:10px;min-height:90px}.node b{font-size:11px}.node .sub{font-size:8px}.node .badge{display:none}h1{font-size:22px}.intro{font-size:10px}.detail p{font-size:10px}.footer{font-size:7px}}
+    @media(max-height:560px) and (min-width:420px){.map{padding:18px}.intro{margin-bottom:14px}h1{font-size:23px}.nodes{gap:23px 34px}.node{min-height:93px;padding:10px 13px}.node .mark{margin-top:6px}.detail{min-height:67px;margin-top:14px;padding:10px 13px}.footer{margin-top:9px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}.node:hover{transform:none}}
+  </style>
+</head>
+<body>
+  <main class="map" aria-label="Interactive FSD-SAM decoding schematic">
+    <div class="eyebrow"><span>FSD-SAM / DECODING MAP</span><span>SCHEMATIC</span></div>
+    <h1>Complete factors.<br><em>Selective completion.</em></h1>
+    <p class="intro">Every sampled point keeps its own prompt state.<br>Click a stage to follow the computation.</p>
+    <div class="nodes" id="nodes">
+      <svg class="arrows" id="arrows" aria-hidden="true"><defs><marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1 7 4 1 7" fill="none" stroke="#b5acd0" stroke-width="1.4"/></marker></defs><g id="links" fill="none" stroke="#c7bfd8" stroke-width="1.5" marker-end="url(#arrow)"></g></svg>
+      <button class="node" data-stage="0" style="grid-area:basis" aria-pressed="false"><span class="node-top"><span class="number">01</span><span class="badge">SHARED</span></span><b>Shared image terms</b><span class="sub">Image features & projected basis</span><span class="mark pixels" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></button>
+      <button class="node" data-stage="1" style="grid-area:factors" aria-pressed="false"><span class="node-top"><span class="number">02</span><span class="badge" id="factor-count">ALL N PROMPTS</span></span><b>Independent prompt factors</b><span class="sub">Both attention directions</span><span class="mark factors" aria-hidden="true"><span>Uᵢ</span><span>Vᵢ</span><span>sᵢ</span><span>hᵢ</span></span></button>
+      <button class="node" data-stage="2" style="grid-area:preview" aria-pressed="false"><span class="node-top"><span class="number">03</span><span class="badge">NATIVE PHASE</span></span><b>Preview each request</b><span class="sub">Phase (0, 0) + local evidence</span><span class="mark preview" aria-hidden="true"><svg viewBox="0 0 70 18"><path d="M1 17V4H17V17H1M23 17V1H39V17H23M45 17V7H61V17H45" fill="#ede8f7" stroke="#b5a3d9"/><path d="M3 14 7 7 12 5 15 14M25 14 30 3 35 5 38 14M47 14 52 9 57 10 60 14" fill="#ab94d6"/></svg></span></button>
+      <button class="node active" data-stage="3" style="grid-area:selection" aria-pressed="true"><span class="node-top"><span class="number">04</span><span class="badge">4 WAVES</span></span><b>Retain useful requests</b><span class="sub">Coverage + small-region guard</span><span class="mark waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+      <button class="node" data-stage="4" style="grid-area:suffix" aria-pressed="false"><span class="node-top"><span class="number">05</span><span class="badge" id="suffix-count">K REQUESTS</span></span><b>Complete native suffixes</b><span class="sub">Restore state · upscale · masks</span><span class="mark suffix"><span class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="request-ratio">K / N</span></span></button>
+      <button class="node" data-stage="5" style="grid-area:masks" aria-pressed="false"><span class="node-top"><span class="number">06</span><span class="badge" id="mask-count">INSTANCES</span></span><b>Filter & deduplicate</b><span class="sub">SAM quality · stability · NMS</span><span class="mark mask-shapes" aria-hidden="true"><i></i><i></i><i></i></span></button>
+    </div>
+    <div class="detail" aria-live="polite"><div class="detail-label"><span id="detail-title">04 / RETAIN USEFUL REQUESTS</span><span>CLICK TO EXPLORE</span></div><p id="detail-text"></p></div>
+    <div class="footer"><span>Diagram explains the computation.<br><strong>Instance masks remain available in the result view.</strong></span><span>No prompt merging<br>No added quality head</span></div>
+  </main>
+  <script>
+    const query=new URLSearchParams(location.search);
+    function count(key,max=100000){const value=query.get(key);if(value===null)return null;const n=Number(value);return Number.isInteger(n)&&n>=0&&n<=max?n:null;}
+    const total=count('total'),native=count('native'),guard=count('guard'),masks=count('masks');
+    const known=total!==null&&total>0&&native!==null&&native<=total;
+    if(total!==null)document.querySelector('#factor-count').textContent=total+' PROMPTS';
+    if(known){document.querySelector('#suffix-count').textContent=native+' REQUESTS';document.querySelector('#request-ratio').textContent=native+' / '+total;}
+    if(masks!==null)document.querySelector('#mask-count').textContent=masks+' INSTANCES';
+    const details=[
+      'Encode the image once. Cache image-dependent projected terms that can be reused across independent point prompts.',
+      'Compute complete factors for every point, including token-to-image and image-to-token attention. Requests retain their own state; prompts are not merged.',
+      'Read the native phase-(0, 0) preview and a local patch around each point. These provide early geometric and coverage evidence before full suffix completion.',
+      known?'Four selection waves retain '+native+' of '+total+' requests for this recorded run.'+(guard!==null?' The local small-region guard contributes '+guard+' protected requests.':'')+' Selection is approximate.':'Four selection waves retain requests using preview evidence and spatial coverage. A local guard protects small regions. Selection is approximate.',
+      'Reconstruct each retained request from its stored factors. Complete the original decoder suffix and produce the three public SAM candidate masks.',
+      'Apply the native SAM predicted-IoU and stability filters, then remove overlapping duplicates with NMS.'+(masks!==null?' This run returns '+masks+' instance masks.':'')
+    ];
+    function activate(index){const node=document.querySelector('[data-stage="'+index+'"]');document.querySelectorAll('.node').forEach(item=>{const active=item===node;item.classList.toggle('active',active);item.setAttribute('aria-pressed',String(active));});document.querySelector('#detail-title').textContent=String(index+1).padStart(2,'0')+' / '+node.querySelector('b').textContent.toUpperCase();document.querySelector('#detail-text').textContent=details[index];}
+    document.querySelectorAll('.node').forEach(node=>node.addEventListener('click',()=>activate(Number(node.dataset.stage))));
+    function drawLinks(){const holder=document.querySelector('#nodes'),bounds=holder.getBoundingClientRect();const positions=[...document.querySelectorAll('.node')].map(node=>{const r=node.getBoundingClientRect();return{x:r.left-bounds.left,y:r.top-bounds.top,w:r.width,h:r.height};});const paths=[[0,1,'horizontal'],[1,2,'vertical'],[2,3,'reverse'],[3,4,'vertical'],[4,5,'horizontal']].map(([a,b,type])=>{const s=positions[a],t=positions[b];let x1,y1,x2,y2;if(type==='vertical'){x1=s.x+s.w/2;y1=s.y+s.h+3;x2=t.x+t.w/2;y2=t.y-6;}else if(type==='reverse'){x1=s.x-3;y1=s.y+s.h/2;x2=t.x+t.w+6;y2=t.y+t.h/2;}else{x1=s.x+s.w+3;y1=s.y+s.h/2;x2=t.x-6;y2=t.y+t.h/2;}return'<path d="M'+x1+' '+y1+' L'+x2+' '+y2+'"/>';});document.querySelector('#arrows').setAttribute('viewBox','0 0 '+bounds.width+' '+bounds.height);document.querySelector('#links').innerHTML=paths.join('');}
+    activate(3);new ResizeObserver(drawLinks).observe(document.querySelector('#nodes'));drawLinks();
+  </script>
+</body>
+</html>

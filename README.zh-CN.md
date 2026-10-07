@@ -102,7 +102,10 @@ python generate.py --checkpoint weights/tinysam_prompt_adaptive_v1.pth --image e
 
 工作台提供 Point、Box、Everything 三种模式，支持 TinySAM、MobileSAM、
 8/16/32 网格、多实例颜色叠加和单实例查看。网站提供真实的已记录示例，
-上传图片的推理在本地或 Hugging Face 执行。详见 [Everything 协议](docs/everything.md)。
+上传图片的推理在本地或 Hugging Face 执行。点框示例对比原版 TinySAM/MobileSAM
+与修改后的模型；Everything 提供自动点阵、可点击的 FSD 流程图和真实实例掩码
+切换。示例 IoU 来自对应目标的真实预测，筛选的展示样例与数据集平均结果分开。
+详见 [展示对比协议](docs/showcase.md)和 [Everything 协议](docs/everything.md)。
 
 ## 实验结果
 

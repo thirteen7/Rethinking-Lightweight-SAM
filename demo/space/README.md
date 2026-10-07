@@ -21,8 +21,13 @@ Prompt-Adaptive Refinement and Efficient Segment Everything Inference.
 Choose TinySAM or MobileSAM and explore **Point**, **Box**, or **Everything**.
 The research studio includes built-in images, FSD-SAM and Dense SAM generation,
 independent instance colors, opacity controls, and a mask inventory.
-It opens with a recorded Orange bowl preview; run segmentation to generate
-a new result. Songbird and Brown bear photographs are also included.
+It opens with an Orange bowl grid and an interactive **FSD walkthrough**;
+switch to **Instance masks** to inspect the recorded preview, or run a new result.
+The **Original vs refined** tab compares real first-round predictions of
+the original TinySAM/MobileSAM with their prompt-adaptive counterparts.
+Train, bottle, elephant and bed examples highlight visible improvements.
+These are curated individual targets with measured legacy IoU, separate from
+dataset-average metrics. [Comparison protocol](https://github.com/thirteen7/Rethinking-Lightweight-SAM/blob/main/docs/showcase.md).
 Inference runs on ZeroGPU. Uploads and predictions use temporary
 Space storage; image state and previous logits remain in session memory.
 

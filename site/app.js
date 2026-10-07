@@ -2,7 +2,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const names = {tinysam: "TinySAM", mobilesam: "MobileSAM", vith: "SAM ViT-H"};
-const state = {example: "bird", model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point"};
+const state = {example: null, model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point", everyView: "flow"};
 const pictures = new Map();
 let records, benchmarks, manifest, config, everything, renderVersion = 0, toastTimer;
 const number = value => Number(value).toLocaleString("en-US");
@@ -89,11 +89,19 @@ function drawPrompts(context, points, box, scale = 1) {
 }
 function refreshExampleOptions() {
   const list = $("#example-list");
-  const options = records.examples.filter(row => row.modes.includes(state.prompt));
-  if (!options.some(row => row.id === state.example)) state.example = options[0].id;
-  if (list.dataset.mode !== state.prompt) {
-    list.innerHTML = options.map(row => `<button class="example-option" data-example="${row.id}" aria-pressed="false"><img src="${row.image}" alt="" width="60" height="60"><span><b>${row.title}</b><small>${row.dataset} · Image ${row.image_id}</small></span>${svg("arrow")}</button>`).join("");
-    list.dataset.mode = state.prompt;
+  const options = records.examples.filter(row => row.modes.includes(state.prompt) && (!row.visible_for || row.visible_for[state.model]?.includes(state.prompt)));
+  const preferred = records.default_examples?.[state.model]?.[state.prompt];
+  if (!options.some(row => row.id === state.example)) state.example = preferred || options[0].id;
+  const key = state.prompt + ":" + state.model;
+  if (list.dataset.mode !== key) {
+    options.sort((a,b) => Number(b.id === preferred) - Number(a.id === preferred));
+    list.innerHTML = options.map(row => {
+      const first = row.trajectories?.[state.model]?.[state.prompt]?.[0];
+      const gain = first ? first.refined.iou_percent - first.reference.iou_percent : null;
+      const label = gain !== null && gain > 1 ? `<em class="gain-tag">+${gain.toFixed(1)} pp · first round</em>` : "";
+      return `<button class="example-option" data-example="${row.id}" aria-pressed="false"><img src="${row.image}" alt="" width="60" height="60"><span><b>${row.title}</b><small>${row.dataset} · Image ${row.image_id}</small>${label}</span>${svg("arrow")}</button>`;
+    }).join("");
+    list.dataset.mode = key;
   }
   active($$("[data-example]"),$(`[data-example="${state.example}"]`));
 }
@@ -102,20 +110,23 @@ async function renderExample() {
   refreshExampleOptions();
   setEveryControls(state.prompt === "everything");
   if (state.prompt === "everything") return renderEverything(version);
-  $("#reference-heading").textContent = "Decoder reference";
-  $("#refined-heading").textContent = "Prompt-adaptive";
-  $("#reference-canvas").setAttribute("aria-label","Decoder reference mask and prompts");
+  $("#reference-heading").textContent = "Original " + names[state.model];
+  $("#refined-heading").textContent = "Prompt-adaptive " + names[state.model];
+  $("#refined-canvas").hidden = false;
+  $("#fsd-workflow-panel").hidden = true;
+  $("#prediction-grid").classList.remove("is-flow");
+  $("#reference-canvas").setAttribute("aria-label","Original lightweight model prediction with the same prompt");
   $("#refined-canvas").setAttribute("aria-label","Refined model mask and prompts");
-  $("#example-metric-note").textContent = "Legacy IoU · CPU example";
+  $("#example-metric-note").textContent = "Measured legacy IoU · curated example";
   $("#trajectory-heading").textContent = "REFINED TRAJECTORY";
-  $(".explorer-note").textContent = "Reference: canonical frozen-decoder candidate 0, with the same prompt and mask feedback. Example IoU is separate from dataset mIoU.";
+  $(".explorer-note").textContent = "Original lightweight checkpoint vs. prompt-adaptive refinement, with identical prompts. Each method keeps its own mask feedback. IoU is measured against the COCO annotation; these are curated individual examples.";
   const sample = records.examples.find(item => item.id === state.example);
   const trajectory = sample.trajectories[state.model][state.prompt];
   const round = trajectory[state.round - 1];
   $("#example-caption").textContent = `${sample.dataset} · image ${sample.image_id} · object ${sample.annotation_id} · round ${state.round}`;
   $("#reference-score").textContent = round.reference.iou_percent.toFixed(2) + "%";
   $("#refined-score").textContent = round.refined.iou_percent.toFixed(2) + "%";
-  $("#example-trajectory").innerHTML = trajectory.map(row => `<div class="trajectory-value${row.round === state.round ? " active" : ""}"><span>ROUND 0${row.round}</span><b>${row.refined.iou_percent.toFixed(2)}%</b></div>`).join("");
+  $("#example-trajectory").innerHTML = trajectory.map(row => `<div class="trajectory-value${row.round === state.round ? " active" : ""}"><span>ROUND 0${row.round}</span><b>${row.refined.iou_percent.toFixed(2)}%</b><small>Original ${row.reference.iou_percent.toFixed(2)}%</small></div>`).join("");
   const source = $("#image-source");
   if (sample.source_url && /^https?:\/\//.test(sample.source_url)) {
     source.href = "assets/credits.md"; source.target = "_blank"; source.rel = "noopener"; source.hidden = false;
@@ -133,7 +144,12 @@ async function renderExample() {
   }));
 }
 function wireExamples() {
-  $("#example-model").addEventListener("change", event => {state.model = event.target.value; renderExample().catch(error => toast(error.message));});
+  $("#example-model").addEventListener("change", event => {
+    state.model = event.target.value;
+    state.example = state.prompt === "everything" ? "fruit" : records.default_examples?.[state.model]?.[state.prompt] || state.example;
+    state.round = 1; active($$("[data-round]"), $("[data-round='1']"));
+    renderExample().catch(error => toast(error.message));
+  });
   $("#example-list").addEventListener("click", event => {
     const button = event.target.closest("[data-example]");
     if (!button) return;
@@ -141,7 +157,8 @@ function wireExamples() {
   });
   $$("[data-prompt]").forEach(button => button.addEventListener("click", () => {
     state.prompt = button.dataset.prompt;
-    if (state.prompt === "everything") state.example = "fruit";
+    state.example = state.prompt === "everything" ? "fruit" : records.default_examples?.[state.model]?.[state.prompt] || state.example;
+    state.round = 1; active($$("[data-round]"), $("[data-round='1']"));
     active($$("[data-prompt]"), button); renderExample().catch(error => toast(error.message));
   }));
   $$("[data-round]").forEach(button => button.addEventListener("click", () => {
@@ -151,12 +168,20 @@ function wireExamples() {
     state.opacity = Number(event.target.value) / 100; $("#opacity-value").textContent = event.target.value + "%";
     renderExample().catch(error => toast(error.message));
   });
-  const first = records.examples[0].trajectories.tinysam.point[0];
+  const hero = records.examples.find(row => row.id === records.default_examples?.tinysam?.point) || records.examples[0];
+  const first = hero.trajectories.tinysam.point[0];
   $("#hero-reference").textContent = first.reference.iou_percent.toFixed(2) + "%";
   $("#hero-refined").textContent = first.refined.iou_percent.toFixed(2) + "%";
+  $$(".hero-photo>img:first-child").forEach(photo => {photo.src=hero.image;photo.alt=hero.title;photo.width=hero.width;photo.height=hero.height;});
+  $(".card-back .hero-mask").src=first.reference.mask;
+  $(".card-front .hero-mask").src=first.refined.mask;
+  $(".hero-visual-note").textContent=`First-click comparison · TinySAM · COCO image ${hero.image_id}`;
+  $(".hero-visual").setAttribute("aria-label",`Original TinySAM versus prompt-adaptive first-click prediction on ${hero.title}`);
+  $(".card-back .mini-card-head>span:first-child").textContent="Original TinySAM";
+  $(".card-back .mini-card-foot>span").textContent="First-click IoU";
   $$(".hero-prompt").forEach(marker => {
-    marker.style.left = (100 * first.points[0].x / records.examples[0].width) + "%";
-    marker.style.top = (100 * first.points[0].y / records.examples[0].height) + "%";
+    marker.style.left = (100 * first.points[0].x / hero.width) + "%";
+    marker.style.top = (100 * first.points[0].y / hero.height) + "%";
   });
 }
 function renderBenchmarks() {
@@ -333,6 +358,12 @@ async function enableLive() {
 }
 async function start() {
   [records, benchmarks, manifest, config, everything] = await Promise.all([json("examples.json"), json("benchmarks.json"), json("models.json"), json("config.json"), json("everything.json")]);
+  const parameters = new URLSearchParams(location.search);
+  if (parameters.get("embed") === "showcase") document.body.classList.add("embedded-explorer");
+  if (["tinysam","mobilesam"].includes(parameters.get("model"))) state.model=parameters.get("model");
+  if (["point","box","everything"].includes(parameters.get("prompt"))) state.prompt=parameters.get("prompt");
+  active($$("[data-prompt]"),$(`[data-prompt="${state.prompt}"]`));
+  $("#example-model").value=state.model;
   wireExamples(); wireBenchmarks(); renderModels(); wireEverything(); await renderExample();
   $("#copy-quickstart").addEventListener("click", () => copy($("#quickstart-code").textContent.trim()));
   $(".dialog-close").addEventListener("click", () => $("#local-demo-dialog").close());
@@ -349,7 +380,8 @@ function setEveryControls(enabled) {
   $("#round-controls-title").hidden = enabled;
   $(".round-buttons").hidden = enabled;
   $(".prompt-key").hidden = enabled;
-  $("#every-instance-control").hidden = !enabled;
+  $("#every-instance-control").hidden = !enabled || state.everyView !== "masks";
+  $("#every-result-view").hidden = !enabled;
 }
 async function renderEverything(version) {
   const sample = records.examples.find(row => row.id === state.example);
@@ -361,10 +393,17 @@ async function renderEverything(version) {
     selector.dataset.record = key;
   }
   const selected = selector.value === "all" ? null : Number(selector.value);
+  const isFlow = state.everyView === "flow";
   $("#reference-heading").textContent = "Automatic sampling";
-  $("#refined-heading").textContent = selected === null ? "FSD-SAM instances" : `Instance ${String(selected+1).padStart(2,"0")}`;
+  $("#refined-heading").textContent = isFlow ? "FSD decoding walkthrough" : selected === null ? "FSD-SAM instances" : `Instance ${String(selected+1).padStart(2,"0")}`;
   $("#reference-score").textContent = `${record.info.grid} × ${record.info.grid}`;
-  $("#refined-score").textContent = selected === null ? `${record.instances.length} masks` : `${number(record.instances[selected].area)} px`;
+  $("#refined-score").textContent = isFlow ? `${record.info.native_points} / ${record.info.total_points} requests` : selected === null ? `${record.instances.length} masks` : `${number(record.instances[selected].area)} px`;
+  $("#refined-canvas").hidden = isFlow;
+  $("#fsd-workflow-panel").hidden = !isFlow;
+  $("#prediction-grid").classList.toggle("is-flow", isFlow);
+  const frameURL = `assets/fsd-workflow.html?total=${record.info.total_points}&native=${record.info.native_points}&guard=${record.info.local_guard_points}&masks=${record.info.masks}`;
+  const frame = $("#fsd-workflow-frame");
+  if (frame.getAttribute("src") !== frameURL) frame.src = frameURL;
   $("#example-metric-note").textContent = "Prompt-free · recorded CPU inference";
   $("#trajectory-heading").textContent = "GENERATION SUMMARY";
   $(".explorer-note").textContent = "FSD-SAM with the frozen backbone. Colors distinguish instances, not semantic classes. No annotated prompts are used.";
@@ -376,9 +415,10 @@ async function renderEverything(version) {
   original.width = sample.width; original.height = sample.height;
   original.setAttribute("aria-label","Original image with automatic sampling grid");
   context.drawImage(photo,0,0);
-  context.fillStyle = "#ffffffbb";
+  context.fillStyle = "#ffffffdd";
+  context.strokeStyle = "#378e97dd"; context.lineWidth = 1;
   for (let y=0;y<record.info.grid;y++) for (let x=0;x<record.info.grid;x++) {
-    context.beginPath(); context.arc((x+.5)*sample.width/record.info.grid,(y+.5)*sample.height/record.info.grid,1.8,0,Math.PI*2); context.fill();
+    context.beginPath(); context.arc((x+.5)*sample.width/record.info.grid,(y+.5)*sample.height/record.info.grid,2.4,0,Math.PI*2); context.fill(); context.stroke();
   }
   const canvas = $("#refined-canvas"), target = canvas.getContext("2d");
   canvas.width = sample.width; canvas.height = sample.height;
@@ -394,6 +434,11 @@ async function renderEverything(version) {
   $("#image-source").hidden = false;
 }
 function wireEverything() {
+  $$("[data-every-view]").forEach(button => button.addEventListener("click", () => {
+    state.everyView = button.dataset.everyView;
+    active($$("[data-every-view]"), button);
+    renderExample().catch(error => toast(error.message));
+  }));
   $("#every-instance").addEventListener("change", () => renderExample().catch(error => toast(error.message)));
   $("#try-everything").addEventListener("click", () => {
     state.prompt = "everything";
