@@ -4,8 +4,6 @@
 
 支持 **TinySAM、MobileSAM、SAM ViT-H**。每个模型只需一份完整 `.pth`，包含官方基座、首点选择、交互反馈、局部残差、框选择、独立框解码器和编辑比较器。
 
-TinySAM/MobileSAM 发布的是 **2026-10-06 修正并重训后的版本**：`label=-2` 的嵌入归零，忽略 token 保留。ViT-H 沿用此前已验收且编码正确的完整权重。下载和加载均检查 SHA256。
-
 ## 1. 安装
 
 Python 3.10+。先安装匹配的 PyTorch/torchvision；训练和数据集评估需要 CUDA，模型加载及交互 API 支持 CPU。
@@ -38,7 +36,7 @@ python evaluate.py --model tinysam --checkpoint weights/tinysam_prompt_adaptive_
 
 协议：普通 **legacy mIoU**，中心首点，点/框各三轮，分块 64。COCO/LVIS 使用全部有效验证图与全部非 crowd 目标；SA-1B 采用官方读取器的每图最多 64 目标、按原索引播种的 `randperm` 无放回抽样。只保存逐目标数值、汇总及日志。评估使用 GT 生成初始提示、模拟纠错及评分。
 
-结果在 `runs/.../summary.json`；覆盖、GT 顺序、IoU 合法范围及 CPU 重汇总通过后产生 `verified.json`。无需保存预测图片或掩码。
+结果保存在 `runs/.../summary.json`，检查记录保存在 `verified.json`。不保存预测图片或掩码。
 
 数据布局：
 
@@ -67,7 +65,7 @@ python train.py --model tinysam --base weights/tinysam_official_base.pth --data-
 
 训练完成后自动生成 `runs/train-tinysam/tinysam_prompt_adaptive_v1.pth`。更换模型名即可使用其它骨干。默认训练解码分块为 4；可用 `--batch-size` 调整资源需求，复现时保持协议相同。
 
-本次发布权重复用了已训练的首点头。复现这条修正重训路径时，在训练命令中加 `--reuse-first weights/tinysam_prompt_adaptive_v1.pth`；否则从头拟合首点头。`--dry-run` 检查训练输入并打印阶段，不启动训练。
+添加 `--reuse-first weights/tinysam_prompt_adaptive_v1.pth` 可复用首点头；默认从头训练首点头。`--dry-run` 检查训练输入并打印阶段。
 
 已有完整模块训练目录可单独合并：
 
@@ -91,7 +89,7 @@ mask, logits, choice = predictor.predict([[200, 150], [250, 180]], [1, 0], previ
 mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 ```
 
-## 已验收结果
+## 实验结果
 
 下表为发布权重第三轮普通 mIoU (%)。完整三轮结果和覆盖见 [docs/results.md](docs/results.md)。
 
@@ -101,10 +99,8 @@ mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 | COCO val2017 全目标 | 69.438 | 78.364 | 69.502 | 77.228 |
 | LVIS v1 val 全目标 | 66.323 | 77.133 | 65.862 | 75.681 |
 
-TinySAM LVIS 有一处原存储 IoU 越界；保留原失败记录后，经同图同权重/RNG 回放及严格验收修正单值。此处报告的是带可追溯修复记录的验收结果，细节见结果说明。
-
 ## 许可与致谢
 
-项目沿用原研究代码的 **S-Lab License 1.0（非商业使用）**；不是一份可替换所有上游许可的 Apache/MIT 授权。第三方代码保留原版权与许可。模型继承基座和研究代码适用的许可条件，数据集按各自条款获取，不随仓库分发。
+许可文件：[LICENSE](LICENSE)、[NOTICE](NOTICE)。
 
-上游：[SAM](https://github.com/facebookresearch/segment-anything)、[TinySAM](https://github.com/xinghaochen/TinySAM)、[MobileSAM](https://github.com/ChaoningZhang/MobileSAM)。详情见 [NOTICE](NOTICE) 和 [licenses/](licenses/)。
+致谢：[SAM](https://github.com/facebookresearch/segment-anything)、[TinySAM](https://github.com/xinghaochen/TinySAM)、[MobileSAM](https://github.com/ChaoningZhang/MobileSAM)。

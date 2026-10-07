@@ -3,8 +3,7 @@
 All values below are ordinary legacy mIoU (%), three interaction rounds,
 mask-centre first point, annotation box prompts and chunk64. No additional
 quality/scoring head is present. Fitting, calibration and checkpoint selection
-use SA-1B training data exclusively. The public repack preserves every tensor
-from the accepted checkpoints.
+use SA-1B training data exclusively.
 
 | Dataset / coverage | Model | Point 1 | Point 2 | Point 3 | Box 1 | Box 2 | Box 3 |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -52,6 +51,5 @@ trajectory, the final gain over the independent decoder is only +0.003 pp.
 On the full model's *same candidate pool*, the final region-selected result is
 0.027 pp below independent-native selection; these are different comparisons.
 
-ViT-H is included as the previously accepted complete model. Its earlier
-SA-1B full-target evaluation has different coverage from the cap64 table and
-is not used as a matched cap64 gain control here.
+ViT-H's SA-1B full-target evaluation has different coverage from the cap64 table
+and is not used as a matched cap64 gain control here.
