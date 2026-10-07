@@ -37,14 +37,17 @@ performance. See [the comparison protocol](../docs/showcase.md).
 
 ## Compare automatic generation
 
-Everything accepts image uploads or built-in examples. One button runs
-SAM ViT-H / Dense on the left and FSD-SAM / ViT-H on the right, with the same
-grid, frozen base and filters. CUDA-synchronized totals include shared image
+Everything accepts image uploads or built-in examples. One button compares
+SAM ViT-H / Dense on the left and FSD-SAM / ViT-H on the right. Both paths use
+the same grid, frozen base and filters. The default grid is 32 × 32 (1,024
+independent foreground prompts). CUDA-synchronized totals include shared image
 encoding plus each generation time; loading, warm-up, queue and rendering are
 excluded. Repeat runs alternate execution order. The current-image numbers
 are separate from the paper's COCO100 dataset averages. Instance inspection
 reports SAM's predicted IoU, not measured target IoU for an unlabeled upload.
-The FSD animation has playback and step controls.
+The FSD animation maps every prompt onto the image and shows the actual four
+selection waves and local-guard additions. Click a point to inspect its pixel
+coordinates and selection reason; playback and step controls explain the order.
 
 ## Hugging Face deployment
 

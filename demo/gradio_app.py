@@ -1,7 +1,9 @@
 """Shared SegAny / SegEvery research workspace."""
 from pathlib import Path
+import base64
 import copy
 import html
+import io
 import json
 import logging
 import os
@@ -39,19 +41,30 @@ def empty_state(image=None):
                 comparison_runs=0, prompt_comparison=None)
 
 
-def fsd_walkthrough(details=None):
-    """A schematic with counts from the actual result, separate from its masks."""
+def fsd_walkthrough(details=None, *, image=None, dense_details=None, overlays=None):
+    """Show actual prompt coordinates and retained requests from this run."""
     if details and details.get('method')=='dense':
         return '<div class="dense-walkthrough"><span>DENSE SAM / NATIVE PATH</span><h2>Complete every request.</h2><p>Image encoding → independent point prompts → full native decoding → SAM filters &amp; NMS</p><b>'+str(int(details['native_points']))+' / '+str(int(details['total_points']))+' completed requests</b><p>Dense SAM completes every sampled prompt. It does not use FSD selection.</p></div>'
-    query = {}
-    if details:
-        query = {key: int(details[field]) for key, field in
-                 [('total','total_points'),('native','native_points'),('guard','local_guard_points'),('masks','masks')]
-                 if field in details}
     url = ANIMATION_URL
-    if query:
-        url += '?' + urlencode(query)
-    return '<iframe class="fsd-embedded-map" title="Interactive FSD-SAM decoding walkthrough" src="'+html.escape(url,quote=True)+'" loading="lazy"></iframe>'
+    attributes = ''
+    if details is not None:
+        url += '?' + urlencode(dict(live=1))
+        selection = details.get('selection')
+        if selection is not None and image is not None:
+            def thumbnail(array):
+                photo = Image.fromarray(np.asarray(array,dtype=np.uint8)).convert('RGB')
+                photo.thumbnail((512,512))
+                stream = io.BytesIO();photo.save(stream,format='JPEG',quality=82)
+                return 'data:image/jpeg;base64,'+base64.b64encode(stream.getvalue()).decode('ascii')
+            trace = dict(source='live',grid=details['grid'],image_hw=details['image_hw'],
+                points=details['point_grid'],selected=details['native_point_indices'],
+                waves=selection['wave_source_points'],guards=selection['guard_source_points'],
+                guard_only=selection['guard_only_source_points'],image=thumbnail(image),
+                masks=dict(dense=dense_details['masks'] if dense_details else None,fsd=details['masks']))
+            if overlays is not None:
+                trace['overlays'] = dict(zip(('dense','fsd'),map(thumbnail,overlays)))
+            attributes = ' data-fsd-trace="'+html.escape(json.dumps(trace,separators=(',',':')),quote=True)+'"'
+    return '<iframe class="fsd-embedded-map" title="Interactive FSD-SAM decoding walkthrough" src="'+html.escape(url,quote=True)+'"'+attributes+' loading="lazy"></iframe>'
 
 
 def grid_view(state, grid=16):
@@ -114,7 +127,7 @@ def comparison_duration(state, grid):
     # within the visitor's available ZeroGPU quota.
     image = state.get('image')
     large_image = image is not None and image.shape[0]*image.shape[1]>1_500_000
-    return 60 if int(grid)==32 or large_image else 30
+    return 60 if large_image else 30
 
 
 @gpu(duration=comparison_duration)
@@ -205,9 +218,9 @@ def run_workspace(state, model, mode, grid, opacity):
         left,right_view = comparison_views(state,opacity)
         dense_ms,fsd_ms = [pair['results'][key]['total_ms'] for key in ('dense','fsd')]
         status = f'**Both models finished.** SAM ViT-H: **{dense_ms:,.1f} ms** · FSD-SAM: **{fsd_ms:,.1f} ms**. Same image and {int(grid)} × {int(grid)} grid.'
-        LOG.info('paired result device=%s dense_ms=%.3f fsd_ms=%.3f',pair['device'],dense_ms,fsd_ms)
+        LOG.info('paired result device=%s grid=%d retained=%d/%d dense_ms=%.3f fsd_ms=%.3f',pair['device'],int(grid),state['details']['native_points'],state['details']['total_points'],dense_ms,fsd_ms)
         return (state,grid_view(state,grid),None,status,metrics('ViT-H vs FSD',len(scores),f'{int(grid)} × {int(grid)}','Measured / ms'),scores,
-            gr.update(choices=choices,value='All instances'),fsd_walkthrough(state['details']),left,right_view,pair_metrics(pair),pair,None,None,None,prompt_metrics())
+            gr.update(choices=choices,value='All instances'),fsd_walkthrough(state['details'],image=state['image'],dense_details=pair['results']['dense']['info'],overlays=(left,right_view)),left,right_view,pair_metrics(pair),pair,None,None,None,prompt_metrics())
     except Exception as error:
         LOG.exception('comparison failed')
         if isinstance(error,gr.Error):
@@ -237,7 +250,24 @@ def build_demo(project):
     header = '<div class="studio-header"><div><span class="studio-eyebrow">RESEARCH STUDIO</span><h1>'+title+'</h1><p>One button compares baseline and refinement. See initial and corrected masks, or generate everything with two measured runtimes.</p><div class="studio-links"><a href="https://github.com/thirteen7/Rethinking-Lightweight-SAM" target="_blank" rel="noopener">Code ↗</a><a href="https://thirteen7.github.io/Rethinking-Lightweight-SAM/" target="_blank" rel="noopener">Project page ↗</a></div></div><div class="studio-summary"><span class="studio-summary-label">ONE IMAGE / TWO PATHS</span><div><b>Point &amp; Box</b><span>Original → refined IoU</span></div><div><b>Everything</b><span>ViT-H → FSD-SAM / ms</span></div><p>Curated prompt comparisons. Live automatic segmentation.</p></div></div>'
     source = urlsplit(ANIMATION_URL)
     origin = json.dumps(source.scheme+'://'+source.netloc)
-    js = """() => {window.addEventListener('message',event=>{if(event.origin!==ORIGIN || event.data?.type!=='fsd-animation-size')return;const height=Number(event.data.height);if(!Number.isFinite(height)||height<250||height>1800)return;document.querySelectorAll('iframe.fsd-embedded-map').forEach(frame=>{if(event.source===frame.contentWindow)frame.style.setProperty('height',height+'px','important');});});}""".replace('ORIGIN',origin)
+    js = """() => {
+        const origin=ORIGIN;
+        window.addEventListener('message',event=>{
+            if(event.origin!==origin || event.data?.type!=='fsd-animation-size')return;
+            const height=Number(event.data.height);
+            if(!Number.isFinite(height)||height<250||height>4000)return;
+            document.querySelectorAll('iframe.fsd-embedded-map').forEach(frame=>{
+                if(event.source===frame.contentWindow)frame.style.setProperty('height',height+'px','important');
+            });
+        });
+        const seen=new WeakSet();
+        const sync=()=>document.querySelectorAll('iframe.fsd-embedded-map[data-fsd-trace]').forEach(frame=>{
+            if(seen.has(frame))return;seen.add(frame);
+            const send=()=>{try{frame.contentWindow.postMessage({type:'fsd-live-trace',trace:JSON.parse(frame.dataset.fsdTrace)},origin);}catch(error){console.warn('FSD point-map transfer failed',error);}};
+            frame.addEventListener('load',send);send();
+        });
+        new MutationObserver(sync).observe(document.body,{childList:true,subtree:true});sync();
+    }""".replace('ORIGIN',origin)
     with gr.Blocks(title=title,css=css,js=js,theme=gr.themes.Base(primary_hue='violet',neutral_hue='slate'),delete_cache=(900,900)) as demo:
         gr.HTML(header)
         with gr.Tabs(elem_id='studio-tabs'):
@@ -246,12 +276,12 @@ def build_demo(project):
                 with gr.Row(elem_id='task-bar'):
                     mode = gr.Radio(['Point','Box','Everything'],value='Everything',label='Segmentation mode',elem_id='mode-switch')
                     model = gr.Dropdown(['TinySAM','MobileSAM'],value='TinySAM',label='Lightweight backbone',visible=False,elem_id='model-select')
-                stats = gr.HTML(metrics('ViT-H vs FSD','—','16 × 16','Ready'),elem_id='metric-cards')
+                stats = gr.HTML(metrics('ViT-H vs FSD','—','32 × 32','Ready'),elem_id='metric-cards')
                 with gr.Row(equal_height=False,elem_id='workspace-row'):
                     with gr.Column(scale=1,min_width=220,elem_id='settings-card'):
                         gr.Markdown('### Inference controls')
                         with gr.Group(elem_id='every-controls') as every_controls:
-                            grid = gr.Radio([8,16,32],value=16,label='Shared points per side')
+                            grid = gr.Radio([8,16,32],value=32,label='Shared points per side')
                             gr.Markdown('**Left: SAM ViT-H**\n\n**Right: FSD-SAM**\n\nOne button runs both on this image.',elem_id='every-note')
                         with gr.Group(visible=False,elem_id='point-controls') as point_controls:
                             gr.Markdown('**Curated foreground prompts**\n\nThe initial point or box and two positive corrections are already set.\n\nRun once to compare the initial and corrected outputs of both models.',elem_id='point-note')
@@ -260,7 +290,7 @@ def build_demo(project):
                         reset_button = gr.Button('Reset comparison',elem_id='reset-target')
                         gr.HTML('<p class="studio-note">Point / Box: curated annotated targets.<br>Everything: upload or use an example.<br>Frozen weights · FP32.</p>')
                     with gr.Column(scale=3,min_width=300,elem_id='canvas-card'):
-                        image = gr.Image(value=grid_view(default_state),type='numpy',label='Input image · Everything uploads',sources=['upload'],height=230,elem_id='input-image')
+                        image = gr.Image(value=grid_view(default_state,32),type='numpy',label='Input image · Everything uploads',sources=['upload'],height=230,elem_id='input-image')
                         with gr.Group(visible=False,elem_id='prompt-pair-results') as prompt_group:
                             gr.Markdown('#### Initial decoder output',elem_id='initial-stage-title')
                             with gr.Row(equal_height=True):

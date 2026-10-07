@@ -7,7 +7,7 @@ const pictures = new Map();
 window.addEventListener("message", event => {
   if (event.origin !== location.origin || event.data?.type !== "fsd-animation-size") return;
   const height = Number(event.data.height);
-  if (!Number.isFinite(height) || height < 250 || height > 1800) return;
+  if (!Number.isFinite(height) || height < 250 || height > 4000) return;
   $$("iframe.fsd-comparison-animation").forEach(frame => {
     if (frame.contentWindow === event.source) frame.style.height = height + "px";
   });
@@ -392,6 +392,7 @@ function setEveryControls(enabled) {
 }
 async function renderEverything(version) {
   const pair = everyComparison.examples.fruit;
+  $("#every-result-view .pill").textContent = `${pair.grid} × ${pair.grid} · ${number(pair.grid*pair.grid)} prompt points`;
   state.example = "fruit";
   $("#example-list").innerHTML = '<button class="example-option active" aria-pressed="true"><img src="assets/examples/fruit.jpg" alt=""><span><b>Orange bowl</b><small>Same image · same ViT-H</small></span></button>';
   $("#example-list").dataset.mode = "everything";
@@ -400,7 +401,7 @@ async function renderEverything(version) {
   $("#reference-score").textContent = state.pairShown ? `${pair.results.dense.total_ms.toFixed(1)} ms` : "Ready";
   $("#refined-score").textContent = state.pairShown ? `${pair.results.fsd.total_ms.toFixed(1)} ms` : "Ready";
   $(".explorer-note").textContent = "Both paths use the same frozen ViT-H weights, image, grid and SAM filters. Recorded demo inference; use the live studio for your own image.";
-  $("#example-caption").textContent = state.pairShown ? `${pair.device} · FP32 · ${pair.grid} × ${pair.grid} shared grid` : "One button reveals both measured results.";
+  $("#example-caption").textContent = state.pairShown ? `${pair.device} · FP32 · ${pair.grid} × ${pair.grid} grid · ${number(pair.grid*pair.grid)} points` : `One button reveals both measured ${pair.grid} × ${pair.grid} results.`;
   $("#example-metric-note").textContent = "Recorded comparison · encode + masks";
   $("#trajectory-heading").textContent = "SAME IMAGE / SAME BACKBONE";
   $("#example-trajectory").innerHTML = ["dense","fsd"].map(method => {

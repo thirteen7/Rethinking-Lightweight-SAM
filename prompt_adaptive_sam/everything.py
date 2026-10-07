@@ -76,6 +76,7 @@ class EverythingGenerator:
         count, sam = len(self.grid), self.p.model.sam
         selected = np.arange(count, dtype=np.int64)
         engine = store = None
+        selection = None
         local_guards = 0
         data = amg.MaskData()
         try:
@@ -132,6 +133,8 @@ class EverythingGenerator:
             return masks, dict(method=self.method, backend='portable_pytorch',
                 grid=self.side, total_points=count, native_points=len(selected),
                 local_guard_points=local_guards, masks=len(masks),
+                image_hw=list(self.p.native_hw), point_grid=self.grid.tolist(),
+                native_point_indices=selected.tolist(), selection=selection,
                 seconds=time.perf_counter()-started, annotation_prompts=False)
         finally:
             if engine is not None:
