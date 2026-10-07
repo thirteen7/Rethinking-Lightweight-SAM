@@ -5,7 +5,11 @@ import subprocess
 import sys
 import logging
 
-PROJECT = Path(os.environ.get('SAM_DEMO_PROJECT','/tmp/rethinking-lightweight-sam-showcase-v4'))
+LOCAL_PROJECT = Path(__file__).resolve().parent.parent.parent
+local_checkout = (LOCAL_PROJECT/'demo/gradio_app.py').is_file()
+PROJECT = Path(os.environ.get('SAM_DEMO_PROJECT',str(LOCAL_PROJECT) if local_checkout else '/tmp/rethinking-lightweight-sam-paired-v6'))
+if local_checkout and not os.environ.get('SPACE_ID'):
+    os.environ.setdefault('SAM_DEMO_LOCAL','1')
 if not (PROJECT/'demo/gradio_app.py').is_file():
     subprocess.run(['git','clone','--depth','1',
         'https://github.com/thirteen7/Rethinking-Lightweight-SAM.git',str(PROJECT)],check=True)

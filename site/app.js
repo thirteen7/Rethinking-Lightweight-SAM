@@ -2,9 +2,17 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const names = {tinysam: "TinySAM", mobilesam: "MobileSAM", vith: "SAM ViT-H"};
-const state = {example: null, model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point", everyView: "flow"};
+const state = {example: null, model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point", benchmarkStage: 0, everyView: "masks", pairShown: false};
 const pictures = new Map();
-let records, benchmarks, manifest, config, everything, renderVersion = 0, toastTimer;
+window.addEventListener("message", event => {
+  if (event.origin !== location.origin || event.data?.type !== "fsd-animation-size") return;
+  const height = Number(event.data.height);
+  if (!Number.isFinite(height) || height < 250 || height > 1800) return;
+  $$("iframe.fsd-comparison-animation").forEach(frame => {
+    if (frame.contentWindow === event.source) frame.style.height = height + "px";
+  });
+});
+let records, benchmarks, manifest, config, everything, everyComparison, paperTiming, renderVersion = 0, toastTimer;
 const number = value => Number(value).toLocaleString("en-US");
 const svg = id => `<svg class="icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 
@@ -98,7 +106,7 @@ function refreshExampleOptions() {
     list.innerHTML = options.map(row => {
       const first = row.trajectories?.[state.model]?.[state.prompt]?.[0];
       const gain = first ? first.refined.iou_percent - first.reference.iou_percent : null;
-      const label = gain !== null && gain > 1 ? `<em class="gain-tag">+${gain.toFixed(1)} pp · first round</em>` : "";
+      const label = gain !== null && gain > 1 ? `<em class="gain-tag">+${gain.toFixed(1)} pp · one prompt</em>` : "";
       return `<button class="example-option" data-example="${row.id}" aria-pressed="false"><img src="${row.image}" alt="" width="60" height="60"><span><b>${row.title}</b><small>${row.dataset} · Image ${row.image_id}</small>${label}</span>${svg("arrow")}</button>`;
     }).join("");
     list.dataset.mode = key;
@@ -107,9 +115,9 @@ function refreshExampleOptions() {
 }
 async function renderExample() {
   const version = ++renderVersion;
-  refreshExampleOptions();
   setEveryControls(state.prompt === "everything");
   if (state.prompt === "everything") return renderEverything(version);
+  refreshExampleOptions();
   $("#reference-heading").textContent = "Original " + names[state.model];
   $("#refined-heading").textContent = "Prompt-adaptive " + names[state.model];
   $("#refined-canvas").hidden = false;
@@ -118,15 +126,15 @@ async function renderExample() {
   $("#reference-canvas").setAttribute("aria-label","Original lightweight model prediction with the same prompt");
   $("#refined-canvas").setAttribute("aria-label","Refined model mask and prompts");
   $("#example-metric-note").textContent = "Measured legacy IoU · curated example";
-  $("#trajectory-heading").textContent = "REFINED TRAJECTORY";
-  $(".explorer-note").textContent = "Original lightweight checkpoint vs. prompt-adaptive refinement, with identical prompts. Each method keeps its own mask feedback. IoU is measured against the COCO annotation; these are curated individual examples.";
+  $("#trajectory-heading").textContent = "SAME PROMPT / MEASURED IoU";
+  $(".explorer-note").textContent = "Curated foreground-only prompts. Original and refined models receive identical clicks and keep independent mask feedback. IoU is measured against the annotated target; these examples illustrate successful cases.";
   const sample = records.examples.find(item => item.id === state.example);
   const trajectory = sample.trajectories[state.model][state.prompt];
   const round = trajectory[state.round - 1];
-  $("#example-caption").textContent = `${sample.dataset} · image ${sample.image_id} · object ${sample.annotation_id} · round ${state.round}`;
+  $("#example-caption").textContent = `${sample.dataset} · image ${sample.image_id} · object ${sample.annotation_id} · ${state.round === 1 ? state.prompt === "point" ? "one click" : "one box" : `+${state.round-1} corrective click${state.round>2?"s":""}`}`;
   $("#reference-score").textContent = round.reference.iou_percent.toFixed(2) + "%";
   $("#refined-score").textContent = round.refined.iou_percent.toFixed(2) + "%";
-  $("#example-trajectory").innerHTML = trajectory.map(row => `<div class="trajectory-value${row.round === state.round ? " active" : ""}"><span>ROUND 0${row.round}</span><b>${row.refined.iou_percent.toFixed(2)}%</b><small>Original ${row.reference.iou_percent.toFixed(2)}%</small></div>`).join("");
+  $("#example-trajectory").innerHTML = trajectory.map(row => `<div class="trajectory-value${row.round === state.round ? " active" : ""}"><span>${row.round === 1 ? state.prompt === "point" ? "ONE CLICK" : "ONE BOX" : `+${row.round-1} CORRECTIVE CLICK${row.round>2?"S":""}`}</span><b>${row.refined.iou_percent.toFixed(2)}%</b><small>Original ${row.reference.iou_percent.toFixed(2)}%</small></div>`).join("");
   const source = $("#image-source");
   if (sample.source_url && /^https?:\/\//.test(sample.source_url)) {
     source.href = "assets/credits.md"; source.target = "_blank"; source.rel = "noopener"; source.hidden = false;
@@ -185,50 +193,43 @@ function wireExamples() {
   });
 }
 function renderBenchmarks() {
-  const dataset = benchmarks.datasets[state.dataset];
-  const prompt = state.benchmarkPrompt;
-  const tiny = dataset.tinysam[prompt], mobile = dataset.mobilesam[prompt];
-  const lower = Math.max(0, Math.floor(Math.min(...tiny, ...mobile) / 5) * 5 - 5);
-  const upper = Math.min(100, Math.ceil(Math.max(...tiny, ...mobile) / 5) * 5 + 5);
-  const y = value => 225 - (value - lower) / (upper - lower) * 188;
-  const xs = [75, 307, 539];
-  let markup = `<defs><linearGradient id="violet-chart" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#7860de" stop-opacity=".13"/><stop offset="1" stop-color="#7860de" stop-opacity="0"/></linearGradient></defs>`;
-  for (let step = 0; step <= 4; step++) {
-    const value = lower + (upper - lower) * step / 4, position = y(value);
-    markup += `<line x1="55" y1="${position}" x2="558" y2="${position}" stroke="#e9ebf2" stroke-dasharray="3 5"/><text x="38" y="${position + 4}" font-size="10" text-anchor="end" fill="#a9afbc">${value.toFixed(0)}</text>`;
+  const dataset = benchmarks.datasets[state.dataset], prompt = state.benchmarkPrompt, stage = state.benchmarkStage;
+  const stageLabel = stage === 0 ? prompt === "point" ? "ONE CLICK" : "ONE BOX" : `+${stage} CORRECTIVE CLICK${stage > 1 ? "S" : ""}`;
+  const left = 95, width = 390;
+  let markup = "";
+  for (const value of [0,25,50,75,100]) {
+    const x = left + width * value / 100;
+    markup += `<line x1="${x}" y1="22" x2="${x}" y2="260" stroke="#eceef5" stroke-dasharray="3 5"/><text x="${x}" y="286" font-size="10" text-anchor="middle" fill="#9ca3b4">${value}</text>`;
   }
-  const points = values => values.map((value, index) => `${xs[index]},${y(value)}`).join(" ");
-  markup += `<polygon points="75,225 ${points(tiny)} 539,225" fill="url(#violet-chart)"/>`;
-  for (const [values, color, offset] of [[tiny, "#7860de", -15], [mobile, "#268e90", 26]]) {
-    markup += `<polyline points="${points(values)}" stroke="${color}" stroke-width="2.5" fill="none"/>`;
-    values.forEach((value, index) => {
-      markup += `<circle cx="${xs[index]}" cy="${y(value)}" r="4.5" fill="white" stroke="${color}" stroke-width="2"/><text x="${xs[index]}" y="${y(value) + offset}" font-size="11" font-weight="600" text-anchor="middle" fill="${color}">${value.toFixed(3)}</text>`;
-    });
+  for (const [index,model,color] of [[0,"tinysam","#7860de"],[1,"mobilesam","#268e90"]]) {
+    const top = 43 + index * 126, ours = dataset[model][prompt][stage], baseline = dataset.original[model][prompt][stage];
+    const gain = dataset.gains[model][prompt][stage], historical = dataset.baseline_kind[model] === "historical_reference";
+    markup += `<text x="10" y="${top}" font-size="13" font-weight="600" fill="#454b62">${names[model]}</text><text x="10" y="${top+27}" font-size="10" fill="#9fa6b7">Original${historical?" †":""}</text><rect x="${left}" y="${top+12}" width="${width*baseline/100}" height="21" rx="4" fill="#cbd0dd"/><text x="${left+width*baseline/100+7}" y="${top+27}" font-size="11" fill="#888fa2">${baseline.toFixed(2)}</text>`;
+    markup += `<text x="10" y="${top+62}" font-size="10" fill="${color}">Ours</text><rect x="${left}" y="${top+47}" width="${width*ours/100}" height="21" rx="4" fill="${color}"/><text x="${left+width*ours/100+7}" y="${top+62}" font-size="11" font-weight="600" fill="${color}">${ours.toFixed(2)}</text><text x="579" y="${top+41}" font-size="15" font-weight="650" text-anchor="end" fill="${color}">+${gain.toFixed(2)}<tspan font-size="9"> pp${historical?" †":""}</tspan></text>`;
+    const prefix = model === "tinysam" ? "tiny" : "mobile";
+    $(`#${prefix}-result`).innerHTML = ours.toFixed(2) + "<span>%</span>";
+    $(`#${prefix}-original`).textContent = `Original${historical?" †":""}: ${baseline.toFixed(2)}%`;
+    $(`#${prefix}-gain`).textContent = `+${gain.toFixed(2)} pp ${historical?"reported difference †":"vs original"}`;
   }
-  xs.forEach((x, index) => {markup += `<text x="${x}" y="259" font-size="10" text-anchor="middle" fill="#a2a9b7">ROUND 0${index + 1}</text>`;});
   $("#benchmark-chart").innerHTML = markup;
-  $("#benchmark-chart").setAttribute("aria-label", `${dataset.label}, ${prompt} prompt legacy mIoU across three rounds. TinySAM: ${tiny.join(", ")}. MobileSAM: ${mobile.join(", ")}.`);
+  $("#benchmark-chart").setAttribute("aria-label", `${dataset.label}; ${stageLabel}; paper reported original versus refined IoU.`);
   $("#chart-title").textContent = dataset.label;
-  $("#chart-coverage").textContent = dataset.coverage;
+  $("#chart-coverage").textContent = dataset.coverage + ". " + dataset.baseline_note;
   $("#stat-prompt").textContent = $("#stat-prompt-mobile").textContent = prompt.toUpperCase();
-  $("#tiny-result").innerHTML = tiny[2].toFixed(3) + "<span>%</span>";
-  $("#mobile-result").innerHTML = mobile[2].toFixed(3) + "<span>%</span>";
-  $("#tiny-gain").textContent = `+${(tiny[2] - tiny[0]).toFixed(3)} pp across rounds`;
-  $("#mobile-gain").textContent = `+${(mobile[2] - mobile[0]).toFixed(3)} pp across rounds`;
+  $("#stat-stage").textContent = $("#stat-stage-mobile").textContent = stageLabel;
   $("#target-count").textContent = number(dataset.targets);
   $("#image-count").textContent = number(dataset.images) + " valid images";
 }
 function wireBenchmarks() {
-  $$("[data-dataset]").forEach(button => button.addEventListener("click", () => {
-    state.dataset = button.dataset.dataset; active($$("[data-dataset]"), button); renderBenchmarks();
-  }));
-  $$("[data-benchmark-prompt]").forEach(button => button.addEventListener("click", () => {
-    state.benchmarkPrompt = button.dataset.benchmarkPrompt; active($$("[data-benchmark-prompt]"), button); renderBenchmarks();
-  }));
-  $("#results-table").innerHTML = ["sa1b", "coco", "lvis"].map(key => {
-    const data = benchmarks.datasets[key];
-    return `<tr><td>${data.label}</td>${[data.tinysam.point[2], data.tinysam.box[2], data.mobilesam.point[2], data.mobilesam.box[2]].map(value => `<td>${value.toFixed(3)}</td>`).join("")}</tr>`;
-  }).join("");
+  $$('[data-dataset]').forEach(button=>button.addEventListener('click',()=>{state.dataset=button.dataset.dataset;active($$('[data-dataset]'),button);renderBenchmarks();}));
+  $$('[data-benchmark-prompt]').forEach(button=>button.addEventListener('click',()=>{state.benchmarkPrompt=button.dataset.benchmarkPrompt;active($$('[data-benchmark-prompt]'),button);renderBenchmarks();}));
+  $$('[data-benchmark-stage]').forEach(button=>button.addEventListener('click',()=>{state.benchmarkStage=Number(button.dataset.benchmarkStage);active($$('[data-benchmark-stage]'),button);renderBenchmarks();}));
+  $("#results-table").innerHTML = ["coco","lvis","sa1b"].flatMap(key=>["tinysam","mobilesam"].map(model=>{
+    const data=benchmarks.datasets[key], historical=data.baseline_kind[model]==='historical_reference';
+    const cells=['point','box'].flatMap(prompt=>[0,1,2].map(stage=>`<td class="paired-result-cell"><span>${data.original[model][prompt][stage].toFixed(2)} → <b>${data[model][prompt][stage].toFixed(2)}</b></span><small>+${data.gains[model][prompt][stage].toFixed(2)} pp${historical?' †':''}</small></td>`)).join('');
+    return `<tr><td><b>${data.label}</b><span class="table-model">${names[model]}${historical?' †':''}</span></td>${cells}</tr>`;
+  })).join('');
+  $("#paper-every-table").innerHTML=paperTiming.rows.filter(row=>row.backbone==='SAM ViT-H'&&row.policy!=='Hierarchical').map(row=>`<tr><td><b>${row.policy==='Dense'?'SAM ViT-H / Dense':'FSD-SAM / ViT-H'}</b></td><td class="${row.policy==='FSD-SAM'?'ours-cell':''}">${number(row.milliseconds)} ms</td><td>${row.speedup.toFixed(2)}×</td><td>${row.ar300.toFixed(3)}%</td><td>${row.delta_ar===null?'—':row.delta_ar.toFixed(3)+' pp'}</td></tr>`).join('');
   renderBenchmarks();
 }
 function renderModels() {
@@ -311,7 +312,7 @@ async function enableLive() {
     await resetLive(); live.prompt = button.dataset.livePrompt; active($$("[data-live-prompt]"), button);
     $("#live-every-options").hidden = live.prompt !== "everything";
     $("#live-label").hidden = live.prompt === "everything";
-    $("#live-instruction").textContent = live.prompt === "everything" ? "No clicks required. Run automatic generation to segment instances across the image." : live.prompt === "box" ? "Drag a box around the target. After prediction, add corrective clicks." : "Click on the target. Add a background click to exclude a region.";
+    $("#live-instruction").textContent = live.prompt === "everything" ? "No clicks required. Run automatic generation to segment instances across the image." : live.prompt === "box" ? "Drag a box around the target. After prediction, add corrective clicks." : "Click on the target. Add a foreground click to refine the result.";
     liveStatus("Mode changed. Ready for segmentation.");
   }));
   $$("[data-label]").forEach(button => button.addEventListener("click", () => {live.label = Number(button.dataset.label); active($$("[data-label]"), button);}));
@@ -357,7 +358,7 @@ async function enableLive() {
   $("#reset-prompts").addEventListener("click", () => resetLive().catch(error => toast(error.message)));
 }
 async function start() {
-  [records, benchmarks, manifest, config, everything] = await Promise.all([json("examples.json"), json("benchmarks.json"), json("models.json"), json("config.json"), json("everything.json")]);
+  [records, benchmarks, manifest, config, everything, everyComparison, paperTiming] = await Promise.all([json("examples.json"), json("benchmarks.json"), json("models.json"), json("config.json"), json("everything.json"), json("every-comparison.json"), json("paper-everything.json")]);
   const parameters = new URLSearchParams(location.search);
   if (parameters.get("embed") === "showcase") document.body.classList.add("embedded-explorer");
   if (["tinysam","mobilesam"].includes(parameters.get("model"))) state.model=parameters.get("model");
@@ -380,69 +381,50 @@ function setEveryControls(enabled) {
   $("#round-controls-title").hidden = enabled;
   $(".round-buttons").hidden = enabled;
   $(".prompt-key").hidden = enabled;
-  $("#every-instance-control").hidden = !enabled || state.everyView !== "masks";
+  $("#every-instance-control").hidden = true;
   $("#every-result-view").hidden = !enabled;
+  $("#every-comparison-actions").hidden = !enabled;
+  $("#example-model").closest("label").hidden = enabled;
+  $(".opacity-control").hidden = enabled;
+  $("#refined-canvas").hidden = false;
+  $("#fsd-workflow-panel").hidden = true;
+  $("#prediction-grid").classList.remove("is-flow");
 }
 async function renderEverything(version) {
-  const sample = records.examples.find(row => row.id === state.example);
-  const record = everything.examples[state.example][state.model];
-  const selector = $("#every-instance");
-  const key = state.example + ":" + state.model;
-  if (selector.dataset.record !== key) {
-    selector.innerHTML = '<option value="all">All instances</option>' + record.instances.map((row,index) => `<option value="${index}">Instance ${String(index+1).padStart(2,"0")} · ${number(row.area)} px</option>`).join("");
-    selector.dataset.record = key;
+  const pair = everyComparison.examples.fruit;
+  state.example = "fruit";
+  $("#example-list").innerHTML = '<button class="example-option active" aria-pressed="true"><img src="assets/examples/fruit.jpg" alt=""><span><b>Orange bowl</b><small>Same image · same ViT-H</small></span></button>';
+  $("#example-list").dataset.mode = "everything";
+  $("#reference-heading").textContent = "SAM ViT-H / Dense";
+  $("#refined-heading").textContent = "FSD-SAM / ViT-H";
+  $("#reference-score").textContent = state.pairShown ? `${pair.results.dense.total_ms.toFixed(1)} ms` : "Ready";
+  $("#refined-score").textContent = state.pairShown ? `${pair.results.fsd.total_ms.toFixed(1)} ms` : "Ready";
+  $(".explorer-note").textContent = "Both paths use the same frozen ViT-H weights, image, grid and SAM filters. Recorded demo inference; use the live studio for your own image.";
+  $("#example-caption").textContent = state.pairShown ? `${pair.device} · FP32 · ${pair.grid} × ${pair.grid} shared grid` : "One button reveals both measured results.";
+  $("#example-metric-note").textContent = "Recorded comparison · encode + masks";
+  $("#trajectory-heading").textContent = "SAME IMAGE / SAME BACKBONE";
+  $("#example-trajectory").innerHTML = ["dense","fsd"].map(method => {
+    const row = pair.results[method];
+    return `<div class="trajectory-value"><span>${method === "dense" ? "SAM ViT-H" : "FSD-SAM"}</span><b>${state.pairShown ? row.total_ms.toFixed(1)+" ms" : "Ready"}</b><small>${state.pairShown ? `${row.info.masks} masks · ${row.info.native_points}/${row.info.total_points} completed` : "Press Show comparison"}</small></div>`;
+  }).join("");
+  $("#every-comparison-note").textContent = state.pairShown ? `Measured image encoding (${pair.results.dense.encoding_ms.toFixed(1)} ms) is counted in both totals; queue, warm-up, loading and overlay rendering are excluded. This recorded demo is not a benchmark speedup claim.` : "Recorded real inference. Run both models in the live demo for new measurements.";
+  for (const [field,method] of [["reference","dense"],["refined","fsd"]]) {
+    const photo = await image(state.pairShown ? pair.results[method].overlay : pair.image);
+    if(version !== renderVersion)return;
+    const canvas=$(`#${field}-canvas`);
+    canvas.width=photo.naturalWidth;canvas.height=photo.naturalHeight;
+    canvas.getContext("2d").drawImage(photo,0,0);
+    canvas.setAttribute("aria-label",state.pairShown?`${method === "dense" ? "Dense ViT-H" : "FSD-SAM"} measured instance masks`:"Input image before comparison");
   }
-  const selected = selector.value === "all" ? null : Number(selector.value);
-  const isFlow = state.everyView === "flow";
-  $("#reference-heading").textContent = "Automatic sampling";
-  $("#refined-heading").textContent = isFlow ? "FSD decoding walkthrough" : selected === null ? "FSD-SAM instances" : `Instance ${String(selected+1).padStart(2,"0")}`;
-  $("#reference-score").textContent = `${record.info.grid} × ${record.info.grid}`;
-  $("#refined-score").textContent = isFlow ? `${record.info.native_points} / ${record.info.total_points} requests` : selected === null ? `${record.instances.length} masks` : `${number(record.instances[selected].area)} px`;
-  $("#refined-canvas").hidden = isFlow;
-  $("#fsd-workflow-panel").hidden = !isFlow;
-  $("#prediction-grid").classList.toggle("is-flow", isFlow);
-  const frameURL = `assets/fsd-workflow.html?total=${record.info.total_points}&native=${record.info.native_points}&guard=${record.info.local_guard_points}&masks=${record.info.masks}`;
-  const frame = $("#fsd-workflow-frame");
-  if (frame.getAttribute("src") !== frameURL) frame.src = frameURL;
-  $("#example-metric-note").textContent = "Prompt-free · recorded CPU inference";
-  $("#trajectory-heading").textContent = "GENERATION SUMMARY";
-  $(".explorer-note").textContent = "FSD-SAM with the frozen backbone. Colors distinguish instances, not semantic classes. No annotated prompts are used.";
-  $("#example-caption").textContent = `${sample.dataset} · image ${sample.image_id} · Everything · ${names[state.model]}`;
-  $("#example-trajectory").innerHTML = [["SAMPLED PROMPTS",record.info.total_points],["NATIVE REQUESTS",record.info.native_points],["INSTANCES",record.info.masks]].map(([label,value]) => `<div class="trajectory-value"><span>${label}</span><b>${number(value)}</b></div>`).join("");
-  $("#every-download").href = record.predictions;
-  const photo = await image(sample.image);
-  const original = $("#reference-canvas"), context = original.getContext("2d");
-  original.width = sample.width; original.height = sample.height;
-  original.setAttribute("aria-label","Original image with automatic sampling grid");
-  context.drawImage(photo,0,0);
-  context.fillStyle = "#ffffffdd";
-  context.strokeStyle = "#378e97dd"; context.lineWidth = 1;
-  for (let y=0;y<record.info.grid;y++) for (let x=0;x<record.info.grid;x++) {
-    context.beginPath(); context.arc((x+.5)*sample.width/record.info.grid,(y+.5)*sample.height/record.info.grid,2.4,0,Math.PI*2); context.fill(); context.stroke();
-  }
-  const canvas = $("#refined-canvas"), target = canvas.getContext("2d");
-  canvas.width = sample.width; canvas.height = sample.height;
-  canvas.setAttribute("aria-label",selected===null?"Automatic instance masks":"Selected automatic instance mask");
-  target.drawImage(photo,0,0);
-  const instances = record.instances.map((row,index) => ({...row,index})).filter(row => selected===null || selected===row.index).sort((a,b) => b.area-a.area);
-  const loaded = await Promise.all(instances.map(async row => ({row,mask:await image(row.mask)})));
-  if (version !== renderVersion) return;
-  target.globalAlpha = state.opacity;
-  for (const item of loaded) target.drawImage(item.mask,0,0);
-  target.globalAlpha = 1;
-  $("#image-source").href = "assets/credits.md";
-  $("#image-source").hidden = false;
+  $("#image-source").href="assets/credits.md";$("#image-source").hidden=false;
 }
 function wireEverything() {
-  $$("[data-every-view]").forEach(button => button.addEventListener("click", () => {
-    state.everyView = button.dataset.everyView;
-    active($$("[data-every-view]"), button);
-    renderExample().catch(error => toast(error.message));
-  }));
-  $("#every-instance").addEventListener("change", () => renderExample().catch(error => toast(error.message)));
+  $("#run-every-comparison").addEventListener("click",()=>{
+    state.pairShown=true;
+    renderExample().catch(error=>toast(error.message));
+  });
   $("#try-everything").addEventListener("click", () => {
-    state.prompt = "everything";
-    state.example = "fruit";
+    state.prompt = "everything"; state.example = "fruit";
     active($$("[data-prompt]"),$("[data-prompt=everything]"));
     $("#explorer").scrollIntoView({behavior:"smooth"});
     renderExample().catch(error => toast(error.message));

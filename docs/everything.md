@@ -41,15 +41,21 @@ These grid settings change the sampling density.
 
 ## Website and application
 
-The GitHub Pages explorer displays recorded, prompt-free predictions. Switch
-to Everything to see the automatic point grid beside an interactive FSD
-walkthrough. Click its six stages to follow shared image terms, independent
-prompt factors, preview evidence, request selection, suffix completion, and
-native mask filtering. Counts come from the selected recorded run; the diagram
-is a schematic. Switch to **Instance masks** to inspect real mask geometry.
-The hosted/local research studio additionally runs uploaded images, offers
-both generators, and shows the actual instance inventory and inference time.
-Its FSD walkthrough updates with the current run's request and instance counts.
+The GitHub Pages explorer displays a recorded paired ViT-H comparison. Press
+**Show recorded comparison** to reveal Dense SAM on the left and FSD-SAM on
+the right, with measured milliseconds and completed-request counts. Both use
+the same frozen ViT-H weights, image, 16×16 grid and filters. The standalone
+process animation shows encoding, prompt factors, previews, suffix completion
+and filtering, with replay, pause and manual step controls. Its dots and
+playback duration are schematic, separate from measured inference time.
+
+In the hosted/local studio, **Run both models** runs both paths on the current
+image and shows their masks and times together. The generator dropdown is
+removed; the Point/Box backbone chooser is hidden in Everything mode.
+Each synchronized total is the shared measured image-encoding cost plus that
+method's mask-generation cost. Loading, warm-up, queue and rendering are
+excluded. Both methods are warmed before timing; repeat runs alternate order.
+The **How FSD works** animation receives actual FSD request/mask counts.
 
 Example times describe those individual runs and their execution device.
 They are not dataset-average timings, speedup claims, or accuracy results.

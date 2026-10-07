@@ -1,52 +1,57 @@
-# Qualitative comparison protocol
+# Curated point and box comparisons
 
-The Point and Box explorer compares the **original lightweight model** with
-its prompt-adaptive counterpart. Both use the same frozen TinySAM or MobileSAM
-base weights contained in the released complete checkpoint. They receive the
-same image and point/box prompt. The original method calls the native decoder
-directly, without the refinement modules.
+Point and Box use four annotated COCO examples with fixed foreground prompts.
+The live studio accepts uploads in Everything mode. A single **Run both models**
+executes the original lightweight decoder and prompt-adaptive refinement for
+the initial prompt and two cumulative positive corrections. Four panels show
+both initial outputs and both corrected outputs; the table reports every stage.
+There is no background-point selector or free-form point/box upload.
 
-## Original model output
+## Original model policy
 
-- **TinySAM:** its official decoder forward returns three public candidates.
-  The candidate with the highest native predicted-IoU score is selected for
-  both point and box prompts.
-- **MobileSAM:** the first point uses three public candidates, selected by the
-  native predicted-IoU score. Boxes and later point rounds use the native
-  single-mask output.
+Both paths use the same frozen base in the released complete checkpoint.
+TinySAM chooses the highest native predicted-IoU score among its three public
+candidates. MobileSAM uses three public candidates for the initial point and
+the native single-mask output for boxes and later point stages. The original
+path calls the native decoder without the refinement modules. Each method
+retains its own selected previous logits; both receive identical fixed prompts.
+Ground-truth IoU never selects the native output candidate.
 
-Candidate selection does not use ground-truth IoU. Native predicted IoU is a
-model score; the percentages displayed above the photographs are measured
-against the illustrated COCO annotation.
+## True IoU and recorded assets
 
-## Shared prompts and independent feedback
+The gallery carries the legacy target mask: nearest resize to a longest side
+of 1024, followed by bilinear restoration and the positive threshold used by
+the interaction evaluation. Live IoU is recomputed from each prediction's
+integer intersection and union with that mask. It is distinct from SAM's
+predicted-IoU score. Original photographs are copied without pixel edits.
 
-The first point is the annotation centroid, and the initial box is the
-annotation box, following the fixed evaluation interface. Subsequent rounds
-use a shared corrective click from the frozen error-point sampler applied to
-the refined prediction. Each method receives its **own previous selected
-logits** as mask feedback. These controlled same-prompt trajectories illustrate
-the two methods; they are separate from full dataset evaluation tables.
-
-## Displayed scores
-
-IoU uses the existing legacy ground truth: nearest resize to a longest side of
-1024, followed by bilinear restoration to the original image dimensions and
-the fixed positive threshold. Integer intersection and union counts, exact
-mask fingerprints, image and annotation identities, and model fingerprints
-are recorded in [examples.json](../site/examples.json).
-
-The gallery is curated for legible first-round improvements. This selection
-does not fit a model, tune thresholds, choose weights, or estimate average
-performance. The four highlighted targets are:
+[examples.json](../site/examples.json) records the image, annotation, checkpoint
+fingerprints, foreground coordinates, GT file, mask fingerprints and exact
+intersection/union counts. The static explorer uses recorded CPU predictions;
+the studio runs the selected checkpoint on the current device. Small numeric
+differences between devices are possible.
 
 | Backbone | Prompt | COCO image | Target |
 |---|---|---:|---|
-| TinySAM | First point | 217400 | Train |
-| TinySAM | First box | 414795 | Elephant |
-| MobileSAM | First point | 79651 | Bottle |
-| MobileSAM | First box | 329080 | Bed |
+| TinySAM | Point | 110972 | Black bear |
+| TinySAM | Box | 414795 | Elephant |
+| MobileSAM | Point | 79651 | Bottle |
+| MobileSAM | Box | 329080 | Bed |
 
-Everything mode uses a separate prompt-free FSD pathway and does not use the
-point/box refinement modules. Its interactive flow diagram explains the
-computation; the Instance masks view displays actual predictions.
+## Selection scope
+
+These are **curated successful examples**, including curated corrective-point
+coordinates. A bounded pool of existing CC BY photographs was reviewed with
+frozen models to find clear initial and corrected outputs. Ground truth was
+used to place foreground clicks and measure example IoU. Selection changes no
+weights, fitting, calibration, inference thresholds or aggregate evaluation.
+Rejected examples and candidate trajectories are preserved in the local audit.
+
+These common-prompt qualitative trajectories differ from the paper's aggregate
+evaluation, where each complete method generates its own corrective trajectory
+and may use either corrective-point sign. The demo's foreground-only interface
+does not redefine that evaluation protocol. Dataset averages and all reported
+stages remain in [results.md](results.md).
+
+Everything uses the separate frozen ViT-H FSD pathway. Its animation explains
+the flow; paired mask views and milliseconds come from actual inference.

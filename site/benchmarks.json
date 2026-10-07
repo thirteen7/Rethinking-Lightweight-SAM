@@ -3,22 +3,402 @@
   "rounds": 3,
   "datasets": {
     "coco": {
-      "label": "COCO val2017", "images": 4952, "targets": 36335,
-      "coverage": "All annotated validation images · all non-crowd targets",
-      "tinysam": {"point": [55.651, 64.430, 69.438], "box": [76.515, 77.679, 78.364]},
-      "mobilesam": {"point": [54.998, 64.446, 69.502], "box": [76.027, 77.028, 77.228]}
+      "label": "COCO val2017",
+      "images": 4952,
+      "targets": 36335,
+      "coverage": "All annotated validation images \u00b7 all non-crowd targets",
+      "tinysam": {
+        "point": [
+          55.65,
+          64.43,
+          69.44
+        ],
+        "box": [
+          76.52,
+          77.68,
+          78.36
+        ]
+      },
+      "mobilesam": {
+        "point": [
+          55.0,
+          64.45,
+          69.5
+        ],
+        "box": [
+          76.03,
+          77.03,
+          77.23
+        ]
+      },
+      "original": {
+        "tinysam": {
+          "point": [
+            46.77,
+            59.62,
+            63.55
+          ],
+          "box": [
+            74.99,
+            74.42,
+            74.29
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            50.89,
+            59.74,
+            62.9
+          ],
+          "box": [
+            74.45,
+            72.57,
+            71.95
+          ]
+        },
+        "vith": {
+          "point": [
+            53.57,
+            67.26,
+            71.69
+          ],
+          "box": [
+            77.28,
+            77.76,
+            78.0
+          ]
+        }
+      },
+      "matched_baseline": true,
+      "gains": {
+        "tinysam": {
+          "point": [
+            8.88,
+            4.81,
+            5.89
+          ],
+          "box": [
+            1.52,
+            3.26,
+            4.08
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            4.1,
+            4.71,
+            6.61
+          ],
+          "box": [
+            1.58,
+            4.46,
+            5.28
+          ]
+        },
+        "vith": {
+          "point": [
+            7.26,
+            3.21,
+            3.11
+          ],
+          "box": [
+            0.89,
+            0.8,
+            0.7
+          ]
+        }
+      },
+      "baseline_kind": {
+        "tinysam": "paper_evaluation",
+        "mobilesam": "paper_evaluation",
+        "vith": "paper_evaluation"
+      },
+      "vith": {
+        "point": [
+          60.83,
+          70.47,
+          74.8
+        ],
+        "box": [
+          78.17,
+          78.56,
+          78.7
+        ]
+      },
+      "paper_tables": [
+        1,
+        3
+      ],
+      "baseline_note": "Paper Tables 1, 3. Each complete method generates its own corrective-click trajectory."
     },
     "lvis": {
-      "label": "LVIS v1 val", "images": 19626, "targets": 244707,
-      "coverage": "All valid validation images · all targets",
-      "tinysam": {"point": [56.263, 62.702, 66.323], "box": [75.474, 76.569, 77.133]},
-      "mobilesam": {"point": [54.431, 60.915, 65.862], "box": [74.448, 75.362, 75.681]}
+      "label": "LVIS v1 val",
+      "images": 19626,
+      "targets": 244707,
+      "coverage": "All valid validation images \u00b7 all targets",
+      "tinysam": {
+        "point": [
+          56.26,
+          62.7,
+          66.32
+        ],
+        "box": [
+          75.47,
+          76.57,
+          77.13
+        ]
+      },
+      "mobilesam": {
+        "point": [
+          54.43,
+          60.91,
+          65.86
+        ],
+        "box": [
+          74.45,
+          75.36,
+          75.68
+        ]
+      },
+      "original": {
+        "tinysam": {
+          "point": [
+            53.65,
+            53.31,
+            54.51
+          ],
+          "box": [
+            73.81,
+            70.37,
+            69.29
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            51.41,
+            52.37,
+            54.13
+          ],
+          "box": [
+            72.81,
+            67.3,
+            65.49
+          ]
+        },
+        "vith": {
+          "point": [
+            60.5,
+            68.1,
+            70.7
+          ],
+          "box": [
+            77.8,
+            78.3,
+            78.5
+          ]
+        }
+      },
+      "matched_baseline": true,
+      "gains": {
+        "tinysam": {
+          "point": [
+            2.61,
+            9.4,
+            11.82
+          ],
+          "box": [
+            1.66,
+            6.2,
+            7.84
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            3.02,
+            8.54,
+            11.73
+          ],
+          "box": [
+            1.64,
+            8.06,
+            10.2
+          ]
+        },
+        "vith": {
+          "point": [
+            1.51,
+            0.45,
+            1.92
+          ],
+          "box": [
+            0.06,
+            0.15,
+            0.1
+          ]
+        }
+      },
+      "baseline_kind": {
+        "tinysam": "paper_evaluation",
+        "mobilesam": "paper_evaluation",
+        "vith": "historical_reference"
+      },
+      "vith": {
+        "point": [
+          62.01,
+          68.55,
+          72.62
+        ],
+        "box": [
+          77.86,
+          78.45,
+          78.6
+        ]
+      },
+      "paper_tables": [
+        5
+      ],
+      "baseline_note": "Paper Tables 5. Each complete method generates its own corrective-click trajectory."
     },
     "sa1b": {
-      "label": "SA-1B official cap64", "images": 11186, "targets": 618098,
-      "coverage": "All validation images · up to 64 targets per image · fixed selection without replacement",
-      "tinysam": {"point": [70.137, 76.268, 78.729], "box": [84.156, 84.838, 85.183]},
-      "mobilesam": {"point": [68.205, 74.840, 79.202], "box": [83.503, 84.079, 84.317]}
+      "label": "SA-11K / SA-1B cap64",
+      "images": 11186,
+      "targets": 618098,
+      "coverage": "All validation images \u00b7 up to 64 targets per image \u00b7 fixed selection without replacement",
+      "tinysam": {
+        "point": [
+          70.14,
+          76.27,
+          78.73
+        ],
+        "box": [
+          84.16,
+          84.84,
+          85.18
+        ]
+      },
+      "mobilesam": {
+        "point": [
+          68.21,
+          74.84,
+          79.2
+        ],
+        "box": [
+          83.5,
+          84.08,
+          84.32
+        ]
+      },
+      "matched_baseline": false,
+      "original": {
+        "tinysam": {
+          "point": [
+            66.83,
+            75.88,
+            78.59
+          ],
+          "box": [
+            82.9,
+            83.79,
+            84.24
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            64.6,
+            73.4,
+            76.2
+          ],
+          "box": [
+            82.0,
+            82.4,
+            82.7
+          ]
+        },
+        "vith": {
+          "point": [
+            76.5,
+            83.4,
+            85.1
+          ],
+          "box": [
+            86.7,
+            86.7,
+            87.1
+          ]
+        }
+      },
+      "baseline_note": "Paper Table 6. MobileSAM original values are historical reference figures (Appendix E), not a newly matched evaluation.",
+      "gains": {
+        "tinysam": {
+          "point": [
+            3.31,
+            0.39,
+            0.14
+          ],
+          "box": [
+            1.26,
+            1.05,
+            0.95
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            3.61,
+            1.44,
+            3.0
+          ],
+          "box": [
+            1.5,
+            1.68,
+            1.62
+          ]
+        },
+        "vith": {
+          "point": [
+            1.72,
+            0.92,
+            1.42
+          ],
+          "box": [
+            1.16,
+            1.37,
+            1.0
+          ]
+        }
+      },
+      "baseline_kind": {
+        "tinysam": "paper_evaluation",
+        "mobilesam": "historical_reference",
+        "vith": "historical_reference"
+      },
+      "vith": {
+        "point": [
+          78.22,
+          84.32,
+          86.52
+        ],
+        "box": [
+          87.86,
+          88.07,
+          88.1
+        ]
+      },
+      "paper_tables": [
+        6
+      ]
     }
+  },
+  "comparison": "Paper reported original versus refined IoU at the same prompt stage",
+  "source": {
+    "document": "main.pdf",
+    "sha256": "60997914209376b776a5372a1ed4053670ef9773de0f90b8de6a5a1ff7398438",
+    "tables": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "precision": "PDF displayed values",
+    "differences": "Transcribed from the PDF; computed before rounding in the source."
   }
 }

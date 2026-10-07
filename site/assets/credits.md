@@ -23,3 +23,5 @@ annotation metadata and in `examples.json`.
 Giraffe example visualizations retain the photograph's CC BY-NC-SA 2.0 terms.
 Prediction manifests record the complete checkpoint fingerprints. Display
 examples are curated qualitative results, separate from dataset-average metrics.
+
+| Black bear · COCO image 110972 | [Original photograph](http://farm9.staticflickr.com/8033/8046866985_abdbd7f0da_z.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |

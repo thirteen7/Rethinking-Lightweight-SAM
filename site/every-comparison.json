@@ -1,0 +1,64 @@
+{
+  "format": "matched_everything_demo_v1",
+  "recorded": true,
+  "examples": {
+    "fruit": {
+      "backbone": "SAM ViT-H",
+      "same_weights": true,
+      "grid": 16,
+      "precision": "FP32",
+      "device": "NVIDIA GeForce RTX 4060 Ti",
+      "order": [
+        "dense",
+        "fsd"
+      ],
+      "timing_scope": "image encoding + mask generation",
+      "excluded": [
+        "model loading",
+        "warm-up",
+        "queue",
+        "overlay rendering"
+      ],
+      "shared_encoding_counted_in_both": true,
+      "results": {
+        "dense": {
+          "info": {
+            "method": "dense",
+            "backend": "portable_pytorch",
+            "grid": 16,
+            "total_points": 256,
+            "native_points": 256,
+            "local_guard_points": 0,
+            "masks": 27,
+            "seconds": 1.05794950001291,
+            "annotation_prompts": false
+          },
+          "encoding_ms": 1050.3789999929722,
+          "generation_ms": 1058.1871999893337,
+          "total_ms": 2108.566199982306,
+          "overlay": "assets/everything/fruit-vith-dense-paired-16.png",
+          "overlay_sha256": "0a48da0bb2a7f45a519ce93a88695213ce735debe698fd995146cafad3a8a478"
+        },
+        "fsd": {
+          "info": {
+            "method": "fsd",
+            "backend": "portable_pytorch",
+            "grid": 16,
+            "total_points": 256,
+            "native_points": 104,
+            "local_guard_points": 5,
+            "masks": 26,
+            "seconds": 0.5623342000180855,
+            "annotation_prompts": false
+          },
+          "encoding_ms": 1050.3789999929722,
+          "generation_ms": 562.5639999925625,
+          "total_ms": 1612.9429999855347,
+          "overlay": "assets/everything/fruit-vith-fsd-paired-16.png",
+          "overlay_sha256": "371622cf48d2d7d0248514e68c27edfc91764ce01672a99232bcb5907fa312e5"
+        }
+      },
+      "image": "assets/examples/fruit.jpg"
+    }
+  }
+}

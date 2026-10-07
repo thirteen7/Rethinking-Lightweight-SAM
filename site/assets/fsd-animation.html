@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How FSD-SAM processes the same prompts</title>
+<style>
+:root{font-family:Inter,"Segoe UI",Arial,sans-serif;color:#292d40;background:#fff;--purple:#7860de;--teal:#278c91;--line:#e7e8f0}*{box-sizing:border-box}body{margin:0;padding:28px}h1,h2,p{margin:0}header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}header span,.eyebrow{font-size:10px;font-weight:600;letter-spacing:.14em;color:#9195a7}h1{font-size:24px;letter-spacing:-.035em;margin-top:8px;line-height:1.2}header p{font-size:12px;color:#888d9f;line-height:1.6;max-width:320px}.lanes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0 17px}.lane{border:1px solid var(--line);border-radius:17px;padding:20px;min-width:0;background:#fcfcfe}.lane:last-child{background:#faf8ff;border-color:#e3daf5}.lane-head{display:flex;align-items:center;justify-content:space-between;gap:12px}h2{font-size:17px;font-weight:650}.tag{font-size:9px;color:#888d9f;background:#f0f1f6;padding:5px 8px;border-radius:5px}.lane:last-child .tag{color:var(--purple);background:#eee8fc}.input{display:flex;align-items:center;gap:18px;margin:20px 0 12px}.input svg{width:76px;height:76px;flex:none;border-radius:10px}.input b{display:block;font-size:12px}.input small{font-size:10px;line-height:1.6;color:#9095a7;display:block;margin-top:4px}.pipeline{display:grid;gap:8px}.node{border:1px solid var(--line);background:white;border-radius:9px;padding:11px 12px;display:flex;gap:10px;align-items:center;transition:background .3s,border-color .3s,opacity .3s;opacity:.45;min-height:50px}.node .index{font-size:10px;border:1px solid var(--line);padding:5px 7px;border-radius:5px;color:#9195a7}.node b{font-size:11px;display:block;line-height:1.4}.node small{font-size:9px;display:block;color:#9397a7;margin-top:3px}.node.active{opacity:1;background:#edf6f5;border-color:#98c7c8}.node.done{opacity:1}.lane:last-child .node.active{background:#f1eafe;border-color:#b6a1ed}.lane:last-child .node.active .index{border-color:#b6a1ed;color:var(--purple)}.requests{display:flex;gap:4px;flex-wrap:wrap;margin:12px 0;height:14px}.requests i{display:block;width:12px;height:12px;border-radius:3px;background:#e9eaf1;transition:all .4s}.requests i.complete{background:var(--teal)}.lane:last-child .requests i.complete{background:var(--purple)}.requests i.retained{background:#cdbded;box-shadow:0 0 0 1px var(--purple)}.requests i.skipped{background:#f2eef9;border:1px dashed #d9d1e8;opacity:.65}.lane-summary{font-size:11px;font-weight:600;color:#797e91;min-height:18px}.lane:last-child .lane-summary{color:var(--purple)}.explanation{border-radius:10px;background:#f5f4fa;padding:14px 17px;display:flex;align-items:flex-start;gap:14px;min-height:75px}.explanation strong{font-size:12px;white-space:nowrap;color:var(--purple)}.explanation p{font-size:12px;color:#73798e;line-height:1.7}.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:17px}button{font:inherit;border:1px solid var(--line);border-radius:7px;background:white;color:#777d90;cursor:pointer;font-size:10px;padding:8px 12px}button:focus-visible{outline:2px solid var(--purple);outline-offset:3px}button.primary{background:var(--purple);color:white;border-color:var(--purple)}.steps{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap}.steps button{padding:8px 10px}.steps button[aria-pressed=true]{border-color:#b6a1ed;background:#f3edfd;color:var(--purple)}.footnote{font-size:9px;color:#969bad;line-height:1.7;margin-top:13px}svg text{font-family:inherit}.rays{stroke-dasharray:4 5;animation:move 2s linear infinite}@keyframes move{to{stroke-dashoffset:-36}}@media(max-width:620px){body{padding:16px}header{display:block}header p{margin-top:10px;max-width:none}.lanes{gap:10px;margin-top:18px}.lane{padding:12px}.lane-head{display:block}h2{font-size:13px}.tag{display:inline-block;margin-top:6px;font-size:8px}.input{gap:8px;margin-top:14px}.input svg{width:42px;height:42px}.input b{font-size:10px}.input small{font-size:8px}.node{padding:8px 7px;gap:6px;min-height:64px}.node b{font-size:9px}.node small{font-size:8px}.node .index{font-size:8px;padding:3px}.requests{gap:3px;height:30px}.requests i{width:10px;height:10px}.lane-summary{font-size:9px;line-height:1.6;min-height:30px}.explanation{display:block;min-height:104px}.explanation p{font-size:10px;margin-top:6px}.steps{width:100%;margin-left:0}.toolbar{gap:6px}.footnote{font-size:8px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div><span>SEGEVERY / PROCESS COMPARISON</span><h1>Same prompts. Different work.</h1></div><p>Watch Dense SAM complete every request while FSD previews first and completes the retained requests.</p></header>
+<div class="lanes">
+<section class="lane" aria-label="Dense SAM processing"><div class="lane-head"><h2>SAM ViT-H</h2><span class="tag">DENSE SAM</span></div><div class="input"><svg class="image-grid" viewBox="0 0 80 80" role="img" aria-label="Image with independent grid prompts"></svg><div><b>Same image + grid</b><small>Independent positive prompts</small></div></div><div class="pipeline" id="dense-nodes">
+<div class="node"><span class="index">01</span><div><b>Encode the image once</b><small>One image embedding</small></div></div>
+<div class="node"><span class="index">02</span><div><b>Decode every prompt</b><small>Dense image updates for each request</small></div></div>
+<div class="node"><span class="index">03</span><div><b>Complete every mask</b><small>Full native upsampling and logits</small></div></div>
+<div class="node"><span class="index">04</span><div><b>Apply SAM filters + NMS</b><small>Quality, stability, duplicate suppression</small></div></div></div><div class="requests" id="dense-requests" aria-label="Schematic dense completed requests"></div><p class="lane-summary" id="dense-summary"></p></section>
+<section class="lane" aria-label="FSD-SAM processing"><div class="lane-head"><h2>FSD-SAM</h2><span class="tag">SAME ViT-H</span></div><div class="input"><svg class="image-grid" viewBox="0 0 80 80" role="img" aria-label="Same image and independent grid prompts"></svg><div><b>Same image + grid</b><small>Same frozen weights</small></div></div><div class="pipeline" id="fsd-nodes">
+<div class="node"><span class="index">01</span><div><b>Encode once + share image terms</b><small>Reusable image basis</small></div></div>
+<div class="node"><span class="index">02</span><div><b>Build all prompt factors</b><small>Keep each prompt's state</small></div></div>
+<div class="node"><span class="index">03</span><div><b>Preview + select requests</b><small>Four-wave selection + local guard</small></div></div>
+<div class="node"><span class="index">04</span><div><b>Complete selected native suffixes</b><small>Then use the same SAM filters + NMS</small></div></div></div><div class="requests" id="fsd-requests" aria-label="Schematic selected requests"></div><p class="lane-summary" id="fsd-summary"></p></section>
+</div>
+<div class="explanation" role="status" aria-live="polite"><strong id="step-title"></strong><p id="step-description"></p></div>
+<div class="toolbar"><button class="primary" id="replay">↻ Replay comparison</button><button id="pause">Pause</button><div class="steps" role="group" aria-label="Animation steps"><button data-step="0" aria-pressed="true">1 · Encode</button><button data-step="1" aria-pressed="false">2 · Factor</button><button data-step="2" aria-pressed="false">3 · Preview</button><button data-step="3" aria-pressed="false">4 · Complete</button><button data-step="4" aria-pressed="false">5 · Masks</button></div></div>
+<p class="footnote" id="footnote">Schematic animation: 16 dots illustrate requests, and the retained subset is illustrative. Playback duration is unrelated to inference time. Run the live comparison for measured milliseconds.</p>
+<script>
+"use strict";
+const reportHeight=()=>{if(parent!==window)parent.postMessage({type:'fsd-animation-size',height:Math.ceil(document.body.getBoundingClientRect().height)},'*')};
+new ResizeObserver(reportHeight).observe(document.body);
+addEventListener('load',reportHeight);
+const $ = id => document.getElementById(id);
+const selected = new Set([0,3,5,9,12,14]);
+let current=0,playing=false,timer;
+const descriptions=[
+["1 / Encode once","Both paths start with the same frozen image encoder. FSD also prepares image terms that can be reused across independent prompts."],
+["2 / Keep prompt factors","Dense SAM repeats its dense decoding work per prompt. FSD stores the complete prompt-specific factors alongside shared image terms."],
+["3 / Preview before completion","FSD evaluates native phase previews and local evidence. Four-wave selection and a local guard choose the requests that need completion; all grid prompts have been considered."],
+["4 / Complete retained requests","Dense SAM completes every request. FSD reconstructs selected states and runs their native suffixes to obtain full mask logits."],
+["5 / Filter the masks","Both methods apply the same native quality and stability thresholds and NMS. The retained requests and final masks are different quantities."]];
+document.querySelectorAll('.image-grid').forEach(node=>{
+let dots='';for(let y=0;y<4;y++)for(let x=0;x<4;x++)dots+=`<circle cx="${10+x*20}" cy="${10+y*20}" r="2.1" fill="white" stroke="#278c91" stroke-width=".6"/>`;
+node.innerHTML='<rect width="80" height="80" rx="10" fill="#eef0f6"/><path d="M0 65L26 27 42 49 58 33 80 64V80H0Z" fill="#d2d1e7"/><circle cx="58" cy="18" r="8" fill="#e7d7b4"/>'+dots;
+});
+['dense','fsd'].forEach(key=>$(key+'-requests').innerHTML=Array.from({length:16},()=>'<i></i>').join(''));
+function draw(){
+$('step-title').textContent=descriptions[current][0];$('step-description').textContent=descriptions[current][1];
+const denseStage=[0,1,2,2,3][current],fsdStage=[0,1,2,3,3][current];
+for(const [key,index] of [['dense',denseStage],['fsd',fsdStage]])$(key+'-nodes').querySelectorAll('.node').forEach((node,i)=>{node.classList.toggle('active',i===index);node.classList.toggle('done',i<index)});
+$('dense-requests').querySelectorAll('i').forEach(node=>node.className=current>=3?'complete':'');
+$('fsd-requests').querySelectorAll('i').forEach((node,i)=>node.className=current<2?'':selected.has(i)?current>=3?'complete':'retained':'skipped');
+$('dense-summary').textContent=current>=3?'All requests completed':'Complete every request';
+$('fsd-summary').textContent=current>=3?'Retained requests completed':'Preview first · complete selectively';
+document.querySelectorAll('[data-step]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.step)===current)));
+$('pause').textContent=playing?'Pause':'Play';
+}
+function stop(){playing=false;clearTimeout(timer);draw()}
+function next(){if(!playing)return;if(current===4){stop();return}current++;draw();timer=setTimeout(next,2200)}
+function play(){playing=true;draw();clearTimeout(timer);timer=setTimeout(next,2200)}
+$('replay').addEventListener('click',()=>{current=0;play()});
+$('pause').addEventListener('click',()=>playing?stop():play());
+document.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>{current=Number(button.dataset.step);stop()}));
+const params=new URLSearchParams(location.search),total=Number(params.get('total')),native=Number(params.get('native')),masks=Number(params.get('masks'));
+if(total>0 && native>=0 && native<=total && params.has('native'))$('footnote').textContent=`Actual result: ${total} sampled prompts → ${native} completed FSD requests${params.has('masks')?` → ${masks} masks`:''}. The 16-dot animation is schematic; playback duration is unrelated to inference time.`;
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+draw();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)play();
+reportHeight();
+</script>
+</body></html>

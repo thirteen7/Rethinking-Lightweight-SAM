@@ -1,0 +1,101 @@
+{
+  "source": {
+    "document": "main.pdf",
+    "sha256": "60997914209376b776a5372a1ed4053670ef9773de0f90b8de6a5a1ff7398438",
+    "table": 7,
+    "page": 14
+  },
+  "dataset": "COCO100 development subset",
+  "images": 100,
+  "targets": 709,
+  "device": "NVIDIA RTX 5060 Ti",
+  "precision": "FP32",
+  "grid": 32,
+  "points_per_batch": 64,
+  "warmups": 3,
+  "repetitions_per_image": 3,
+  "quality_repetition": 0,
+  "timing_scope": "Full end-to-end generation; CUDA synchronized before and after.",
+  "exclusions": [
+    "image reading",
+    "model loading",
+    "compilation",
+    "warm-up",
+    "disk writes",
+    "GT evaluation"
+  ],
+  "rows": [
+    {
+      "backbone": "TinySAM",
+      "policy": "Dense",
+      "milliseconds": 3423,
+      "speedup": 1,
+      "ar300": 15.797,
+      "delta_ar": null
+    },
+    {
+      "backbone": "TinySAM",
+      "policy": "Hierarchical",
+      "milliseconds": 1808,
+      "speedup": 1.89,
+      "ar300": 16.164,
+      "delta_ar": 0.367
+    },
+    {
+      "backbone": "TinySAM",
+      "policy": "FSD-SAM",
+      "milliseconds": 1274,
+      "speedup": 2.69,
+      "ar300": 15.331,
+      "delta_ar": -0.465
+    },
+    {
+      "backbone": "EdgeSAM",
+      "policy": "Dense",
+      "milliseconds": 3772,
+      "speedup": 1,
+      "ar300": 29.803,
+      "delta_ar": null
+    },
+    {
+      "backbone": "EdgeSAM",
+      "policy": "Hierarchical",
+      "milliseconds": 2202,
+      "speedup": 1.71,
+      "ar300": 29.337,
+      "delta_ar": -0.465
+    },
+    {
+      "backbone": "EdgeSAM",
+      "policy": "FSD-SAM",
+      "milliseconds": 1350,
+      "speedup": 2.79,
+      "ar300": 29.563,
+      "delta_ar": -0.24
+    },
+    {
+      "backbone": "SAM ViT-H",
+      "policy": "Dense",
+      "milliseconds": 6067,
+      "speedup": 1,
+      "ar300": 48.322,
+      "delta_ar": null
+    },
+    {
+      "backbone": "SAM ViT-H",
+      "policy": "Hierarchical",
+      "milliseconds": 2966,
+      "speedup": 2.05,
+      "ar300": 46.093,
+      "delta_ar": -2.228
+    },
+    {
+      "backbone": "SAM ViT-H",
+      "policy": "FSD-SAM",
+      "milliseconds": 3043,
+      "speedup": 1.99,
+      "ar300": 48.237,
+      "delta_ar": -0.085
+    }
+  ]
+}

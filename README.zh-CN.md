@@ -86,7 +86,7 @@ predictor = Predictor("weights/tinysam_prompt_adaptive_v1.pth", device="cuda")
 predictor.set_image(np.asarray(Image.open("example.jpg").convert("RGB")))
 mask, logits, choice = predictor.predict([[200, 150]], [1])
 # 后续点击需传入完整历史，并传入上轮 logits。
-mask, logits, choice = predictor.predict([[200, 150], [250, 180]], [1, 0], previous=logits)
+mask, logits, choice = predictor.predict([[200, 150], [250, 180]], [1, 1], previous=logits)
 # 框使用原图坐标 [x0, y0, x1, y1]。
 mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 ```
@@ -100,22 +100,56 @@ mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 python generate.py --checkpoint weights/tinysam_prompt_adaptive_v1.pth --image example.jpg --method fsd --grid 32 --output runs/everything
 ```
 
-工作台提供 Point、Box、Everything 三种模式，支持 TinySAM、MobileSAM、
-8/16/32 网格、多实例颜色叠加和单实例查看。网站提供真实的已记录示例，
-上传图片的推理在本地或 Hugging Face 执行。点框示例对比原版 TinySAM/MobileSAM
-与修改后的模型；Everything 提供自动点阵、可点击的 FSD 流程图和真实实例掩码
-切换。示例 IoU 来自对应目标的真实预测，筛选的展示样例与数据集平均结果分开。
-详见 [展示对比协议](docs/showcase.md)和 [Everything 协议](docs/everything.md)。
+工作台提供 Point、Box、Everything 三种模式。点／框模式仅使用四个带真实标注的精选样例，固定初始提示与两次前景纠错，移除负点选项和自定义图片上传。一键运行原版与改进模型，同时显示初始 decoder 输出、两次纠错后的输出以及每个阶段的真实目标 IoU。展示样例和提示坐标经过筛选，完整数据集平均指标另外列出。
+
+Everything 保留图片上传，固定左侧 SAM ViT-H / Dense、右侧 FSD-SAM / ViT-H，一次运行两条路径并分别显示真实毫秒耗时。流程动画独立于推理计时。
+
+[代码](https://github.com/thirteen7/Rethinking-Lightweight-SAM) · [在线 Demo](https://huggingface.co/spaces/thirteen7/Rethinking-Lightweight-SAM) · [项目网页](https://thirteen7.github.io/Rethinking-Lightweight-SAM/)
+
+本地 PowerShell 运行：
+
+```powershell
+pip install -r demo/requirements.txt
+$env:SAM_DEMO_DEVICE='cuda'  # 无 CUDA 时使用 cpu
+python demo/space/app.py
+```
+
+打开 `http://127.0.0.1:7860`。详见 [展示对比协议](docs/showcase.md)、[Everything 协议](docs/everything.md) 和 [部署说明](demo/README.md)。
 
 ## 实验结果
 
-下表为发布权重第三轮普通 mIoU (%)。完整三轮结果和覆盖见 [docs/results.md](docs/results.md)。
+以下数值逐项参照所提供的论文 `main.pdf` 表 1、3、5–7（第 11–14 页），交互指标为普通 legacy IoU (%)。初始提示为一个前景中心点或一个 GT 框；+1/+2 指在初始提示上累计增加一次／两次纠错点击。差值直接采用论文中未舍入数值计算的结果。**† 历史参考基线：** SA-11K 的 MobileSAM 原版数值来自历史图表，不视为本研究新做的配对对照，见论文附录 E。
 
-| 数据集 | TinySAM 点 | TinySAM 框 | MobileSAM 点 | MobileSAM 框 |
+### 点提示：初始与纠错后
+
+| 数据集 / 骨干 | 原版初始 | 改进初始 | 原版 +1 纠错 | 改进 +1 纠错 | 原版 +2 纠错 | 改进 +2 纠错 | 最终差值 (pp) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| COCO val2017 / TinySAM | 46.77 | **55.65** | 59.62 | **64.43** | 63.55 | **69.44** | +5.89 |
+| COCO val2017 / MobileSAM | 50.89 | **55.00** | 59.74 | **64.45** | 62.90 | **69.50** | +6.61 |
+| LVIS v1 val / TinySAM | 53.65 | **56.26** | 53.31 | **62.70** | 54.51 | **66.32** | +11.82 |
+| LVIS v1 val / MobileSAM | 51.41 | **54.43** | 52.37 | **60.91** | 54.13 | **65.86** | +11.73 |
+| SA-11K / TinySAM | 66.83 | **70.14** | 75.88 | **76.27** | 78.59 | **78.73** | +0.14 |
+| SA-11K / MobileSAM † | 64.60 | **68.21** | 73.40 | **74.84** | 76.20 | **79.20** | +3.00 † |
+
+### 框提示：初始与纠错后
+
+| 数据集 / 骨干 | 原版初始 | 改进初始 | 原版 +1 纠错 | 改进 +1 纠错 | 原版 +2 纠错 | 改进 +2 纠错 | 最终差值 (pp) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| COCO val2017 / TinySAM | 74.99 | **76.52** | 74.42 | **77.68** | 74.29 | **78.36** | +4.08 |
+| COCO val2017 / MobileSAM | 74.45 | **76.03** | 72.57 | **77.03** | 71.95 | **77.23** | +5.28 |
+| LVIS v1 val / TinySAM | 73.81 | **75.47** | 70.37 | **76.57** | 69.29 | **77.13** | +7.84 |
+| LVIS v1 val / MobileSAM | 72.81 | **74.45** | 67.30 | **75.36** | 65.49 | **75.68** | +10.20 |
+| SA-11K / TinySAM | 82.90 | **84.16** | 83.79 | **84.84** | 84.24 | **85.18** | +0.95 |
+| SA-11K / MobileSAM † | 82.00 | **83.50** | 82.40 | **84.08** | 82.70 | **84.32** | +1.62 † |
+
+### Segment Everything：ViT-H 与 FSD-SAM 时间对比
+
+| 骨干 / 策略 | ms/图 ↓ | 加速比 | AR@300 (%) ↑ | ΔAR (pp) |
 |---|---:|---:|---:|---:|
-| SA-1B official cap64 | 78.729 | 85.183 | 79.202 | 84.317 |
-| COCO val2017 全目标 | 69.438 | 78.364 | 69.502 | 77.228 |
-| LVIS v1 val 全目标 | 66.323 | 77.133 | 65.862 | 75.681 |
+| SAM ViT-H / Dense | 6,067 | 1.00× | 48.322 | — |
+| SAM ViT-H / FSD-SAM | 3,043 | 1.99× | 48.237 | -0.085 |
+
+论文表 7：COCO100 开发子集，100 图／709 目标；NVIDIA RTX 5060 Ti，FP32，32 × 32 网格，64 提示／批。每种配置预热 3 次，每图计时 3 次，质量使用第 0 次结果；CUDA 同步计时，包括图像编码和完整掩码生成。排除图片读取、模型加载、编译、预热、写盘及 GT 评估。论文的秒／图乘以 1000 转为毫秒／图。该开发子集平均时间与 Demo 当前图片的实测耗时分别显示。完整结果见 [docs/results.md](docs/results.md)。
 
 ## 许可与致谢
 
