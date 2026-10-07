@@ -2,7 +2,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const names = {tinysam: "TinySAM", mobilesam: "MobileSAM", vith: "SAM ViT-H"};
-const state = {example: "bear", model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point"};
+const state = {example: "bird", model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point"};
 const pictures = new Map();
 let records, benchmarks, manifest, config, everything, renderVersion = 0, toastTimer;
 const number = value => Number(value).toLocaleString("en-US");
@@ -87,8 +87,19 @@ function drawPrompts(context, points, box, scale = 1) {
     context.lineWidth = 1.7 * scale; context.stroke(); context.restore();
   }
 }
+function refreshExampleOptions() {
+  const list = $("#example-list");
+  const options = records.examples.filter(row => row.modes.includes(state.prompt));
+  if (!options.some(row => row.id === state.example)) state.example = options[0].id;
+  if (list.dataset.mode !== state.prompt) {
+    list.innerHTML = options.map(row => `<button class="example-option" data-example="${row.id}" aria-pressed="false"><img src="${row.image}" alt="" width="60" height="60"><span><b>${row.title}</b><small>${row.dataset} · Image ${row.image_id}</small></span>${svg("arrow")}</button>`).join("");
+    list.dataset.mode = state.prompt;
+  }
+  active($$("[data-example]"),$(`[data-example="${state.example}"]`));
+}
 async function renderExample() {
   const version = ++renderVersion;
+  refreshExampleOptions();
   setEveryControls(state.prompt === "everything");
   if (state.prompt === "everything") return renderEverything(version);
   $("#reference-heading").textContent = "Decoder reference";
@@ -123,11 +134,15 @@ async function renderExample() {
 }
 function wireExamples() {
   $("#example-model").addEventListener("change", event => {state.model = event.target.value; renderExample().catch(error => toast(error.message));});
-  $$("[data-example]").forEach(button => button.addEventListener("click", () => {
-    state.example = button.dataset.example; active($$("[data-example]"), button); renderExample().catch(error => toast(error.message));
-  }));
+  $("#example-list").addEventListener("click", event => {
+    const button = event.target.closest("[data-example]");
+    if (!button) return;
+    state.example = button.dataset.example; renderExample().catch(error => toast(error.message));
+  });
   $$("[data-prompt]").forEach(button => button.addEventListener("click", () => {
-    state.prompt = button.dataset.prompt; active($$("[data-prompt]"), button); renderExample().catch(error => toast(error.message));
+    state.prompt = button.dataset.prompt;
+    if (state.prompt === "everything") state.example = "fruit";
+    active($$("[data-prompt]"), button); renderExample().catch(error => toast(error.message));
   }));
   $$("[data-round]").forEach(button => button.addEventListener("click", () => {
     state.round = Number(button.dataset.round); active($$("[data-round]"), button); renderExample().catch(error => toast(error.message));
@@ -382,6 +397,7 @@ function wireEverything() {
   $("#every-instance").addEventListener("change", () => renderExample().catch(error => toast(error.message)));
   $("#try-everything").addEventListener("click", () => {
     state.prompt = "everything";
+    state.example = "fruit";
     active($$("[data-prompt]"),$("[data-prompt=everything]"));
     $("#explorer").scrollIntoView({behavior:"smooth"});
     renderExample().catch(error => toast(error.message));

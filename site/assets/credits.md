@@ -8,7 +8,10 @@ annotation metadata and in `examples.json`.
 | Example | Original source | License |
 |---|---|---|
 | Brown bear · COCO image 285 | [Flickr photograph 9138147604](https://www.flickr.com/photo.gne?id=9138147604) · [source JPEG](https://farm8.staticflickr.com/7434/9138147604_c6225224b8_z.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
-| Giraffe · LVIS image 25 | [Flickr photograph 241612385](https://www.flickr.com/photo.gne?id=241612385) · [source JPEG](https://farm1.staticflickr.com/94/241612385_d9e5b891ed_z.jpg) | [CC BY-NC-SA 2.0](https://creativecommons.org/licenses/by-nc-sa/2.0/) |
+| Archived giraffe · LVIS image 25 | [Flickr photograph 241612385](https://www.flickr.com/photo.gne?id=241612385) · [source JPEG](https://farm1.staticflickr.com/94/241612385_d9e5b891ed_z.jpg) | [CC BY-NC-SA 2.0](https://creativecommons.org/licenses/by-nc-sa/2.0/) |
+| Songbird · COCO image 56545 | [Original photograph](http://farm3.staticflickr.com/2894/9470927378_921b919b7e_z.jpg) · [source JPEG](http://images.cocodataset.org/val2017/000000056545.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| Orange bowl · COCO image 290081 | [Original photograph](http://farm9.staticflickr.com/8256/8662529759_1a7cb966a7_z.jpg) · [source JPEG](http://images.cocodataset.org/val2017/000000290081.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 
 Giraffe example visualizations retain the photograph's CC BY-NC-SA 2.0 terms.
-Scientific predictions use the checkpoint hashes recorded in `examples.json`.
+Prediction manifests record the complete checkpoint fingerprints. Display
+examples are curated qualitative results, separate from dataset-average metrics.

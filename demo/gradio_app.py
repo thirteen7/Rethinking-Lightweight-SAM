@@ -211,23 +211,30 @@ def build_demo(project):
         download(f"https://github.com/{index['repository']}/releases/download/{index['release']}/{entry['filename']}",path,entry['sha256'],entry['bytes'])
         TEMPLATES[name] = Predictor(path,device=DEVICE)
     css = (project/'demo/space/workspace.css').read_text()
+    default_image = np.asarray(Image.open(project/'site/assets/examples/fruit.jpg').convert('RGB'))
+    preview = json.loads((project/'site/assets/everything/fruit-tinysam-fsd-16.json').read_text())
+    default_state = empty_state(default_image)
+    default_state['instances'],default_state['details'] = preview['masks'],preview['info']
+    preview_scores = [[f'Instance {i+1:02d}',mask['area'],round(mask['predicted_iou'],3),round(mask['stability_score'],3)]
+                      for i,mask in enumerate(preview['masks'])]
+    preview_choices = ['All instances']+[f'Instance {i+1:02d}' for i in range(len(preview_scores))]
     header = '''<div class="studio-header"><div><span class="studio-eyebrow">RETHINKING LIGHTWEIGHT SAM / RESEARCH STUDIO</span><h1>Precision, one prompt.<br><em>Coverage, every instance.</em></h1><p>Explore prompt-adaptive refinement and automatic mask generation in one workspace.</p><div class="studio-links"><a href="https://thirteen7.github.io/Rethinking-Lightweight-SAM/" target="_blank">Project ↗</a><a href="https://github.com/thirteen7/Rethinking-Lightweight-SAM" target="_blank">Code &amp; models ↗</a></div></div><div class="studio-summary"><span class="studio-summary-label">TWO INFERENCE PATHS</span><div><b>SegAny</b><span>Point · Box · Correction</span></div><div><b>SegEvery</b><span>FSD-SAM · Dense SAM</span></div><p>One complete checkpoint per backbone.</p></div></div>'''
     with gr.Blocks(title='Rethinking Lightweight SAM · Studio',css=css,
                    theme=gr.themes.Base(primary_hue='violet',neutral_hue='slate'),delete_cache=(900,900)) as demo:
         gr.HTML(header)
-        session = gr.State(empty_state(),time_to_live=1200)
+        session = gr.State(default_state,time_to_live=1200)
         with gr.Row(elem_id='task-bar'):
-            mode = gr.Radio(['Point','Box','Everything'],value='Point',label='Segmentation mode',elem_id='mode-switch')
+            mode = gr.Radio(['Point','Box','Everything'],value='Everything',label='Segmentation mode',elem_id='mode-switch')
             model = gr.Dropdown(['TinySAM','MobileSAM'],value='TinySAM',label='Backbone',elem_id='model-select')
-        stats = gr.HTML(metrics(),elem_id='metric-cards')
+        stats = gr.HTML(metrics('FSD-SAM',len(preview_scores),'16 × 16','Recorded preview'),elem_id='metric-cards')
         with gr.Row(equal_height=False,elem_id='workspace-row'):
             with gr.Column(scale=1,min_width=235,elem_id='settings-card'):
                 gr.Markdown('### Inference controls')
-                with gr.Group(visible=False,elem_id='every-controls') as every_controls:
+                with gr.Group(visible=True,elem_id='every-controls') as every_controls:
                     method = gr.Dropdown(['FSD-SAM','Dense SAM'],value='FSD-SAM',label='Generator')
                     grid = gr.Radio([8,16,32],value=16,label='Points per side')
                     gr.Markdown('Independent positive prompts · three native candidates · fixed SAM quality/stability filters.',elem_id='every-note')
-                with gr.Group(elem_id='point-controls') as point_controls:
+                with gr.Group(visible=False,elem_id='point-controls') as point_controls:
                     label = gr.Radio(['Foreground (+)','Background (−)'],value='Foreground (+)',label='Correction label')
                     gr.Markdown('Point: one foreground click.\n\nBox: two opposite corners.\n\nThen add one correction per round.',elem_id='point-note')
                 opacity = gr.Slider(0,1,value=.48,step=.01,label='Overlay opacity')
@@ -236,15 +243,15 @@ def build_demo(project):
                 gr.HTML('<p class="studio-note">FP32 inference · frozen backbone<br>Uploads use temporary Space storage.<br>Instance colors do not denote semantic classes.</p>')
             with gr.Column(scale=3,min_width=300,elem_id='canvas-card'):
                 with gr.Row():
-                    image = gr.Image(type='numpy',label='01 / Image & prompts',sources=['upload'],height=390)
-                    output = gr.Image(type='numpy',label='02 / Segmentation',interactive=False,height=390)
-                status = gr.Markdown('Choose an example or upload a photograph.',elem_id='studio-status')
+                    image = gr.Image(value=default_image,type='numpy',label='01 / Image & prompts',sources=['upload'],height=390)
+                    output = gr.Image(value=output_view(default_state),type='numpy',label='02 / Segmentation',interactive=False,height=390)
+                status = gr.Markdown('**Recorded CPU example** · Orange bowl · TinySAM · 16 × 16. Run segmentation to generate a new result, or upload a photograph.',elem_id='studio-status')
                 outputs = [session,image,output,status,stats]
-                with gr.Group(visible=False,elem_id='instance-inspector') as inspector:
-                    selected = gr.Dropdown(['All instances'],value='All instances',label='Inspect instance')
-                    table = gr.Dataframe(headers=['Instance','Area (px)','SAM predicted IoU','Stability'],datatype=['str','number','number','number'],interactive=False,label='Instance inventory',wrap=True)
+                with gr.Group(visible=True,elem_id='instance-inspector') as inspector:
+                    selected = gr.Dropdown(preview_choices,value='All instances',label='Inspect instance')
+                    table = gr.Dataframe(value=preview_scores,headers=['Instance','Area (px)','SAM predicted IoU','Stability'],datatype=['str','number','number','number'],interactive=False,label='Instance inventory',wrap=True)
                 full_outputs = outputs+[table,selected]
-                gr.Examples(examples=[str(project/'site/assets/examples/bear.jpg'),str(project/'site/assets/examples/giraffe.jpg')],inputs=[image],outputs=full_outputs,fn=loaded,cache_examples=False,run_on_click=True,label='Start from an image')
+                gr.Examples(examples=[str(project/f'site/assets/examples/{name}.jpg') for name in ('fruit','bird','bear')],inputs=[image],outputs=full_outputs,fn=loaded,cache_examples=False,run_on_click=True,label='Start from an image')
         gr.HTML('<div class="studio-footer"><b>Rethinking Lightweight SAM</b><span>Prompt-Adaptive Refinement &amp; Efficient Segment Everything Inference</span><a href="https://github.com/thirteen7/Rethinking-Lightweight-SAM/blob/main/docs/everything.md" target="_blank">Everything protocol ↗</a></div>')
         image.upload(loaded,inputs=[image],outputs=full_outputs)
         image.select(select_point,inputs=[session,mode,label],outputs=[session,image,status])

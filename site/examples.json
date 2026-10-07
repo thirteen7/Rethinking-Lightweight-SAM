@@ -399,20 +399,25 @@
             }
           ]
         }
-      }
+      },
+      "modes": [
+        "point",
+        "box",
+        "everything"
+      ]
     },
     {
-      "id": "giraffe",
-      "title": "Giraffe",
-      "dataset": "LVIS",
-      "image_id": 25,
-      "annotation_id": 169795,
-      "width": 640,
-      "height": 426,
-      "image": "assets/examples/giraffe.jpg",
-      "image_sha256": "d8f12a26d8803701cabac80494b080f998e5ed9bafaf61a2825ce6212c85487a",
-      "source_url": "http://farm1.staticflickr.com/94/241612385_d9e5b891ed_z.jpg",
-      "license_id": 1,
+      "id": "bird",
+      "title": "Songbird",
+      "dataset": "COCO",
+      "image_id": 56545,
+      "annotation_id": 39194,
+      "width": 505,
+      "height": 640,
+      "image": "assets/examples/bird.jpg",
+      "image_sha256": "852f95c0f7d5d72ec994fcead05a2a5501e7459966a360d92c26a5827584c744",
+      "source_url": "http://farm3.staticflickr.com/2894/9470927378_921b919b7e_z.jpg",
+      "license_id": 4,
       "trajectories": {
         "tinysam": {
           "point": [
@@ -421,25 +426,25 @@
               "candidate": 0,
               "points": [
                 {
-                  "x": 95.0,
-                  "y": 392.89442815249265,
+                  "x": 238.75,
+                  "y": 326.25,
                   "label": 1
                 }
               ],
               "box": null,
               "refined": {
-                "mask": "assets/examples/giraffe-tinysam-point-1-refined.png",
-                "iou_percent": 66.51318543323566,
-                "intersection": 1589,
-                "union": 2389,
-                "mask_sha256": "c485e035f8fc1297d466271b99c05735df9c7ad12d4c259f733d210e3e8a2c9d"
+                "mask": "assets/examples/bird-tinysam-point-1-refined.png",
+                "iou_percent": 87.65320795197772,
+                "intersection": 76807,
+                "union": 87626,
+                "mask_sha256": "19c4850f7ba96e093f601ffb6215d4c23464921358f2475c3a88ba32bb2d0129"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-tinysam-point-1-reference.png",
-                "iou_percent": 66.51318543323566,
-                "intersection": 1589,
-                "union": 2389,
-                "mask_sha256": "c485e035f8fc1297d466271b99c05735df9c7ad12d4c259f733d210e3e8a2c9d"
+                "mask": "assets/examples/bird-tinysam-point-1-reference.png",
+                "iou_percent": 87.65320795197772,
+                "intersection": 76807,
+                "union": 87626,
+                "mask_sha256": "19c4850f7ba96e093f601ffb6215d4c23464921358f2475c3a88ba32bb2d0129"
               }
             },
             {
@@ -447,30 +452,30 @@
               "candidate": 0,
               "points": [
                 {
-                  "x": 95.0,
-                  "y": 392.89442815249265,
+                  "x": 238.75,
+                  "y": 326.25,
                   "label": 1
                 },
                 {
-                  "x": 170.0,
-                  "y": 362.28739002932554,
-                  "label": 1
+                  "x": 290.0,
+                  "y": 635.0,
+                  "label": 0
                 }
               ],
               "box": null,
               "refined": {
-                "mask": "assets/examples/giraffe-tinysam-point-2-refined.png",
-                "iou_percent": 87.26489028213166,
-                "intersection": 2227,
-                "union": 2552,
-                "mask_sha256": "127cd2b89912ac6a583728e25d84f86f60f576817f05fb51e32986d7615f7418"
+                "mask": "assets/examples/bird-tinysam-point-2-refined.png",
+                "iou_percent": 84.09800321322011,
+                "intersection": 73283,
+                "union": 87140,
+                "mask_sha256": "282e78d79f8782119800147865a064e2ee554756aad9ecc3d8222e739f3d187d"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-tinysam-point-2-reference.png",
-                "iou_percent": 89.57816377171216,
-                "intersection": 2166,
-                "union": 2418,
-                "mask_sha256": "0730256eb57cf4cf4cd1fcad247387d04802e6ec0fb4a0d2cc4f93efb1a03a55"
+                "mask": "assets/examples/bird-tinysam-point-2-reference.png",
+                "iou_percent": 83.84783107642873,
+                "intersection": 73065,
+                "union": 87140,
+                "mask_sha256": "fe1f3cfb7570f7cfc2bf10fa180c42cafdd26bf818160bff39c4486186655af4"
               }
             },
             {
@@ -478,129 +483,129 @@
               "candidate": 0,
               "points": [
                 {
-                  "x": 95.0,
-                  "y": 392.89442815249265,
+                  "x": 238.75,
+                  "y": 326.25,
                   "label": 1
                 },
                 {
-                  "x": 170.0,
-                  "y": 362.28739002932554,
-                  "label": 1
-                },
-                {
-                  "x": 172.5,
-                  "y": 367.2844574780059,
+                  "x": 290.0,
+                  "y": 635.0,
                   "label": 0
+                },
+                {
+                  "x": 275.0,
+                  "y": 502.5,
+                  "label": 1
                 }
               ],
               "box": null,
               "refined": {
-                "mask": "assets/examples/giraffe-tinysam-point-3-refined.png",
-                "iou_percent": 89.23395445134575,
-                "intersection": 2155,
-                "union": 2415,
-                "mask_sha256": "f31f6cdda78baa2d5396338dc3f485de8bddd3d98b8a73702be35b1b8fcb9dc8"
+                "mask": "assets/examples/bird-tinysam-point-3-refined.png",
+                "iou_percent": 84.9307523723193,
+                "intersection": 74018,
+                "union": 87151,
+                "mask_sha256": "925e99b0dd2e696743ea6cb9cb2072e30da897a260e7ad31376c35b087c900ab"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-tinysam-point-3-reference.png",
-                "iou_percent": 87.29096989966555,
-                "intersection": 2088,
-                "union": 2392,
-                "mask_sha256": "cce84b7ab6d5b771830b78138c75d99b93edd7397d8886b74ac76497aba234a2"
+                "mask": "assets/examples/bird-tinysam-point-3-reference.png",
+                "iou_percent": 84.68052877995042,
+                "intersection": 73794,
+                "union": 87144,
+                "mask_sha256": "f85a1e226d75e8a20b7aa3091e37f4f672c20fb7a414bcc4c848350ecdff14c7"
               }
             }
           ],
           "box": [
             {
               "round": 1,
-              "candidate": 1,
+              "candidate": 2,
               "points": [],
               "box": [
-                52.08,
-                351.27,
-                181.81,
-                412.59
+                131.56,
+                31.65,
+                367.28,
+                629.17
               ],
               "refined": {
-                "mask": "assets/examples/giraffe-tinysam-box-1-refined.png",
-                "iou_percent": 88.77467105263158,
-                "intersection": 2159,
-                "union": 2432,
-                "mask_sha256": "46b18ecdb2cc543b0bdef30db7bfdb09bc1453bf26fd01c93f8edfeaba604ef7"
+                "mask": "assets/examples/bird-tinysam-box-1-refined.png",
+                "iou_percent": 86.18931907770398,
+                "intersection": 79807,
+                "union": 92595,
+                "mask_sha256": "dd74f57b4869b4f1e2d965dcfda83148db588b2a40a13eb7114769215178f7d4"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-tinysam-box-1-reference.png",
-                "iou_percent": 87.46355685131195,
-                "intersection": 2100,
-                "union": 2401,
-                "mask_sha256": "3724d67071cd3d2ec04a2585d27f9478af11e49e27df6dba6cbb156655d7a8cc"
+                "mask": "assets/examples/bird-tinysam-box-1-reference.png",
+                "iou_percent": 85.42360544367735,
+                "intersection": 77457,
+                "union": 90674,
+                "mask_sha256": "afc48c059f5aa6ce7584f0d2bdee0e7db38c860d472af3c6025fef86adb35747"
               }
             },
             {
               "round": 2,
-              "candidate": 0,
+              "candidate": 2,
               "points": [
                 {
-                  "x": 180.0,
-                  "y": 382.2756598240469,
-                  "label": 1
+                  "x": 175.0,
+                  "y": 570.0,
+                  "label": 0
                 }
               ],
               "box": [
-                52.08,
-                351.27,
-                181.81,
-                412.59
+                131.56,
+                31.65,
+                367.28,
+                629.17
               ],
               "refined": {
-                "mask": "assets/examples/giraffe-tinysam-box-2-refined.png",
-                "iou_percent": 88.23055219669489,
-                "intersection": 2189,
-                "union": 2481,
-                "mask_sha256": "960f3c77dc3b860150a817e5fbb656d48973a0421767303ab0ec91c94f7dd620"
+                "mask": "assets/examples/bird-tinysam-box-2-refined.png",
+                "iou_percent": 88.60411533899078,
+                "intersection": 77681,
+                "union": 87672,
+                "mask_sha256": "6bca85fe96f15e11430bc93d4438330f10ffaf76fbd1617c37350e4980eafbeb"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-tinysam-box-2-reference.png",
-                "iou_percent": 88.23055219669489,
-                "intersection": 2189,
-                "union": 2481,
-                "mask_sha256": "960f3c77dc3b860150a817e5fbb656d48973a0421767303ab0ec91c94f7dd620"
+                "mask": "assets/examples/bird-tinysam-box-2-reference.png",
+                "iou_percent": 88.10828709095476,
+                "intersection": 77167,
+                "union": 87582,
+                "mask_sha256": "398b971331df84432df6da73178e98c62a8201f96249fa9e72a89795b0a196ec"
               }
             },
             {
               "round": 3,
-              "candidate": 0,
+              "candidate": 4,
               "points": [
                 {
-                  "x": 180.0,
-                  "y": 382.2756598240469,
-                  "label": 1
+                  "x": 175.0,
+                  "y": 570.0,
+                  "label": 0
                 },
                 {
-                  "x": 132.5,
-                  "y": 392.2697947214076,
-                  "label": 1
+                  "x": 285.0,
+                  "y": 635.0,
+                  "label": 0
                 }
               ],
               "box": [
-                52.08,
-                351.27,
-                181.81,
-                412.59
+                131.56,
+                31.65,
+                367.28,
+                629.17
               ],
               "refined": {
-                "mask": "assets/examples/giraffe-tinysam-box-3-refined.png",
-                "iou_percent": 88.47539015606243,
-                "intersection": 2211,
-                "union": 2499,
-                "mask_sha256": "165d7e28de2e2bccdc4efb53aee5a921ae09a8b0b26e4cb20610a7eb20be0ea2"
+                "mask": "assets/examples/bird-tinysam-box-3-refined.png",
+                "iou_percent": 87.34232324736776,
+                "intersection": 76235,
+                "union": 87283,
+                "mask_sha256": "2172fb3a4b6cb78f025c6f27e95ccad7b7b6f0f2dc1b2b75b0f1eaa661f39f06"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-tinysam-box-3-reference.png",
-                "iou_percent": 88.47539015606243,
-                "intersection": 2211,
-                "union": 2499,
-                "mask_sha256": "165d7e28de2e2bccdc4efb53aee5a921ae09a8b0b26e4cb20610a7eb20be0ea2"
+                "mask": "assets/examples/bird-tinysam-box-3-reference.png",
+                "iou_percent": 86.73358187553771,
+                "intersection": 75610,
+                "union": 87175,
+                "mask_sha256": "8c2f5d47ff2d8e42c3accce06ec1f214cc3e9892885d1a619b8fead391848be8"
               }
             }
           ]
@@ -612,25 +617,25 @@
               "candidate": 0,
               "points": [
                 {
-                  "x": 95.0,
-                  "y": 392.89442815249265,
+                  "x": 238.75,
+                  "y": 326.25,
                   "label": 1
                 }
               ],
               "box": null,
               "refined": {
-                "mask": "assets/examples/giraffe-mobilesam-point-1-refined.png",
-                "iou_percent": 67.04166666666667,
-                "intersection": 1609,
-                "union": 2400,
-                "mask_sha256": "ac2e8d8b51dd98942347dfdaf13f43c988b1005abe512d19e9f10cba6f6dba84"
+                "mask": "assets/examples/bird-mobilesam-point-1-refined.png",
+                "iou_percent": 87.44803995967787,
+                "intersection": 77207,
+                "union": 88289,
+                "mask_sha256": "eccd382160f7956da53fd5b1afbeb95dd027de8ad777fa5dc6bee99e98a70329"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-mobilesam-point-1-reference.png",
-                "iou_percent": 67.04166666666667,
-                "intersection": 1609,
-                "union": 2400,
-                "mask_sha256": "ac2e8d8b51dd98942347dfdaf13f43c988b1005abe512d19e9f10cba6f6dba84"
+                "mask": "assets/examples/bird-mobilesam-point-1-reference.png",
+                "iou_percent": 87.44803995967787,
+                "intersection": 77207,
+                "union": 88289,
+                "mask_sha256": "eccd382160f7956da53fd5b1afbeb95dd027de8ad777fa5dc6bee99e98a70329"
               }
             },
             {
@@ -638,30 +643,30 @@
               "candidate": 0,
               "points": [
                 {
-                  "x": 95.0,
-                  "y": 392.89442815249265,
+                  "x": 238.75,
+                  "y": 326.25,
                   "label": 1
                 },
                 {
-                  "x": 167.5,
-                  "y": 364.7859237536657,
+                  "x": 232.5,
+                  "y": 515.0,
                   "label": 1
                 }
               ],
               "box": null,
               "refined": {
-                "mask": "assets/examples/giraffe-mobilesam-point-2-refined.png",
-                "iou_percent": 85.0740600075959,
-                "intersection": 2240,
-                "union": 2633,
-                "mask_sha256": "4b4e2d31455c6e2412b9493137b4a6c5be61e932f39ebf5a682ce3cc573f5e41"
+                "mask": "assets/examples/bird-mobilesam-point-2-refined.png",
+                "iou_percent": 84.90505891978621,
+                "intersection": 79905,
+                "union": 94111,
+                "mask_sha256": "7a13b9b88b731d47f4fb8545469b4e804f2d074058fa88307935c99034dcc453"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-mobilesam-point-2-reference.png",
-                "iou_percent": 83.60594795539033,
-                "intersection": 2249,
-                "union": 2690,
-                "mask_sha256": "5431330f6508e70a542c0b205706a14034c08e94a15641968cca121f44029ecb"
+                "mask": "assets/examples/bird-mobilesam-point-2-reference.png",
+                "iou_percent": 85.21985151779447,
+                "intersection": 80122,
+                "union": 94018,
+                "mask_sha256": "b1ccca97a270d322b830408b4fcdfa87371ec9e17242329f290dedadcb190793"
               }
             },
             {
@@ -669,35 +674,35 @@
               "candidate": 0,
               "points": [
                 {
-                  "x": 95.0,
-                  "y": 392.89442815249265,
+                  "x": 238.75,
+                  "y": 326.25,
                   "label": 1
                 },
                 {
-                  "x": 167.5,
-                  "y": 364.7859237536657,
+                  "x": 232.5,
+                  "y": 515.0,
                   "label": 1
                 },
                 {
-                  "x": 152.5,
-                  "y": 384.7741935483871,
+                  "x": 455.0,
+                  "y": 445.0,
                   "label": 0
                 }
               ],
               "box": null,
               "refined": {
-                "mask": "assets/examples/giraffe-mobilesam-point-3-refined.png",
-                "iou_percent": 90.86130206227254,
-                "intersection": 2247,
-                "union": 2473,
-                "mask_sha256": "d4cd637add7099fbeac44e571b2444f7851d1b5e93dca09d2d16fe73af7a9b74"
+                "mask": "assets/examples/bird-mobilesam-point-3-refined.png",
+                "iou_percent": 85.24249347611881,
+                "intersection": 78724,
+                "union": 92353,
+                "mask_sha256": "775dc4fad1bb8865c4a9ad3d03ce5a78a3e24509efe41e6305862522639aea3f"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-mobilesam-point-3-reference.png",
-                "iou_percent": 90.10500807754443,
-                "intersection": 2231,
-                "union": 2476,
-                "mask_sha256": "fc544fb73fdc90cc195fe6d52d98771892b74080e64858191437e3ce6b8b12bf"
+                "mask": "assets/examples/bird-mobilesam-point-3-reference.png",
+                "iou_percent": 85.24249347611881,
+                "intersection": 78724,
+                "union": 92353,
+                "mask_sha256": "775dc4fad1bb8865c4a9ad3d03ce5a78a3e24509efe41e6305862522639aea3f"
               }
             }
           ],
@@ -707,24 +712,24 @@
               "candidate": 1,
               "points": [],
               "box": [
-                52.08,
-                351.27,
-                181.81,
-                412.59
+                131.56,
+                31.65,
+                367.28,
+                629.17
               ],
               "refined": {
-                "mask": "assets/examples/giraffe-mobilesam-box-1-refined.png",
-                "iou_percent": 87.26298433635614,
-                "intersection": 2117,
-                "union": 2426,
-                "mask_sha256": "3aa0a69e6d360e52411399406333ef2ec842cf86ec4057553085ac623d2a0958"
+                "mask": "assets/examples/bird-mobilesam-box-1-refined.png",
+                "iou_percent": 84.8525978609045,
+                "intersection": 78145,
+                "union": 92095,
+                "mask_sha256": "b59e8ea2dd2edb5da3cfa7a9596ed40dd83074b7fea14d1fc6f36b3e8673d96c"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-mobilesam-box-1-reference.png",
-                "iou_percent": 75.23613963039014,
-                "intersection": 1832,
-                "union": 2435,
-                "mask_sha256": "512e807288a8cf65b8362a4d10c41a3386ff59c0dd169c49886f248c0f23cc8e"
+                "mask": "assets/examples/bird-mobilesam-box-1-reference.png",
+                "iou_percent": 86.60137668588058,
+                "intersection": 77374,
+                "union": 89345,
+                "mask_sha256": "f76fba4c1477a052c15570aac9615d5874d13cb5da37a9a06cfe1f1f5ccf1c84"
               }
             },
             {
@@ -732,30 +737,30 @@
               "candidate": 1,
               "points": [
                 {
-                  "x": 167.5,
-                  "y": 359.78885630498536,
-                  "label": 1
+                  "x": 292.5,
+                  "y": 635.0,
+                  "label": 0
                 }
               ],
               "box": [
-                52.08,
-                351.27,
-                181.81,
-                412.59
+                131.56,
+                31.65,
+                367.28,
+                629.17
               ],
               "refined": {
-                "mask": "assets/examples/giraffe-mobilesam-box-2-refined.png",
-                "iou_percent": 89.43350743270389,
-                "intersection": 2226,
-                "union": 2489,
-                "mask_sha256": "b382397750ffa5ba273537fd92132438c046cd5811b1098a23f21e74cc5db6f9"
+                "mask": "assets/examples/bird-mobilesam-box-2-refined.png",
+                "iou_percent": 84.49407959713042,
+                "intersection": 77852,
+                "union": 92139,
+                "mask_sha256": "8e7d7a8b3c47d708db165cc180522809dea61dd8b1ed733ba0c57488694d45a1"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-mobilesam-box-2-reference.png",
-                "iou_percent": 84.6096654275093,
-                "intersection": 2276,
-                "union": 2690,
-                "mask_sha256": "06c3821658a142fc3fe1c32a216c5719a9624cbcf85f047eca76721d4265cbbe"
+                "mask": "assets/examples/bird-mobilesam-box-2-reference.png",
+                "iou_percent": 86.14578727167591,
+                "intersection": 75978,
+                "union": 88197,
+                "mask_sha256": "e08e03f2052667462efee71724fb4ee17e7d4c8de8bb1f6e5ba7305b4b7d3458"
               }
             },
             {
@@ -763,40 +768,61 @@
               "candidate": 1,
               "points": [
                 {
-                  "x": 167.5,
-                  "y": 359.78885630498536,
-                  "label": 1
+                  "x": 292.5,
+                  "y": 635.0,
+                  "label": 0
                 },
                 {
-                  "x": 57.5,
-                  "y": 409.75953079178885,
-                  "label": 0
+                  "x": 330.0,
+                  "y": 455.0,
+                  "label": 1
                 }
               ],
               "box": [
-                52.08,
-                351.27,
-                181.81,
-                412.59
+                131.56,
+                31.65,
+                367.28,
+                629.17
               ],
               "refined": {
-                "mask": "assets/examples/giraffe-mobilesam-box-3-refined.png",
-                "iou_percent": 89.74776240846217,
-                "intersection": 2206,
-                "union": 2458,
-                "mask_sha256": "8af04bec7f5b21b617a85fffadc7db5ba9841103951c88d46ccacf0575dbca58"
+                "mask": "assets/examples/bird-mobilesam-box-3-refined.png",
+                "iou_percent": 85.35851270739843,
+                "intersection": 78558,
+                "union": 92033,
+                "mask_sha256": "2185f59aeec3eca5393cb7e1d3b1b2e446161ce5a0a8b7b64e815057f9225a5d"
               },
               "reference": {
-                "mask": "assets/examples/giraffe-mobilesam-box-3-reference.png",
-                "iou_percent": 85.34645967436578,
-                "intersection": 2254,
-                "union": 2641,
-                "mask_sha256": "e23721a322a8b251c6cbf74002fdb4f19a41bf8d7966382ae5bec825d16223da"
+                "mask": "assets/examples/bird-mobilesam-box-3-reference.png",
+                "iou_percent": 80.34725552600602,
+                "intersection": 73717,
+                "union": 91748,
+                "mask_sha256": "65b73fea3bd0d98b75af41548cbb1f22b4d7befe8b8b075d6dc777d592c16803"
               }
             }
           ]
         }
-      }
+      },
+      "modes": [
+        "point",
+        "box"
+      ]
+    },
+    {
+      "id": "fruit",
+      "title": "Orange bowl",
+      "dataset": "COCO",
+      "image_id": 290081,
+      "annotation_id": 1050978,
+      "width": 612,
+      "height": 612,
+      "image": "assets/examples/fruit.jpg",
+      "image_sha256": "5800d9c4af6f1cc1d03013d438f9bec32333a4b9c492e9e34fc4c76c7c29b54d",
+      "source_url": "http://farm9.staticflickr.com/8256/8662529759_1a7cb966a7_z.jpg",
+      "license_id": 4,
+      "trajectories": {},
+      "modes": [
+        "everything"
+      ]
     }
   ],
   "licenses": [

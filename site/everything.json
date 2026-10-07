@@ -228,221 +228,249 @@
         "predictions": "assets/everything/bear-mobilesam-fsd-16.json"
       }
     },
-    "giraffe": {
+    "fruit": {
       "tinysam": {
         "info": {
           "method": "fsd",
           "backend": "portable_pytorch",
           "grid": 16,
           "total_points": 256,
-          "native_points": 193,
-          "local_guard_points": 136,
-          "masks": 14,
-          "seconds": 15.304876800015336,
+          "native_points": 110,
+          "local_guard_points": 6,
+          "masks": 16,
+          "seconds": 8.54356399999233,
           "annotation_prompts": false
         },
         "instances": [
           {
             "id": 1,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-01.png",
-            "sha256": "4e2b10d92879de30521e614e8296c89fadbce1ba97a978040ebe76a9b7e1a537",
-            "area": 12289,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-01.png",
+            "sha256": "799756b3091270f44f97345f71705da7aa3432bd7909fba9a8dd48949fd34426",
+            "area": 47713,
             "bbox": [
-              403.0,
               0.0,
-              236.0,
-              81.0
+              156.0,
+              276.0,
+              229.0
             ],
-            "predicted_iou": 1.004060983657837,
-            "stability_score": 0.9633130431175232
+            "predicted_iou": 1.104183316230774,
+            "stability_score": 0.9913640022277832
           },
           {
             "id": 2,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-02.png",
-            "sha256": "db565e3e4eca713ee5d40ae78b3a59f313ad502478f84cb000a919c712f7095a",
-            "area": 17975,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-02.png",
+            "sha256": "4142e1940bbcf43c0f8e75a4e7bd48c58f87e40faf6017881db1bd2ed0eeb28f",
+            "area": 43688,
             "bbox": [
-              387.0,
-              66.0,
-              163.0,
-              289.0
+              336.0,
+              182.0,
+              271.0,
+              226.0
             ],
-            "predicted_iou": 0.9853074550628662,
-            "stability_score": 0.9573403000831604
+            "predicted_iou": 1.0095245838165283,
+            "stability_score": 0.9825676679611206
           },
           {
             "id": 3,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-03.png",
-            "sha256": "235ece5746a3008f36b576ea4fad9b3c36c157093ecb25fa0bdcc701b594df11",
-            "area": 2757,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-03.png",
+            "sha256": "051e3131bb3bc8d13e1919a815abdb1254057accbc5f58f1c80b20ac23de566a",
+            "area": 16001,
             "bbox": [
-              71.0,
-              397.0,
-              132.0,
-              28.0
+              538.0,
+              0.0,
+              73.0,
+              244.0
             ],
-            "predicted_iou": 0.9757328033447266,
-            "stability_score": 0.9774112701416016
+            "predicted_iou": 1.0075771808624268,
+            "stability_score": 0.986320972442627
           },
           {
             "id": 4,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-04.png",
-            "sha256": "4983a690d2d35169a5511d09c94677d1983bb145771800ddf2bcfff2a2f73246",
-            "area": 1622,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-04.png",
+            "sha256": "e6b2eab146a939b7f2b553fa8465756a54dcfdcc597d8860dc535a82196f05d7",
+            "area": 8003,
             "bbox": [
-              53.0,
-              363.0,
-              96.0,
-              48.0
+              249.0,
+              328.0,
+              152.0,
+              94.0
             ],
-            "predicted_iou": 0.950994610786438,
-            "stability_score": 0.9671732783317566
+            "predicted_iou": 0.9959442615509033,
+            "stability_score": 0.979117751121521
           },
           {
             "id": 5,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-05.png",
-            "sha256": "9d054c38691cce80402b7188b5a195d9d789ba73248234f247fe2be32b538f3d",
-            "area": 1881,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-05.png",
+            "sha256": "1e5de19fb9f1c1a719f26b764aea150ae1757681357bdadae890114d2c987f1d",
+            "area": 15079,
             "bbox": [
-              593.0,
-              275.0,
-              46.0,
-              58.0
+              447.0,
+              0.0,
+              91.0,
+              187.0
             ],
-            "predicted_iou": 0.9454326629638672,
-            "stability_score": 0.961840033531189
+            "predicted_iou": 0.9838430285453796,
+            "stability_score": 0.9516920447349548
           },
           {
             "id": 6,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-06.png",
-            "sha256": "f357f657f05bcce53bffe7f0a10b2f2c4a251e0fc7eb69122e920a7436682f10",
-            "area": 1387,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-06.png",
+            "sha256": "09ca23a0ccc900d8cab1a3daf3fa3abb42f28f602e0218fe7c72254529cd29be",
+            "area": 10870,
             "bbox": [
-              0.0,
-              335.0,
-              23.0,
+              34.0,
+              365.0,
+              196.0,
               79.0
             ],
-            "predicted_iou": 0.9420033693313599,
-            "stability_score": 0.9521126747131348
+            "predicted_iou": 0.9831907153129578,
+            "stability_score": 0.9525684714317322
           },
           {
             "id": 7,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-07.png",
-            "sha256": "d4f5ce6a30a4401202be1364024955dcbcb024f1402840fe157d126e70edd6f8",
-            "area": 1211,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-07.png",
+            "sha256": "20e0564b90d6eeb6cf2d8b0c7ea629de2bd937fbde3e7ffaf168124e38124788",
+            "area": 12853,
             "bbox": [
-              519.0,
-              279.0,
-              31.0,
-              67.0
+              0.0,
+              0.0,
+              156.0,
+              83.0
             ],
-            "predicted_iou": 0.9355809092521667,
-            "stability_score": 0.9596448540687561
+            "predicted_iou": 0.9831782579421997,
+            "stability_score": 0.9688196182250977
           },
           {
             "id": 8,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-08.png",
-            "sha256": "973c74743f2e823ae00fb4312287b65c7e9e75526056093edebb068a0189f595",
-            "area": 721,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-08.png",
+            "sha256": "1b74ceb385ec3bf5c5457c422a9a2419754fd0276c7237c2497b6fe8674444f5",
+            "area": 5425,
             "bbox": [
-              410.0,
-              306.0,
-              15.0,
-              52.0
+              82.0,
+              535.0,
+              157.0,
+              76.0
             ],
-            "predicted_iou": 0.9243812561035156,
-            "stability_score": 0.961904764175415
+            "predicted_iou": 0.983036458492279,
+            "stability_score": 0.9679231643676758
           },
           {
             "id": 9,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-09.png",
-            "sha256": "776c651308ccdcd1afd2137fc19362cce1ff0e73c0a6954ad44a0b3dba1efa74",
-            "area": 403,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-09.png",
+            "sha256": "3d6e1f060e02585148817cd0d0d7c8b09a921f52ec2aeacf20c428b59c46a2d0",
+            "area": 38470,
             "bbox": [
-              455.0,
-              322.0,
-              14.0,
-              32.0
+              177.0,
+              33.0,
+              230.0,
+              237.0
             ],
-            "predicted_iou": 0.9220687747001648,
-            "stability_score": 0.9659367203712463
+            "predicted_iou": 0.9821974635124207,
+            "stability_score": 0.9841781854629517
           },
           {
             "id": 10,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-10.png",
-            "sha256": "d920a868e69ff215addaff8a0cad72d9d0e03190cfd89f583b0bee3f5f415f06",
-            "area": 996,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-10.png",
+            "sha256": "c7f44b9582a3846d170d43e09c1af7edba8ef0f8ab24ff14064caa8014f27cff",
+            "area": 32356,
             "bbox": [
               0.0,
-              410.0,
-              88.0,
-              15.0
+              0.0,
+              601.0,
+              242.0
             ],
-            "predicted_iou": 0.9198442101478577,
-            "stability_score": 0.9566075205802917
+            "predicted_iou": 0.9818069338798523,
+            "stability_score": 0.963721752166748
           },
           {
             "id": 11,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-11.png",
-            "sha256": "2fedd614783831bd968996824d57b0a97b112ec7c081e06ae1dd7a5504872046",
-            "area": 306,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-11.png",
+            "sha256": "b036228044996f2ce96c7daf1a83493844435535144581afdb476eb32369cc3a",
+            "area": 15474,
             "bbox": [
-              211.0,
               0.0,
-              22.0,
-              24.0
+              428.0,
+              232.0,
+              183.0
             ],
-            "predicted_iou": 0.90602046251297,
-            "stability_score": 0.9680511355400085
+            "predicted_iou": 0.9814673066139221,
+            "stability_score": 0.9722451567649841
           },
           {
             "id": 12,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-12.png",
-            "sha256": "4af08fc942651273650d29d302bdb7e53ed0c2344969b27873c1b21bdf30ca75",
-            "area": 1053,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-12.png",
+            "sha256": "f9b94598b682348dc6aa8d6a682a46e927dd040a3ab1a54501db0abb06f53858",
+            "area": 42441,
             "bbox": [
-              452.0,
-              293.0,
-              22.0,
-              61.0
+              177.0,
+              33.0,
+              230.0,
+              346.0
             ],
-            "predicted_iou": 0.9019359350204468,
-            "stability_score": 0.9553903341293335
+            "predicted_iou": 0.9736967086791992,
+            "stability_score": 0.9569075107574463
           },
           {
             "id": 13,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-13.png",
-            "sha256": "325c362d9d893db359a4b3d015e2db222844aa9d595ca6941ae15db92e21c04e",
-            "area": 1255,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-13.png",
+            "sha256": "50fde4cc564c47b54198950b3496e5f437a9bcb0eb3271866f41d37c2f643063",
+            "area": 3789,
             "bbox": [
-              470.0,
-              298.0,
-              35.0,
-              53.0
+              279.0,
+              258.0,
+              71.0,
+              78.0
             ],
-            "predicted_iou": 0.8947702646255493,
-            "stability_score": 0.9586260914802551
+            "predicted_iou": 0.971603274345398,
+            "stability_score": 0.9645261764526367
           },
           {
             "id": 14,
-            "mask": "assets/everything/giraffe-tinysam-fsd-16-14.png",
-            "sha256": "5c079a58c23ce9390cdf9954f6010a3d24f370ae6f4ecf274903ac96d57d5618",
-            "area": 1676,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-14.png",
+            "sha256": "fa87fa33268bea9c393e2bd53e527c18949b30f8ca3f9dc1a612c51abd1a446e",
+            "area": 738,
             "bbox": [
-              270.0,
-              18.0,
-              56.0,
-              127.0
+              213.0,
+              434.0,
+              43.0,
+              22.0
             ],
-            "predicted_iou": 0.8921840190887451,
-            "stability_score": 0.9514903426170349
+            "predicted_iou": 0.9576961398124695,
+            "stability_score": 0.9651941061019897
+          },
+          {
+            "id": 15,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-15.png",
+            "sha256": "50ca07b74c04dffad394911b9cf4fd63af6817eb52266b391ff581907c5104ac",
+            "area": 271,
+            "bbox": [
+              13.0,
+              509.0,
+              25.0,
+              13.0
+            ],
+            "predicted_iou": 0.9387110471725464,
+            "stability_score": 0.9566786885261536
+          },
+          {
+            "id": 16,
+            "mask": "assets/everything/fruit-tinysam-fsd-16-16.png",
+            "sha256": "832d4af51a247b1813599f456bab6979172c314dfd35b401f3496ffce1e0701e",
+            "area": 30960,
+            "bbox": [
+              112.0,
+              437.0,
+              499.0,
+              174.0
+            ],
+            "predicted_iou": 0.9255765080451965,
+            "stability_score": 0.9648956656455994
           }
         ],
         "checkpoint_sha256": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875",
-        "image_sha256": "d8f12a26d8803701cabac80494b080f998e5ed9bafaf61a2825ce6212c85487a",
-        "overlay": "assets/everything/giraffe-tinysam-fsd-16.jpg",
-        "predictions": "assets/everything/giraffe-tinysam-fsd-16.json"
+        "image_sha256": "5800d9c4af6f1cc1d03013d438f9bec32333a4b9c492e9e34fc4c76c7c29b54d",
+        "overlay": "assets/everything/fruit-tinysam-fsd-16.jpg",
+        "predictions": "assets/everything/fruit-tinysam-fsd-16.json"
       },
       "mobilesam": {
         "info": {
@@ -450,298 +478,326 @@
           "backend": "portable_pytorch",
           "grid": 16,
           "total_points": 256,
-          "native_points": 135,
-          "local_guard_points": 59,
-          "masks": 20,
-          "seconds": 11.63835319998907,
+          "native_points": 103,
+          "local_guard_points": 4,
+          "masks": 22,
+          "seconds": 7.596814099990297,
           "annotation_prompts": false
         },
         "instances": [
           {
             "id": 1,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-01.png",
-            "sha256": "c1f7e6fbf4bb1e949752e86f51965d5085e462a54ed5502ff7ef4d61793f1c91",
-            "area": 17925,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-01.png",
+            "sha256": "14f56f900f279076668a129d3a4fb985c38780c945806dd7caf99e0a0893758f",
+            "area": 47500,
             "bbox": [
-              388.0,
-              70.0,
-              161.0,
-              285.0
+              0,
+              157,
+              275,
+              228
             ],
-            "predicted_iou": 0.9987499713897705,
-            "stability_score": 0.9714191555976868
+            "predicted_iou": 1.0121177434921265,
+            "stability_score": 0.9919474720954895
           },
           {
             "id": 2,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-02.png",
-            "sha256": "7642ee048aa2ce1bb7971e5af932583ea1b4343dc17d2772be006e916c40d7fa",
-            "area": 12218,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-02.png",
+            "sha256": "c6301e620491cdc02d8a00e50168750bb98b55343dfa268ea1ba3b7bb8e4405d",
+            "area": 52168,
             "bbox": [
-              403.0,
-              0.0,
-              236.0,
-              81.0
+              0,
+              419,
+              611,
+              192
             ],
-            "predicted_iou": 0.99247807264328,
-            "stability_score": 0.9706072211265564
+            "predicted_iou": 1.006905198097229,
+            "stability_score": 0.9830871820449829
           },
           {
             "id": 3,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-03.png",
-            "sha256": "fabcaa7fdd9bcbe7b9ad43eda72b680291ce148dd29b61fe189bbe91117ca33e",
-            "area": 2792,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-03.png",
+            "sha256": "22a703f3f3ed23ab85ad95bc71f765f44376aa754c92908d30635c0eb2a89250",
+            "area": 43787,
             "bbox": [
-              71.0,
-              396.0,
-              132.0,
-              29.0
+              336,
+              182,
+              271,
+              226
             ],
-            "predicted_iou": 0.9746971726417542,
-            "stability_score": 0.9724284410476685
+            "predicted_iou": 1.0045433044433594,
+            "stability_score": 0.9888949394226074
           },
           {
             "id": 4,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-04.png",
-            "sha256": "4539d73a36566b17a75dd7e61e7ececa65b8ccc381300aa0b99f64def6fb8d3a",
-            "area": 1613,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-04.png",
+            "sha256": "2b5fdc22f763f1578cb9578a14e644120f8120d74c620bd449ce36fd84004bc3",
+            "area": 38576,
             "bbox": [
-              53.0,
-              363.0,
-              95.0,
-              47.0
+              177,
+              33,
+              230,
+              238
             ],
-            "predicted_iou": 0.9693779349327087,
-            "stability_score": 0.977370023727417
+            "predicted_iou": 1.0032625198364258,
+            "stability_score": 0.9876034259796143
           },
           {
             "id": 5,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-05.png",
-            "sha256": "d35a82cbadba6e61b8ce5d83b0c351c068fb7aa0d61db0c28363e95971fc60a9",
-            "area": 693,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-05.png",
+            "sha256": "d46e24e1c31febf4e08abb66e24798a909424992b8410cd6fe5360ca336f54f2",
+            "area": 88067,
             "bbox": [
-              612.0,
-              345.0,
-              27.0,
-              31.0
+              0,
+              246,
+              611,
+              365
             ],
-            "predicted_iou": 0.9675033092498779,
-            "stability_score": 0.9757489562034607
+            "predicted_iou": 1.0005861520767212,
+            "stability_score": 0.9796477556228638
           },
           {
             "id": 6,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-06.png",
-            "sha256": "155b5d42e6226fc391dafe85bff9d6b9cc4d5cf3d50f22f5987406b60b693ae0",
-            "area": 1881,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-06.png",
+            "sha256": "b224b767d39cf3845bdc34535fd419488305e64667d4a63f968c065e453b03c0",
+            "area": 42382,
             "bbox": [
-              596.0,
-              275.0,
-              43.0,
-              57.0
+              177,
+              33,
+              426,
+              301
             ],
-            "predicted_iou": 0.9674684405326843,
-            "stability_score": 0.9676240086555481
+            "predicted_iou": 0.9976080656051636,
+            "stability_score": 0.9872684478759766
           },
           {
             "id": 7,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-07.png",
-            "sha256": "a6cc55ff33dd0324c93b47d5dec4cb064855156da976e7e3e66c9bc7bede3e0a",
-            "area": 7537,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-07.png",
+            "sha256": "b3315d8458f40050ccc03c1f48b5924fc371bff00f49ecd57ad0702129b4b318",
+            "area": 33199,
             "bbox": [
-              356.0,
-              328.0,
-              283.0,
-              55.0
+              442,
+              0,
+              169,
+              244
             ],
-            "predicted_iou": 0.9646376371383667,
-            "stability_score": 0.9652650952339172
+            "predicted_iou": 0.9929698705673218,
+            "stability_score": 0.9853562116622925
           },
           {
             "id": 8,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-08.png",
-            "sha256": "e792652c48089e77c6ccc4c75ffc0b278cc8cb8486d696fe33bc42bc198b93c2",
-            "area": 1486,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-08.png",
+            "sha256": "1074d8729a442d8ef8319ef900bf8762fb3ec2b1f211ac03da59f242c0d0bcb0",
+            "area": 8095,
             "bbox": [
-              0.0,
-              335.0,
-              23.0,
-              79.0
+              249,
+              329,
+              154,
+              94
             ],
-            "predicted_iou": 0.9614273309707642,
-            "stability_score": 0.9767287373542786
+            "predicted_iou": 0.9912667274475098,
+            "stability_score": 0.981377124786377
           },
           {
             "id": 9,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-09.png",
-            "sha256": "84845af341377746d5502e4574179514b5dabeb1600311b82f568be42f0631f1",
-            "area": 1185,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-09.png",
+            "sha256": "920cec0db99abfc4c637b6aa5c645ae77765dbc5a77dbc5189a3389ee7c80103",
+            "area": 68818,
             "bbox": [
-              419.0,
-              0.0,
-              99.0,
-              24.0
+              0,
+              0,
+              611,
+              244
             ],
-            "predicted_iou": 0.9605552554130554,
-            "stability_score": 0.9610282182693481
+            "predicted_iou": 0.9852825403213501,
+            "stability_score": 0.957406222820282
           },
           {
             "id": 10,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-10.png",
-            "sha256": "a25dafb5ac4c0305353ffd6f1e86bb8f3bbdf181bea2168a70f9d4c750e22e14",
-            "area": 11933,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-10.png",
+            "sha256": "f2602a731a5e6dbee73cf8770073147a5b01d50edaf1d776ee57f9ad50af591a",
+            "area": 16041,
             "bbox": [
-              16.0,
-              396.0,
-              623.0,
-              29.0
+              537,
+              0,
+              74,
+              244
             ],
-            "predicted_iou": 0.9589489698410034,
-            "stability_score": 0.9512573480606079
+            "predicted_iou": 0.9845039248466492,
+            "stability_score": 0.987730085849762
           },
           {
             "id": 11,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-11.png",
-            "sha256": "98ee016c55062c64f66fe135a377b3acf6473ca5f7030769534bc7ad39a9f928",
-            "area": 735,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-11.png",
+            "sha256": "7bec020cd9f94bc34cd7d899098d731cdb6ec08139b3e620c9217d94b97f3d46",
+            "area": 976,
             "bbox": [
-              410.0,
-              306.0,
-              15.0,
-              52.0
+              584,
+              483,
+              27,
+              44
             ],
-            "predicted_iou": 0.9538044929504395,
-            "stability_score": 0.9679572582244873
+            "predicted_iou": 0.9836587905883789,
+            "stability_score": 0.9867751598358154
           },
           {
             "id": 12,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-12.png",
-            "sha256": "d42d7e788a9a6ce7f0f62b8e551cb42c9cadf507622bd521b0b97f88102ff38d",
-            "area": 1029,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-12.png",
+            "sha256": "0e7ed537aac047c2e5409841a15e1aaccdde1e034d47869b5fc76ecde5b9da6f",
+            "area": 12734,
             "bbox": [
-              612.0,
-              325.0,
-              27.0,
-              51.0
+              0,
+              0,
+              156,
+              82
             ],
-            "predicted_iou": 0.9512814283370972,
-            "stability_score": 0.9741873741149902
+            "predicted_iou": 0.9836208820343018,
+            "stability_score": 0.9670772552490234
           },
           {
             "id": 13,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-13.png",
-            "sha256": "4fabe1586845d8d0820d49d40e3b7b1d836b29d845d2d7b3ee4863da0f06b6eb",
-            "area": 1034,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-13.png",
+            "sha256": "f55718cdaa5594cbec2c5b343e42bf14054851a1bf168205bdd54d11165dcb2b",
+            "area": 30899,
             "bbox": [
-              448.0,
-              128.0,
-              147.0,
-              35.0
+              311,
+              437,
+              300,
+              174
             ],
-            "predicted_iou": 0.940456748008728,
-            "stability_score": 0.9600760340690613
+            "predicted_iou": 0.9824528098106384,
+            "stability_score": 0.9854732155799866
           },
           {
             "id": 14,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-14.png",
-            "sha256": "a0e5719b79ba01bd3b8e59a2900365069b69ce0e945d6312d1a10993b4ff7873",
-            "area": 686,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-14.png",
+            "sha256": "e85045748ab4ab897adc1cf7d9919e9a21bd46925d3e4a050002cc61ef1fd186",
+            "area": 21354,
             "bbox": [
-              364.0,
-              151.0,
-              47.0,
-              27.0
+              0,
+              428,
+              238,
+              183
             ],
-            "predicted_iou": 0.9404365420341492,
-            "stability_score": 0.9726618528366089
+            "predicted_iou": 0.9806382656097412,
+            "stability_score": 0.9907701015472412
           },
           {
             "id": 15,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-15.png",
-            "sha256": "0c53b44431aaf83cbd98902dfc6dfae017fceaf97ec9566a59cfe36a27164657",
-            "area": 402,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-15.png",
+            "sha256": "50b5e52b0e9d174bcbdd715cd169f772e5eb071ebf308ac70fa39c68e0132223",
+            "area": 5498,
             "bbox": [
-              455.0,
-              322.0,
-              14.0,
-              32.0
+              78,
+              534,
+              160,
+              77
             ],
-            "predicted_iou": 0.9306221604347229,
-            "stability_score": 0.9731051325798035
+            "predicted_iou": 0.9789421558380127,
+            "stability_score": 0.9679842591285706
           },
           {
             "id": 16,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-16.png",
-            "sha256": "9b3dc3974b48bec8d7d1affaafbe48a61a54831ce034dcb04f51f9cc822a28ce",
-            "area": 371,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-16.png",
+            "sha256": "d55b7caadf10dd95536ecf46967f0740a6dcf392617b89f6f18806d04025287e",
+            "area": 16125,
             "bbox": [
-              259.0,
-              0.0,
-              11.0,
-              37.0
+              0,
+              0,
+              165,
+              194
             ],
-            "predicted_iou": 0.9188860654830933,
-            "stability_score": 0.9655172228813171
+            "predicted_iou": 0.9753302335739136,
+            "stability_score": 0.9827883243560791
           },
           {
             "id": 17,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-17.png",
-            "sha256": "c8c0ed1e55eb102baf7643353971be100459c856965d13a62ab91340c5164c71",
-            "area": 998,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-17.png",
+            "sha256": "e31a87862fb486aa3c7d2b2464943691002a5970c01ea0a7abd78bff12032551",
+            "area": 10903,
             "bbox": [
-              0.0,
-              411.0,
-              80.0,
-              14.0
+              43,
+              365,
+              187,
+              81
             ],
-            "predicted_iou": 0.9170754551887512,
-            "stability_score": 0.9560117125511169
+            "predicted_iou": 0.9711272120475769,
+            "stability_score": 0.9678961038589478
           },
           {
             "id": 18,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-18.png",
-            "sha256": "3f9dd308321022b371ccce0c91bdfeef769f51489383aec45d9c0c8e7121735f",
-            "area": 1268,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-18.png",
+            "sha256": "84902a88b85fdb8cf7581de431ad7ed36f5c41fc3ca8a85c4d4923dc1357aa03",
+            "area": 3772,
             "bbox": [
-              470.0,
-              299.0,
-              35.0,
-              52.0
+              279,
+              258,
+              71,
+              77
             ],
-            "predicted_iou": 0.9153954386711121,
-            "stability_score": 0.9627618193626404
+            "predicted_iou": 0.9626800417900085,
+            "stability_score": 0.9683577418327332
           },
           {
             "id": 19,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-19.png",
-            "sha256": "27e0e65d0b6c9d016984342c0fbcc0ed1c56297418711a5d699d75ddd549a46f",
-            "area": 1832,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-19.png",
+            "sha256": "32a96d9438a983eda8604b20fd22e08875160f4e68e7ad1054068217a34d7de0",
+            "area": 745,
             "bbox": [
-              53.0,
-              318.0,
-              96.0,
-              92.0
+              213,
+              434,
+              42,
+              22
             ],
-            "predicted_iou": 0.9099936485290527,
-            "stability_score": 0.9534759521484375
+            "predicted_iou": 0.9405919909477234,
+            "stability_score": 0.9578947424888611
           },
           {
             "id": 20,
-            "mask": "assets/everything/giraffe-mobilesam-fsd-16-20.png",
-            "sha256": "4b2026603160a5f9b15d098cf9e06360981e645b48ee6a2d18730434c91ec359",
-            "area": 249,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-20.png",
+            "sha256": "a661fa3b2fdafbb66a870b5158e6951bcd6e8baaaafe068daa781f263c259871",
+            "area": 299,
             "bbox": [
-              328.0,
-              348.0,
-              30.0,
-              25.0
+              11,
+              509,
+              27,
+              14
             ],
-            "predicted_iou": 0.9009183049201965,
-            "stability_score": 0.9642857313156128
+            "predicted_iou": 0.9387704730033875,
+            "stability_score": 0.970588207244873
+          },
+          {
+            "id": 21,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-21.png",
+            "sha256": "e2760c63f0e8bab2b87e6c2a7da9d05c7310265f786b4bbd8338e1c6404971fb",
+            "area": 540,
+            "bbox": [
+              594,
+              246,
+              17,
+              76
+            ],
+            "predicted_iou": 0.9086452126502991,
+            "stability_score": 0.9583333134651184
+          },
+          {
+            "id": 22,
+            "mask": "assets/everything/fruit-mobilesam-fsd-16-22.png",
+            "sha256": "9712cfe33e5ac64247adcb95f54c20b18fc674402459dddcce1980d1ebe884b7",
+            "area": 69151,
+            "bbox": [
+              0,
+              0,
+              611,
+              608
+            ],
+            "predicted_iou": 0.8893096446990967,
+            "stability_score": 0.9531930685043335
           }
         ],
         "checkpoint_sha256": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2",
-        "image_sha256": "d8f12a26d8803701cabac80494b080f998e5ed9bafaf61a2825ce6212c85487a",
-        "overlay": "assets/everything/giraffe-mobilesam-fsd-16.jpg",
-        "predictions": "assets/everything/giraffe-mobilesam-fsd-16.json"
+        "image_sha256": "5800d9c4af6f1cc1d03013d438f9bec32333a4b9c492e9e34fc4c76c7c29b54d",
+        "overlay": "assets/everything/fruit-mobilesam-fsd-16.jpg",
+        "predictions": "assets/everything/fruit-mobilesam-fsd-16.json"
       }
     }
   }
