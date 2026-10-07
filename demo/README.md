@@ -13,7 +13,8 @@ python demo/server.py --host 127.0.0.1 --port 7860
 ```
 
 Open `http://127.0.0.1:7860`. Upload an image, select a backbone, and add a
-foreground click or drag a box. Run prediction, then add one corrective click
+foreground click or drag a box. Everything generates masks automatically.
+Run prediction, then add one corrective click
 for each additional round. Reset prompts to select another object.
 
 The application downloads a checkpoint only if its exact SHA256-verified file
@@ -26,6 +27,17 @@ Benchmark values on the project page remain fixed evaluation results and are
 independent of interactive application timings.
 
 ## Hugging Face Space
+
+For the same Gradio research studio locally, install the project's dependencies
+and Gradio, then run:
+
+```bash
+SAM_DEMO_DEVICE=cpu SAM_DEMO_PROJECT="$PWD" python demo/space/app.py
+```
+
+The studio provides Point, Box and Everything modes, built-in images, native
+FSD-SAM/Dense SAM generation, opacity controls and an instance inventory.
+Use [docs/everything.md](../docs/everything.md) for generator settings.
 
 Create a public **Gradio** Space under `thirteen7/Rethinking-Lightweight-SAM`.
 Upload `app.py`, `README.md`, and `requirements.txt` from `demo/space/` into the

@@ -1,0 +1,267 @@
+{
+  "masks": [
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "QeW55T=2O2L30O01N2O2N1O00001O0002N2N5L2M1O0004K3M3N0O2N1O2N2O1O1O2N1O2N1O1O3NO100O1O100O1O0001O001O1N2N3M5L1O1000002M2N1O1O1N2O0O2O000O1000000000O10000O2O0O100O100O2O0O5K3M3M3M2M3M4L21O0O1O1O1N2O2N10000O100001O00001O000000O1N2K5N2N3N1O2M201N1N2N200000O1000000O1000000001O1O001O00001O00000000001O00O10000O100O100002bDZNT;o1O1O001O1O1O001O001O1O001O001O001O001O00000000000000000000O10000O1O1O1O1O1O100001O00O100O1O1O1O1O1000000001O001O1O001O001O001O1O2N2N1O1O1O010O00000001O000000000000N"
+      },
+      "area": 12289,
+      "bbox": [
+        403.0,
+        0.0,
+        236.0,
+        81.0
+      ],
+      "predicted_iou": 1.004060983657837,
+      "stability_score": 0.9633130431175232
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "_RQ5d0c<4N4K3L5M2N1O10000001O01O002N2O1N4L4M3L5L3N4L205J8KN14I5J4NOO0\\GUMi6l2oH\\Mo6e2nH^MR7c2jH_MW7a2fHbM\\7[2aHiMa7U2]HlMe7T2WHoMi7Q2SHSNm7l1PHZNm7f1oGhNi7W1SHoNm7o0oGXOo7V3L5K2O04L01M4gHfJZ6U62N2M2N1O1O1O3M2N1N3N1O1O1O0O1@XH^Kh7Z4cHcK^7\\4bHdK^7\\4aHeK`7R50010O0001O001O1O0O2O1N2_OYH\\Kh7\\3oGYMn8e2SGWMR9h2PGRMU9m2e0O1O1O1O1O1O10000O1001O001O00010O1O1O1O1O2N0O3N001O2N0O2O2M2O2M3N3L2O00O1O00VKQL:n3FSL:l3FSL;m3ESL<l3b4OPKULb0`2\\K]NR4SOc0[2bK^Nn8d1SGYNo8i1PGTNQ9n1oFoMR9Q2oFmMS9S2lFlMU9V2jFhMW9Y2iFeMY9\\2fFbM[9_2dF_M_9a2bF[M`9g2b02fEWMl9i2oE[MR:n22N3N2M2N3M4L4L3M1VNWEQ1k:iN]ES1d:iNeE4[O?Q;[O]F;d9C`F:a9EbF8_9GcF7^9GeF7Y;N2NSfT1"
+      },
+      "area": 17975,
+      "bbox": [
+        387.0,
+        66.0,
+        163.0,
+        289.0
+      ],
+      "predicted_iou": 0.9853074550628662,
+      "stability_score": 0.9573403000831604
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "\\nm04U=1O1O100O100O1000000O1000000O100O10000O100O10000O10000O10000O100O10000O10000O100O1000000O1000000O10000O100000000000000000000000000O100000000O1000000O1000000000000000000000000000000000000O10000000000000000000000000000000000O10O100O1O1N2O1O1O1O1O100O100O101N2N2N2N3Lgod5"
+      },
+      "area": 2757,
+      "bbox": [
+        71.0,
+        397.0,
+        132.0,
+        28.0
+      ],
+      "predicted_iou": 0.9757328033447266,
+      "stability_score": 0.9774112701416016
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "Y^f04U=1O2N1O00100O100O1O10O0100O10000O010O100O100O100O1O1O1O1O10O01O1O1O010O100000O10000O10000O100O100O100O100O1000000O100O01000O10O1000O10O100O100O1O010N110O1O00001O0000O11O0001O1O001N101N2O2N4L3Md_[6"
+      },
+      "area": 1622,
+      "bbox": [
+        53.0,
+        363.0,
+        96.0,
+        48.0
+      ],
+      "predicted_iou": 0.950994610786438,
+      "stability_score": 0.9671732783317566
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "]of71X=2N2N4K4N2N1O4L4L2N2N2N4M5J1O2N000000000O2N2N2N2M3N0000100O010000O100O010O100O1O10O01O100O1O^G"
+      },
+      "area": 1881,
+      "bbox": [
+        593.0,
+        275.0,
+        46.0,
+        58.0
+      ],
+      "predicted_iou": 0.9454326629638672,
+      "stability_score": 0.961840033531189
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "_;W1S<2O5K0OO2O00^Ob0D<M3N200001O:F2N1O1O0O2O1O1N=lN[DJP<C_DNcXP8"
+      },
+      "area": 1387,
+      "bbox": [
+        0.0,
+        335.0,
+        23.0,
+        79.0
+      ],
+      "predicted_iou": 0.9420033693313599,
+      "stability_score": 0.9521126747131348
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "^Vh6<l<4L4K5L4M4K4L5L3M4L4M2N111N1cDWNV;o11N2N2N2N1O2N3M2N6oNRD:e<J4L3M2N1O2N2NTfT1"
+      },
+      "area": 1211,
+      "bbox": [
+        519.0,
+        279.0,
+        31.0,
+        67.0
+      ],
+      "predicted_iou": 0.9355809092521667,
+      "stability_score": 0.9596448540687561
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "hkZ5226k<;aC0W;R100000O10000O1O100O2O0O3M8WObgh2"
+      },
+      "area": 721,
+      "bbox": [
+        410.0,
+        306.0,
+        15.0,
+        52.0
+      ],
+      "predicted_iou": 0.9243812561035156,
+      "stability_score": 0.961904764175415
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "Tdm53Q=8I5B>N2O10000001O00001O1O1^OiCNViV2"
+      },
+      "area": 403,
+      "bbox": [
+        455.0,
+        322.0,
+        14.0,
+        32.0
+      ],
+      "predicted_iou": 0.9220687747001648,
+      "stability_score": 0.9659367203712463
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "R=8Q=100O1000000O10000000000000000000000O10000000000O100000000000000000000O10000000000000000000000000000000000000000000000000000O10O1000000O1O1O1O1O1O1O010O100O101O0O100O10001ON110\\jT7"
+      },
+      "area": 996,
+      "bbox": [
+        0.0,
+        410.0,
+        88.0,
+        15.0
+      ],
+      "predicted_iou": 0.9198442101478577,
+      "stability_score": 0.9566075205802917
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "big25R=3N2O1N101EHbC9_<81O1O1O1O1O100O1O100N2O1O1K5N2NnlX5"
+      },
+      "area": 306,
+      "bbox": [
+        211.0,
+        0.0,
+        22.0,
+        24.0
+      ],
+      "predicted_iou": 0.90602046251297,
+      "stability_score": 0.9680511355400085
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "bZl57P=h0ZO4MOZDWOm:i0PE[Oo:h0gD_OX;Z11O000000001O0000001O0O1XOTEPOo:i0l0L4N3]Oj[T2"
+      },
+      "area": 1053,
+      "bbox": [
+        452.0,
+        293.0,
+        22.0,
+        61.0
+      ],
+      "predicted_iou": 0.9019359350204468,
+      "stability_score": 0.9553903341293335
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "\\kS66i<d0C4N2E:H9O101O01O1O001O1O1O2N1O1O2N2N100O3L2O3M1O2N2N2N2N2N2N3M2N2M4MU]g1"
+      },
+      "area": 1255,
+      "bbox": [
+        470.0,
+        298.0,
+        35.0,
+        53.0
+      ],
+      "predicted_iou": 0.8947702646255493,
+      "stability_score": 0.9586260914802551
+    },
+    {
+      "segmentation": {
+        "size": [
+          426,
+          640
+        ],
+        "counts": "W\\`36S=3N2N2O1O1N3J6hNX1L6K3L5M5K2O1O2ObN_E0`:\\OUFc0[;O3M001O1O4L3L3N002M10O01O001O1O1O0O10O01O010O000001O0001O0000000O2O00000O1O5IfRR4"
+      },
+      "area": 1676,
+      "bbox": [
+        270.0,
+        18.0,
+        56.0,
+        127.0
+      ],
+      "predicted_iou": 0.8921840190887451,
+      "stability_score": 0.9514903426170349
+    }
+  ],
+  "info": {
+    "method": "fsd",
+    "backend": "portable_pytorch",
+    "grid": 16,
+    "total_points": 256,
+    "native_points": 193,
+    "local_guard_points": 136,
+    "masks": 14,
+    "seconds": 15.304876800015336,
+    "annotation_prompts": false
+  }
+}

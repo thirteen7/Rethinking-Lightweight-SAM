@@ -4,7 +4,7 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const names = {tinysam: "TinySAM", mobilesam: "MobileSAM", vith: "SAM ViT-H"};
 const state = {example: "bear", model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point"};
 const pictures = new Map();
-let records, benchmarks, manifest, config, renderVersion = 0, toastTimer;
+let records, benchmarks, manifest, config, everything, renderVersion = 0, toastTimer;
 const number = value => Number(value).toLocaleString("en-US");
 const svg = id => `<svg class="icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 
@@ -89,6 +89,15 @@ function drawPrompts(context, points, box, scale = 1) {
 }
 async function renderExample() {
   const version = ++renderVersion;
+  setEveryControls(state.prompt === "everything");
+  if (state.prompt === "everything") return renderEverything(version);
+  $("#reference-heading").textContent = "Decoder reference";
+  $("#refined-heading").textContent = "Prompt-adaptive";
+  $("#reference-canvas").setAttribute("aria-label","Decoder reference mask and prompts");
+  $("#refined-canvas").setAttribute("aria-label","Refined model mask and prompts");
+  $("#example-metric-note").textContent = "Legacy IoU · CPU example";
+  $("#trajectory-heading").textContent = "REFINED TRAJECTORY";
+  $(".explorer-note").textContent = "Reference: canonical frozen-decoder candidate 0, with the same prompt and mask feedback. Example IoU is separate from dataset mIoU.";
   const sample = records.examples.find(item => item.id === state.example);
   const trajectory = sample.trajectories[state.model][state.prompt];
   const round = trajectory[state.round - 1];
@@ -202,7 +211,7 @@ async function api(path, body) {
 }
 function liveStatus(text, busy = false) {
   live.busy = busy; $("#live-status").textContent = text;
-  $("#run-inference").disabled = busy || !live.session || live.rounds >= 3 || (!live.points.length && !live.box) || (live.rounds > 0 && live.points.length === live.previousCount);
+  $("#run-inference").disabled = busy || !live.session || (live.prompt !== "everything" && (live.rounds >= 3 || (!live.points.length && !live.box) || (live.rounds > 0 && live.points.length === live.previousCount)));
   $("#reset-prompts").disabled = busy || !live.session;
   $("#live-model").disabled = busy;
   $("#image-upload").disabled = busy;
@@ -260,12 +269,15 @@ async function enableLive() {
   $$("[data-live-prompt]").forEach(button => button.addEventListener("click", async () => {
     if (live.busy) return;
     await resetLive(); live.prompt = button.dataset.livePrompt; active($$("[data-live-prompt]"), button);
-    $("#live-instruction").textContent = live.prompt === "box" ? "Drag a box around the target. After prediction, add corrective clicks." : "Click on the target. Add a background click to exclude a region.";
+    $("#live-every-options").hidden = live.prompt !== "everything";
+    $("#live-label").hidden = live.prompt === "everything";
+    $("#live-instruction").textContent = live.prompt === "everything" ? "No clicks required. Run automatic generation to segment instances across the image." : live.prompt === "box" ? "Drag a box around the target. After prediction, add corrective clicks." : "Click on the target. Add a background click to exclude a region.";
+    liveStatus("Mode changed. Ready for segmentation.");
   }));
   $$("[data-label]").forEach(button => button.addEventListener("click", () => {live.label = Number(button.dataset.label); active($$("[data-label]"), button);}));
   const canvas = $("#live-canvas");
   canvas.addEventListener("pointerdown", event => {
-    if (!live.session || live.busy || live.rounds >= 3) return;
+    if (!live.session || live.busy || live.rounds >= 3 || live.prompt === "everything") return;
     const point = canvasPoint(event);
     if (live.prompt === "box" && live.rounds === 0) {
       live.drag = {...point, endX: point.x, endY: point.y}; canvas.setPointerCapture(event.pointerId);
@@ -291,6 +303,12 @@ async function enableLive() {
   $("#run-inference").addEventListener("click", async () => {
     liveStatus("Predicting mask…", true);
     try {
+      if (live.prompt === "everything") {
+        const data = await api("everything", {session_id:live.session, grid:Number($("#live-every-grid").value), method:$("#live-every-method").value});
+        live.mask = await opaqueMask(data.mask); drawLive();
+        liveStatus(`${data.masks} instances · ${data.total_points} prompts · ${data.native_points} completed requests · ${data.seconds.toFixed(2)} s`);
+        return;
+      }
       const data = await api("predict", {session_id: live.session, points: live.points, box: live.box});
       live.mask = await opaqueMask(data.mask); live.rounds = data.round; live.previousCount = live.points.length;
       drawLive(); liveStatus(`Round ${data.round} · candidate ${data.candidate} · ${data.seconds.toFixed(2)} s${data.round === 3 ? " · complete; reset to select another object" : " · add a corrective click to continue"}`);
@@ -299,8 +317,8 @@ async function enableLive() {
   $("#reset-prompts").addEventListener("click", () => resetLive().catch(error => toast(error.message)));
 }
 async function start() {
-  [records, benchmarks, manifest, config] = await Promise.all([json("examples.json"), json("benchmarks.json"), json("models.json"), json("config.json")]);
-  wireExamples(); wireBenchmarks(); renderModels(); await renderExample();
+  [records, benchmarks, manifest, config, everything] = await Promise.all([json("examples.json"), json("benchmarks.json"), json("models.json"), json("config.json"), json("everything.json")]);
+  wireExamples(); wireBenchmarks(); renderModels(); wireEverything(); await renderExample();
   $("#copy-quickstart").addEventListener("click", () => copy($("#quickstart-code").textContent.trim()));
   $(".dialog-close").addEventListener("click", () => $("#local-demo-dialog").close());
   $("#open-live").addEventListener("click", () => {
@@ -311,5 +329,62 @@ async function start() {
     if (new URLSearchParams(location.search).get("embed") === "1") document.body.classList.add("embedded-live");
     await enableLive();
   }
+}
+function setEveryControls(enabled) {
+  $("#round-controls-title").hidden = enabled;
+  $(".round-buttons").hidden = enabled;
+  $(".prompt-key").hidden = enabled;
+  $("#every-instance-control").hidden = !enabled;
+}
+async function renderEverything(version) {
+  const sample = records.examples.find(row => row.id === state.example);
+  const record = everything.examples[state.example][state.model];
+  const selector = $("#every-instance");
+  const key = state.example + ":" + state.model;
+  if (selector.dataset.record !== key) {
+    selector.innerHTML = '<option value="all">All instances</option>' + record.instances.map((row,index) => `<option value="${index}">Instance ${String(index+1).padStart(2,"0")} · ${number(row.area)} px</option>`).join("");
+    selector.dataset.record = key;
+  }
+  const selected = selector.value === "all" ? null : Number(selector.value);
+  $("#reference-heading").textContent = "Automatic sampling";
+  $("#refined-heading").textContent = selected === null ? "FSD-SAM instances" : `Instance ${String(selected+1).padStart(2,"0")}`;
+  $("#reference-score").textContent = `${record.info.grid} × ${record.info.grid}`;
+  $("#refined-score").textContent = selected === null ? `${record.instances.length} masks` : `${number(record.instances[selected].area)} px`;
+  $("#example-metric-note").textContent = "Prompt-free · recorded CPU inference";
+  $("#trajectory-heading").textContent = "GENERATION SUMMARY";
+  $(".explorer-note").textContent = "FSD-SAM with the frozen backbone. Colors distinguish instances, not semantic classes. No annotated prompts are used.";
+  $("#example-caption").textContent = `${sample.dataset} · image ${sample.image_id} · Everything · ${names[state.model]}`;
+  $("#example-trajectory").innerHTML = [["SAMPLED PROMPTS",record.info.total_points],["NATIVE REQUESTS",record.info.native_points],["INSTANCES",record.info.masks]].map(([label,value]) => `<div class="trajectory-value"><span>${label}</span><b>${number(value)}</b></div>`).join("");
+  $("#every-download").href = record.predictions;
+  const photo = await image(sample.image);
+  const original = $("#reference-canvas"), context = original.getContext("2d");
+  original.width = sample.width; original.height = sample.height;
+  original.setAttribute("aria-label","Original image with automatic sampling grid");
+  context.drawImage(photo,0,0);
+  context.fillStyle = "#ffffffbb";
+  for (let y=0;y<record.info.grid;y++) for (let x=0;x<record.info.grid;x++) {
+    context.beginPath(); context.arc((x+.5)*sample.width/record.info.grid,(y+.5)*sample.height/record.info.grid,1.8,0,Math.PI*2); context.fill();
+  }
+  const canvas = $("#refined-canvas"), target = canvas.getContext("2d");
+  canvas.width = sample.width; canvas.height = sample.height;
+  canvas.setAttribute("aria-label",selected===null?"Automatic instance masks":"Selected automatic instance mask");
+  target.drawImage(photo,0,0);
+  const instances = record.instances.map((row,index) => ({...row,index})).filter(row => selected===null || selected===row.index).sort((a,b) => b.area-a.area);
+  const loaded = await Promise.all(instances.map(async row => ({row,mask:await image(row.mask)})));
+  if (version !== renderVersion) return;
+  target.globalAlpha = state.opacity;
+  for (const item of loaded) target.drawImage(item.mask,0,0);
+  target.globalAlpha = 1;
+  $("#image-source").href = "assets/credits.md";
+  $("#image-source").hidden = false;
+}
+function wireEverything() {
+  $("#every-instance").addEventListener("change", () => renderExample().catch(error => toast(error.message)));
+  $("#try-everything").addEventListener("click", () => {
+    state.prompt = "everything";
+    active($$("[data-prompt]"),$("[data-prompt=everything]"));
+    $("#explorer").scrollIntoView({behavior:"smooth"});
+    renderExample().catch(error => toast(error.message));
+  });
 }
 start().catch(error => {toast(error.message); $("#example-caption").textContent = error.message; console.error(error);});

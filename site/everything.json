@@ -1,0 +1,748 @@
+{
+  "format": "prompt_free_everything_examples_v1",
+  "device": "cpu",
+  "grid": 16,
+  "method": "fsd",
+  "backend": "portable_pytorch",
+  "annotation_prompts": false,
+  "examples": {
+    "bear": {
+      "tinysam": {
+        "info": {
+          "method": "fsd",
+          "backend": "portable_pytorch",
+          "grid": 16,
+          "total_points": 256,
+          "native_points": 74,
+          "local_guard_points": 31,
+          "masks": 5,
+          "seconds": 12.872479399986332,
+          "annotation_prompts": false
+        },
+        "instances": [
+          {
+            "id": 1,
+            "mask": "assets/everything/bear-tinysam-fsd-16-01.png",
+            "sha256": "9b4ffc1d3e40e868cf132700740d8b929fea1b5d1a8429117891ce43d030a9f8",
+            "area": 92335,
+            "bbox": [
+              0.0,
+              0.0,
+              584.0,
+              400.0
+            ],
+            "predicted_iou": 1.045446753501892,
+            "stability_score": 0.9530320763587952
+          },
+          {
+            "id": 2,
+            "mask": "assets/everything/bear-tinysam-fsd-16-02.png",
+            "sha256": "fbda0b067f3c02c9ccf46df16a78929044807a720127a38fd669bc034b860bec",
+            "area": 275337,
+            "bbox": [
+              2.0,
+              72.0,
+              581.0,
+              567.0
+            ],
+            "predicted_iou": 1.020380973815918,
+            "stability_score": 0.9889689087867737
+          },
+          {
+            "id": 3,
+            "mask": "assets/everything/bear-tinysam-fsd-16-03.png",
+            "sha256": "61086b2af3111fc889d16cb3688a2ef2183fac7a166b76b52223d9d2d996297f",
+            "area": 9123,
+            "bbox": [
+              71.0,
+              84.0,
+              102.0,
+              133.0
+            ],
+            "predicted_iou": 0.9830580353736877,
+            "stability_score": 0.950760006904602
+          },
+          {
+            "id": 4,
+            "mask": "assets/everything/bear-tinysam-fsd-16-04.png",
+            "sha256": "3d382014456d1670f6831197497906a4d545318fd3c50b168e3bae24e7e4e203",
+            "area": 4890,
+            "bbox": [
+              159.0,
+              365.0,
+              82.0,
+              82.0
+            ],
+            "predicted_iou": 0.9618988037109375,
+            "stability_score": 0.9594405889511108
+          },
+          {
+            "id": 5,
+            "mask": "assets/everything/bear-tinysam-fsd-16-05.png",
+            "sha256": "8746a3c9b63734f339d8130a4346b466d8221a222e2fe2b1e85746c6cfdad271",
+            "area": 4756,
+            "bbox": [
+              0.0,
+              390.0,
+              35.0,
+              238.0
+            ],
+            "predicted_iou": 0.9477415084838867,
+            "stability_score": 0.9612996578216553
+          }
+        ],
+        "checkpoint_sha256": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875",
+        "image_sha256": "f3a2974ce3686332609124c70e3e6a2e3aca43fccf1cd1bd7c5c03820977f57d",
+        "overlay": "assets/everything/bear-tinysam-fsd-16.jpg",
+        "predictions": "assets/everything/bear-tinysam-fsd-16.json"
+      },
+      "mobilesam": {
+        "info": {
+          "method": "fsd",
+          "backend": "portable_pytorch",
+          "grid": 16,
+          "total_points": 256,
+          "native_points": 52,
+          "local_guard_points": 10,
+          "masks": 8,
+          "seconds": 10.295438900007866,
+          "annotation_prompts": false
+        },
+        "instances": [
+          {
+            "id": 1,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-01.png",
+            "sha256": "f214000bf5fc3a425a4f3eee6b0086129dab74616fdf9fe791601cdc805489bd",
+            "area": 276633,
+            "bbox": [
+              0,
+              72,
+              583,
+              567
+            ],
+            "predicted_iou": 1.0321369171142578,
+            "stability_score": 0.9917798042297363
+          },
+          {
+            "id": 2,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-02.png",
+            "sha256": "5786e09446601eb498139bae0fee4fd590f77559605df6460470af45e9d5eccd",
+            "area": 93374,
+            "bbox": [
+              0,
+              0,
+              584,
+              400
+            ],
+            "predicted_iou": 1.0305461883544922,
+            "stability_score": 0.9879915714263916
+          },
+          {
+            "id": 3,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-03.png",
+            "sha256": "ecc44cee55222df8c8fae29649e55082d56f2adb86e597f7baeb8601ae081460",
+            "area": 5086,
+            "bbox": [
+              159,
+              365,
+              82,
+              88
+            ],
+            "predicted_iou": 0.9791021943092346,
+            "stability_score": 0.9606708884239197
+          },
+          {
+            "id": 4,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-04.png",
+            "sha256": "c25db5a214f2671c76b8f87009e30cc7ff700aad25088465a4fe88e0041c5446",
+            "area": 9215,
+            "bbox": [
+              71,
+              84,
+              104,
+              134
+            ],
+            "predicted_iou": 0.9765438437461853,
+            "stability_score": 0.9641184210777283
+          },
+          {
+            "id": 5,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-05.png",
+            "sha256": "f067117d8a0fd134c15b0d83e0c460fdf5b6d75b4bfdd8784e618e293340e57c",
+            "area": 4716,
+            "bbox": [
+              0,
+              387,
+              37,
+              241
+            ],
+            "predicted_iou": 0.975235104560852,
+            "stability_score": 0.9600082635879517
+          },
+          {
+            "id": 6,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-06.png",
+            "sha256": "dc72df4710c2e380ce77d696f725d849bfd6d636d5db9ad04c395357b5d52587",
+            "area": 3476,
+            "bbox": [
+              431,
+              14,
+              82,
+              87
+            ],
+            "predicted_iou": 0.9425819516181946,
+            "stability_score": 0.9547116756439209
+          },
+          {
+            "id": 7,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-07.png",
+            "sha256": "fe4b877b1abdf9e6e6aba4fc2b8fb0ed5491e84e12926726f97360b42d66787b",
+            "area": 1406,
+            "bbox": [
+              157,
+              275,
+              37,
+              50
+            ],
+            "predicted_iou": 0.9308470487594604,
+            "stability_score": 0.961618959903717
+          },
+          {
+            "id": 8,
+            "mask": "assets/everything/bear-mobilesam-fsd-16-08.png",
+            "sha256": "375354264fd0dac50fe0d6469403a8c54fc438a3a0c55f5c37ceb0e5ee91e6cc",
+            "area": 90,
+            "bbox": [
+              199,
+              0,
+              4,
+              25
+            ],
+            "predicted_iou": 0.8999899625778198,
+            "stability_score": 0.97826087474823
+          }
+        ],
+        "checkpoint_sha256": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2",
+        "image_sha256": "f3a2974ce3686332609124c70e3e6a2e3aca43fccf1cd1bd7c5c03820977f57d",
+        "overlay": "assets/everything/bear-mobilesam-fsd-16.jpg",
+        "predictions": "assets/everything/bear-mobilesam-fsd-16.json"
+      }
+    },
+    "giraffe": {
+      "tinysam": {
+        "info": {
+          "method": "fsd",
+          "backend": "portable_pytorch",
+          "grid": 16,
+          "total_points": 256,
+          "native_points": 193,
+          "local_guard_points": 136,
+          "masks": 14,
+          "seconds": 15.304876800015336,
+          "annotation_prompts": false
+        },
+        "instances": [
+          {
+            "id": 1,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-01.png",
+            "sha256": "4e2b10d92879de30521e614e8296c89fadbce1ba97a978040ebe76a9b7e1a537",
+            "area": 12289,
+            "bbox": [
+              403.0,
+              0.0,
+              236.0,
+              81.0
+            ],
+            "predicted_iou": 1.004060983657837,
+            "stability_score": 0.9633130431175232
+          },
+          {
+            "id": 2,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-02.png",
+            "sha256": "db565e3e4eca713ee5d40ae78b3a59f313ad502478f84cb000a919c712f7095a",
+            "area": 17975,
+            "bbox": [
+              387.0,
+              66.0,
+              163.0,
+              289.0
+            ],
+            "predicted_iou": 0.9853074550628662,
+            "stability_score": 0.9573403000831604
+          },
+          {
+            "id": 3,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-03.png",
+            "sha256": "235ece5746a3008f36b576ea4fad9b3c36c157093ecb25fa0bdcc701b594df11",
+            "area": 2757,
+            "bbox": [
+              71.0,
+              397.0,
+              132.0,
+              28.0
+            ],
+            "predicted_iou": 0.9757328033447266,
+            "stability_score": 0.9774112701416016
+          },
+          {
+            "id": 4,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-04.png",
+            "sha256": "4983a690d2d35169a5511d09c94677d1983bb145771800ddf2bcfff2a2f73246",
+            "area": 1622,
+            "bbox": [
+              53.0,
+              363.0,
+              96.0,
+              48.0
+            ],
+            "predicted_iou": 0.950994610786438,
+            "stability_score": 0.9671732783317566
+          },
+          {
+            "id": 5,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-05.png",
+            "sha256": "9d054c38691cce80402b7188b5a195d9d789ba73248234f247fe2be32b538f3d",
+            "area": 1881,
+            "bbox": [
+              593.0,
+              275.0,
+              46.0,
+              58.0
+            ],
+            "predicted_iou": 0.9454326629638672,
+            "stability_score": 0.961840033531189
+          },
+          {
+            "id": 6,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-06.png",
+            "sha256": "f357f657f05bcce53bffe7f0a10b2f2c4a251e0fc7eb69122e920a7436682f10",
+            "area": 1387,
+            "bbox": [
+              0.0,
+              335.0,
+              23.0,
+              79.0
+            ],
+            "predicted_iou": 0.9420033693313599,
+            "stability_score": 0.9521126747131348
+          },
+          {
+            "id": 7,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-07.png",
+            "sha256": "d4f5ce6a30a4401202be1364024955dcbcb024f1402840fe157d126e70edd6f8",
+            "area": 1211,
+            "bbox": [
+              519.0,
+              279.0,
+              31.0,
+              67.0
+            ],
+            "predicted_iou": 0.9355809092521667,
+            "stability_score": 0.9596448540687561
+          },
+          {
+            "id": 8,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-08.png",
+            "sha256": "973c74743f2e823ae00fb4312287b65c7e9e75526056093edebb068a0189f595",
+            "area": 721,
+            "bbox": [
+              410.0,
+              306.0,
+              15.0,
+              52.0
+            ],
+            "predicted_iou": 0.9243812561035156,
+            "stability_score": 0.961904764175415
+          },
+          {
+            "id": 9,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-09.png",
+            "sha256": "776c651308ccdcd1afd2137fc19362cce1ff0e73c0a6954ad44a0b3dba1efa74",
+            "area": 403,
+            "bbox": [
+              455.0,
+              322.0,
+              14.0,
+              32.0
+            ],
+            "predicted_iou": 0.9220687747001648,
+            "stability_score": 0.9659367203712463
+          },
+          {
+            "id": 10,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-10.png",
+            "sha256": "d920a868e69ff215addaff8a0cad72d9d0e03190cfd89f583b0bee3f5f415f06",
+            "area": 996,
+            "bbox": [
+              0.0,
+              410.0,
+              88.0,
+              15.0
+            ],
+            "predicted_iou": 0.9198442101478577,
+            "stability_score": 0.9566075205802917
+          },
+          {
+            "id": 11,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-11.png",
+            "sha256": "2fedd614783831bd968996824d57b0a97b112ec7c081e06ae1dd7a5504872046",
+            "area": 306,
+            "bbox": [
+              211.0,
+              0.0,
+              22.0,
+              24.0
+            ],
+            "predicted_iou": 0.90602046251297,
+            "stability_score": 0.9680511355400085
+          },
+          {
+            "id": 12,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-12.png",
+            "sha256": "4af08fc942651273650d29d302bdb7e53ed0c2344969b27873c1b21bdf30ca75",
+            "area": 1053,
+            "bbox": [
+              452.0,
+              293.0,
+              22.0,
+              61.0
+            ],
+            "predicted_iou": 0.9019359350204468,
+            "stability_score": 0.9553903341293335
+          },
+          {
+            "id": 13,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-13.png",
+            "sha256": "325c362d9d893db359a4b3d015e2db222844aa9d595ca6941ae15db92e21c04e",
+            "area": 1255,
+            "bbox": [
+              470.0,
+              298.0,
+              35.0,
+              53.0
+            ],
+            "predicted_iou": 0.8947702646255493,
+            "stability_score": 0.9586260914802551
+          },
+          {
+            "id": 14,
+            "mask": "assets/everything/giraffe-tinysam-fsd-16-14.png",
+            "sha256": "5c079a58c23ce9390cdf9954f6010a3d24f370ae6f4ecf274903ac96d57d5618",
+            "area": 1676,
+            "bbox": [
+              270.0,
+              18.0,
+              56.0,
+              127.0
+            ],
+            "predicted_iou": 0.8921840190887451,
+            "stability_score": 0.9514903426170349
+          }
+        ],
+        "checkpoint_sha256": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875",
+        "image_sha256": "d8f12a26d8803701cabac80494b080f998e5ed9bafaf61a2825ce6212c85487a",
+        "overlay": "assets/everything/giraffe-tinysam-fsd-16.jpg",
+        "predictions": "assets/everything/giraffe-tinysam-fsd-16.json"
+      },
+      "mobilesam": {
+        "info": {
+          "method": "fsd",
+          "backend": "portable_pytorch",
+          "grid": 16,
+          "total_points": 256,
+          "native_points": 135,
+          "local_guard_points": 59,
+          "masks": 20,
+          "seconds": 11.63835319998907,
+          "annotation_prompts": false
+        },
+        "instances": [
+          {
+            "id": 1,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-01.png",
+            "sha256": "c1f7e6fbf4bb1e949752e86f51965d5085e462a54ed5502ff7ef4d61793f1c91",
+            "area": 17925,
+            "bbox": [
+              388.0,
+              70.0,
+              161.0,
+              285.0
+            ],
+            "predicted_iou": 0.9987499713897705,
+            "stability_score": 0.9714191555976868
+          },
+          {
+            "id": 2,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-02.png",
+            "sha256": "7642ee048aa2ce1bb7971e5af932583ea1b4343dc17d2772be006e916c40d7fa",
+            "area": 12218,
+            "bbox": [
+              403.0,
+              0.0,
+              236.0,
+              81.0
+            ],
+            "predicted_iou": 0.99247807264328,
+            "stability_score": 0.9706072211265564
+          },
+          {
+            "id": 3,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-03.png",
+            "sha256": "fabcaa7fdd9bcbe7b9ad43eda72b680291ce148dd29b61fe189bbe91117ca33e",
+            "area": 2792,
+            "bbox": [
+              71.0,
+              396.0,
+              132.0,
+              29.0
+            ],
+            "predicted_iou": 0.9746971726417542,
+            "stability_score": 0.9724284410476685
+          },
+          {
+            "id": 4,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-04.png",
+            "sha256": "4539d73a36566b17a75dd7e61e7ececa65b8ccc381300aa0b99f64def6fb8d3a",
+            "area": 1613,
+            "bbox": [
+              53.0,
+              363.0,
+              95.0,
+              47.0
+            ],
+            "predicted_iou": 0.9693779349327087,
+            "stability_score": 0.977370023727417
+          },
+          {
+            "id": 5,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-05.png",
+            "sha256": "d35a82cbadba6e61b8ce5d83b0c351c068fb7aa0d61db0c28363e95971fc60a9",
+            "area": 693,
+            "bbox": [
+              612.0,
+              345.0,
+              27.0,
+              31.0
+            ],
+            "predicted_iou": 0.9675033092498779,
+            "stability_score": 0.9757489562034607
+          },
+          {
+            "id": 6,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-06.png",
+            "sha256": "155b5d42e6226fc391dafe85bff9d6b9cc4d5cf3d50f22f5987406b60b693ae0",
+            "area": 1881,
+            "bbox": [
+              596.0,
+              275.0,
+              43.0,
+              57.0
+            ],
+            "predicted_iou": 0.9674684405326843,
+            "stability_score": 0.9676240086555481
+          },
+          {
+            "id": 7,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-07.png",
+            "sha256": "a6cc55ff33dd0324c93b47d5dec4cb064855156da976e7e3e66c9bc7bede3e0a",
+            "area": 7537,
+            "bbox": [
+              356.0,
+              328.0,
+              283.0,
+              55.0
+            ],
+            "predicted_iou": 0.9646376371383667,
+            "stability_score": 0.9652650952339172
+          },
+          {
+            "id": 8,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-08.png",
+            "sha256": "e792652c48089e77c6ccc4c75ffc0b278cc8cb8486d696fe33bc42bc198b93c2",
+            "area": 1486,
+            "bbox": [
+              0.0,
+              335.0,
+              23.0,
+              79.0
+            ],
+            "predicted_iou": 0.9614273309707642,
+            "stability_score": 0.9767287373542786
+          },
+          {
+            "id": 9,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-09.png",
+            "sha256": "84845af341377746d5502e4574179514b5dabeb1600311b82f568be42f0631f1",
+            "area": 1185,
+            "bbox": [
+              419.0,
+              0.0,
+              99.0,
+              24.0
+            ],
+            "predicted_iou": 0.9605552554130554,
+            "stability_score": 0.9610282182693481
+          },
+          {
+            "id": 10,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-10.png",
+            "sha256": "a25dafb5ac4c0305353ffd6f1e86bb8f3bbdf181bea2168a70f9d4c750e22e14",
+            "area": 11933,
+            "bbox": [
+              16.0,
+              396.0,
+              623.0,
+              29.0
+            ],
+            "predicted_iou": 0.9589489698410034,
+            "stability_score": 0.9512573480606079
+          },
+          {
+            "id": 11,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-11.png",
+            "sha256": "98ee016c55062c64f66fe135a377b3acf6473ca5f7030769534bc7ad39a9f928",
+            "area": 735,
+            "bbox": [
+              410.0,
+              306.0,
+              15.0,
+              52.0
+            ],
+            "predicted_iou": 0.9538044929504395,
+            "stability_score": 0.9679572582244873
+          },
+          {
+            "id": 12,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-12.png",
+            "sha256": "d42d7e788a9a6ce7f0f62b8e551cb42c9cadf507622bd521b0b97f88102ff38d",
+            "area": 1029,
+            "bbox": [
+              612.0,
+              325.0,
+              27.0,
+              51.0
+            ],
+            "predicted_iou": 0.9512814283370972,
+            "stability_score": 0.9741873741149902
+          },
+          {
+            "id": 13,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-13.png",
+            "sha256": "4fabe1586845d8d0820d49d40e3b7b1d836b29d845d2d7b3ee4863da0f06b6eb",
+            "area": 1034,
+            "bbox": [
+              448.0,
+              128.0,
+              147.0,
+              35.0
+            ],
+            "predicted_iou": 0.940456748008728,
+            "stability_score": 0.9600760340690613
+          },
+          {
+            "id": 14,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-14.png",
+            "sha256": "a0e5719b79ba01bd3b8e59a2900365069b69ce0e945d6312d1a10993b4ff7873",
+            "area": 686,
+            "bbox": [
+              364.0,
+              151.0,
+              47.0,
+              27.0
+            ],
+            "predicted_iou": 0.9404365420341492,
+            "stability_score": 0.9726618528366089
+          },
+          {
+            "id": 15,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-15.png",
+            "sha256": "0c53b44431aaf83cbd98902dfc6dfae017fceaf97ec9566a59cfe36a27164657",
+            "area": 402,
+            "bbox": [
+              455.0,
+              322.0,
+              14.0,
+              32.0
+            ],
+            "predicted_iou": 0.9306221604347229,
+            "stability_score": 0.9731051325798035
+          },
+          {
+            "id": 16,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-16.png",
+            "sha256": "9b3dc3974b48bec8d7d1affaafbe48a61a54831ce034dcb04f51f9cc822a28ce",
+            "area": 371,
+            "bbox": [
+              259.0,
+              0.0,
+              11.0,
+              37.0
+            ],
+            "predicted_iou": 0.9188860654830933,
+            "stability_score": 0.9655172228813171
+          },
+          {
+            "id": 17,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-17.png",
+            "sha256": "c8c0ed1e55eb102baf7643353971be100459c856965d13a62ab91340c5164c71",
+            "area": 998,
+            "bbox": [
+              0.0,
+              411.0,
+              80.0,
+              14.0
+            ],
+            "predicted_iou": 0.9170754551887512,
+            "stability_score": 0.9560117125511169
+          },
+          {
+            "id": 18,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-18.png",
+            "sha256": "3f9dd308321022b371ccce0c91bdfeef769f51489383aec45d9c0c8e7121735f",
+            "area": 1268,
+            "bbox": [
+              470.0,
+              299.0,
+              35.0,
+              52.0
+            ],
+            "predicted_iou": 0.9153954386711121,
+            "stability_score": 0.9627618193626404
+          },
+          {
+            "id": 19,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-19.png",
+            "sha256": "27e0e65d0b6c9d016984342c0fbcc0ed1c56297418711a5d699d75ddd549a46f",
+            "area": 1832,
+            "bbox": [
+              53.0,
+              318.0,
+              96.0,
+              92.0
+            ],
+            "predicted_iou": 0.9099936485290527,
+            "stability_score": 0.9534759521484375
+          },
+          {
+            "id": 20,
+            "mask": "assets/everything/giraffe-mobilesam-fsd-16-20.png",
+            "sha256": "4b2026603160a5f9b15d098cf9e06360981e645b48ee6a2d18730434c91ec359",
+            "area": 249,
+            "bbox": [
+              328.0,
+              348.0,
+              30.0,
+              25.0
+            ],
+            "predicted_iou": 0.9009183049201965,
+            "stability_score": 0.9642857313156128
+          }
+        ],
+        "checkpoint_sha256": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2",
+        "image_sha256": "d8f12a26d8803701cabac80494b080f998e5ed9bafaf61a2825ce6212c85487a",
+        "overlay": "assets/everything/giraffe-mobilesam-fsd-16.jpg",
+        "predictions": "assets/everything/giraffe-mobilesam-fsd-16.json"
+      }
+    }
+  }
+}

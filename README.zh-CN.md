@@ -91,6 +91,19 @@ mask, logits, choice = predictor.predict([[200, 150], [250, 180]], [1, 0], previ
 mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 ```
 
+## Everything 整图分割
+
+无需手动添加点或框，即可自动生成实例掩码。支持 FSD-SAM 的因子化状态、
+原生预览和选择性后缀解码，以及 Dense SAM 的完整网格解码。
+
+```bash
+python generate.py --checkpoint weights/tinysam_prompt_adaptive_v1.pth --image example.jpg --method fsd --grid 32 --output runs/everything
+```
+
+工作台提供 Point、Box、Everything 三种模式，支持 TinySAM、MobileSAM、
+8/16/32 网格、多实例颜色叠加和单实例查看。网站提供真实的已记录示例，
+上传图片的推理在本地或 Hugging Face 执行。详见 [Everything 协议](docs/everything.md)。
+
 ## 实验结果
 
 下表为发布权重第三轮普通 mIoU (%)。完整三轮结果和覆盖见 [docs/results.md](docs/results.md)。

@@ -24,7 +24,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 import torch
-from prompt_adaptive_sam import Predictor
+from prompt_adaptive_sam import Predictor, EverythingGenerator
+from prompt_adaptive_sam.everything import render_instances
 from download_models import download, sha256
 
 LOG = logging.getLogger('prompt-adaptive-demo')
@@ -45,6 +46,11 @@ class SessionRef(BaseModel):
 class PredictionInput(SessionRef):
     points: list[dict] = Field(default_factory=list)
     box: list[float] | None = None
+
+
+class EverythingInput(SessionRef):
+    grid: int = 16
+    method: str = 'fsd'
 
 
 @dataclass
@@ -185,6 +191,24 @@ def create_app(device='cpu', weights=None):
             return dict(mask='data:image/png;base64,' + base64.b64encode(stream.getvalue()).decode(),
                         candidate=choice, round=session.rounds,
                         seconds=time.perf_counter() - started)
+
+    @app.post('/api/everything')
+    def everything(request: EverythingInput):
+        if request.grid not in (8,16,32) or request.method not in ('fsd','dense'):
+            raise HTTPException(400, 'Choose a grid of 8, 16, or 32 and fsd or dense.')
+        with lock:
+            session = get_session(request.session_id)
+            masks,details = EverythingGenerator(session.predictor,
+                points_per_side=request.grid,method=request.method,
+                points_per_batch=4 if device=='cpu' else 32).generate()
+            h,w = session.predictor.native_hw
+            rgb = render_instances(np.zeros((h,w,3),dtype=np.uint8),masks,opacity=1.)
+            rgba = np.zeros((h,w,4),dtype=np.uint8)
+            rgba[...,:3],rgba[...,3] = rgb,np.any(rgb!=0,axis=-1).astype(np.uint8)*255
+            stream = io.BytesIO()
+            Image.fromarray(rgba,'RGBA').save(stream,format='PNG',optimize=True)
+            return dict(mask='data:image/png;base64,'+base64.b64encode(stream.getvalue()).decode(),
+                        instances=masks,**details)
 
     app.mount('/', StaticFiles(directory=ROOT / 'site'), name='site')
     return app

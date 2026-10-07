@@ -18,8 +18,14 @@ Prompt-Adaptive Refinement and Efficient Segment Everything Inference.
 [Project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) ·
 [Code and models](https://github.com/thirteen7/Rethinking-Lightweight-SAM)
 
-Upload an image, choose TinySAM or MobileSAM, and refine masks with point or
-box prompts. Inference runs on ZeroGPU. Uploads and predictions use temporary
+Choose TinySAM or MobileSAM and explore **Point**, **Box**, or **Everything**.
+The research studio includes built-in images, FSD-SAM and Dense SAM generation,
+independent instance colors, opacity controls, and a mask inventory.
+Inference runs on ZeroGPU. Uploads and predictions use temporary
 Space storage; image state and previous logits remain in session memory.
+
+Everything uses the portable PyTorch decoder and fixed native SAM filters.
+Colors represent instances, not semantic classes. Uploaded images have no
+measured ground-truth IoU score.
 
 License: see the project's LICENSE and NOTICE.

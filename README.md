@@ -95,9 +95,23 @@ mask, logits, choice = predictor.predict(
 mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 ```
 
+## Everything mode
+
+Generate instance masks without supplying points or boxes. **FSD-SAM** uses
+factorized prompt state, native previews and selective suffix decoding;
+**Dense SAM** completes all sampled requests through the native decoder.
+
+```bash
+python generate.py --checkpoint weights/tinysam_prompt_adaptive_v1.pth --image example.jpg --method fsd --grid 32 --output runs/everything
+```
+
+The application supports TinySAM and MobileSAM, grid densities of 8/16/32,
+colored instance overlays, and individual-mask inspection. See the
+[Everything interface and protocol](docs/everything.md).
+
 ## Interactive application
 
-The [project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) includes a qualitative example explorer, interactive benchmark charts, and model downloads. The example explorer displays recorded model predictions.
+The [project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) includes a qualitative example explorer, interactive benchmark charts, and model downloads. The explorer displays recorded Point, Box, and Everything predictions.
 
 For inference on uploaded images, run the same frontend with the Python backend:
 
@@ -106,7 +120,7 @@ pip install -r demo/requirements.txt
 python demo/server.py --host 127.0.0.1 --port 7860
 ```
 
-Open `http://127.0.0.1:7860`. The app supports foreground/background clicks, box prompts, previous-mask feedback, and model switching. See [demo/README.md](demo/README.md) for Hugging Face Space deployment.
+Open `http://127.0.0.1:7860`. The app supports foreground/background clicks, box prompts, previous-mask feedback, automatic Everything generation, and model switching. See [demo/README.md](demo/README.md) for the Gradio research studio and Hugging Face deployment.
 
 ## Results
 
