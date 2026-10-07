@@ -1,0 +1,848 @@
+{
+  "format": "project_qualitative_examples_v1",
+  "device": "cpu",
+  "description": "Recorded predictions. Reference is canonical frozen-decoder candidate 0 under the same prompt and mask feedback; no dataset-average claim.",
+  "gt": "Legacy 1024-resized / bilinear-restored GT",
+  "examples": [
+    {
+      "id": "bear",
+      "title": "Brown bear",
+      "dataset": "COCO",
+      "image_id": 285,
+      "annotation_id": 587562,
+      "width": 586,
+      "height": 640,
+      "image": "assets/examples/bear.jpg",
+      "image_sha256": "f3a2974ce3686332609124c70e3e6a2e3aca43fccf1cd1bd7c5c03820977f57d",
+      "source_url": "http://farm8.staticflickr.com/7434/9138147604_c6225224b8_z.jpg",
+      "license_id": 4,
+      "trajectories": {
+        "tinysam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 2,
+              "points": [
+                {
+                  "x": 270.50959488272923,
+                  "y": 411.875,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/bear-tinysam-point-1-refined.png",
+                "iou_percent": 93.3145590618008,
+                "intersection": 266079,
+                "union": 285142,
+                "mask_sha256": "d9baab5fc5838f3e4ebf6bfb421c17a3cf5f887041df762f11572da8311072d7"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-tinysam-point-1-reference.png",
+                "iou_percent": 4.530478653188911,
+                "intersection": 12527,
+                "union": 276505,
+                "mask_sha256": "5cfc2f1c1f454a435b6de234ce232108a8bdefa7e0ae5040bad132fd27f247a3"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 270.50959488272923,
+                  "y": 411.875,
+                  "label": 1
+                },
+                {
+                  "x": 499.7867803837953,
+                  "y": 627.5,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/bear-tinysam-point-2-refined.png",
+                "iou_percent": 6.150702518941792,
+                "intersection": 17007,
+                "union": 276505,
+                "mask_sha256": "65c2456172fe428ef0d45291a49dcc05f4e28757bc6010041577228d82abcfa3"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-tinysam-point-2-reference.png",
+                "iou_percent": 6.150702518941792,
+                "intersection": 17007,
+                "union": 276505,
+                "mask_sha256": "65c2456172fe428ef0d45291a49dcc05f4e28757bc6010041577228d82abcfa3"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 270.50959488272923,
+                  "y": 411.875,
+                  "label": 1
+                },
+                {
+                  "x": 499.7867803837953,
+                  "y": 627.5,
+                  "label": 0
+                },
+                {
+                  "x": 567.2579957356077,
+                  "y": 607.5,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/bear-tinysam-point-3-refined.png",
+                "iou_percent": 92.10331377856419,
+                "intersection": 262348,
+                "union": 284841,
+                "mask_sha256": "1e23c8ca78e58aea84b57976ef330d437c7986a7ec3036f9f223b2f7a8f4b071"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-tinysam-point-3-reference.png",
+                "iou_percent": 92.14857596548732,
+                "intersection": 262300,
+                "union": 284649,
+                "mask_sha256": "735b87c4d0702268f03bd47acc8e7b27bf7927e1b039a6dce52d75b4cf353072"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 4,
+              "points": [],
+              "box": [
+                1.43,
+                68.81,
+                586.0,
+                632.75
+              ],
+              "refined": {
+                "mask": "assets/examples/bear-tinysam-box-1-refined.png",
+                "iou_percent": 93.52067631024613,
+                "intersection": 267269,
+                "union": 285786,
+                "mask_sha256": "f0c3f64976d05efa9cdc57771a615770fbb97fe70a33dc34e2f442de794cf1bf"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-tinysam-box-1-reference.png",
+                "iou_percent": 93.39332609685214,
+                "intersection": 266722,
+                "union": 285590,
+                "mask_sha256": "e5a291bdfdd4bd383ce0b0a8355ef7b98680687780b3c8741f462e0a1cbfe4d6"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 4,
+              "points": [
+                {
+                  "x": 72.46908315565032,
+                  "y": 185.0,
+                  "label": 1
+                }
+              ],
+              "box": [
+                1.43,
+                68.81,
+                586.0,
+                632.75
+              ],
+              "refined": {
+                "mask": "assets/examples/bear-tinysam-box-2-refined.png",
+                "iou_percent": 93.65389258011358,
+                "intersection": 267675,
+                "union": 285813,
+                "mask_sha256": "9e4f64ed3103ba35ee3194ff9c1d1ab4ef69ab11137499f1327672eafcd6e45e"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-tinysam-box-2-reference.png",
+                "iou_percent": 93.39603790319471,
+                "intersection": 266415,
+                "union": 285253,
+                "mask_sha256": "63f4a4244f3ad9008590b8e710e81fc40c325bb3547f232b5715b5338e86e0dd"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 4,
+              "points": [
+                {
+                  "x": 72.46908315565032,
+                  "y": 185.0,
+                  "label": 1
+                },
+                {
+                  "x": 447.3091684434968,
+                  "y": 637.5,
+                  "label": 0
+                }
+              ],
+              "box": [
+                1.43,
+                68.81,
+                586.0,
+                632.75
+              ],
+              "refined": {
+                "mask": "assets/examples/bear-tinysam-box-3-refined.png",
+                "iou_percent": 93.51903415956541,
+                "intersection": 267009,
+                "union": 285513,
+                "mask_sha256": "969060d5d156284e65426e34a5eb8712d565989c0c71fd88f216ffa63527dcec"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-tinysam-box-3-reference.png",
+                "iou_percent": 93.45415315208025,
+                "intersection": 266806,
+                "union": 285494,
+                "mask_sha256": "3b7c154e208d17107facdfe69de8ce9ce035ed45b57b47e6e780b5179d6956a9"
+              }
+            }
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 270.50959488272923,
+                  "y": 411.875,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/bear-mobilesam-point-1-refined.png",
+                "iou_percent": 92.93785905178763,
+                "intersection": 264990,
+                "union": 285126,
+                "mask_sha256": "0fc46f88f7c2ad79d0196659e2a336aa7e7dd0519d2e5aed1c28736b3da6648a"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-mobilesam-point-1-reference.png",
+                "iou_percent": 92.93785905178763,
+                "intersection": 264990,
+                "union": 285126,
+                "mask_sha256": "0fc46f88f7c2ad79d0196659e2a336aa7e7dd0519d2e5aed1c28736b3da6648a"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 270.50959488272923,
+                  "y": 411.875,
+                  "label": 1
+                },
+                {
+                  "x": 4.997867803837953,
+                  "y": 615.0,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/bear-mobilesam-point-2-refined.png",
+                "iou_percent": 93.22996585098166,
+                "intersection": 266730,
+                "union": 286099,
+                "mask_sha256": "b58c11a230019579aa6890a03241d16f622060106132314b3b2ef6b5126498d3"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-mobilesam-point-2-reference.png",
+                "iou_percent": 93.23736178453944,
+                "intersection": 266712,
+                "union": 286057,
+                "mask_sha256": "fc75692683a5d1b3aed0f4e449f6de68e01bbd2ad7c3fba1621db918f553a1b3"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 270.50959488272923,
+                  "y": 411.875,
+                  "label": 1
+                },
+                {
+                  "x": 4.997867803837953,
+                  "y": 615.0,
+                  "label": 1
+                },
+                {
+                  "x": 539.7697228144989,
+                  "y": 287.5,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/bear-mobilesam-point-3-refined.png",
+                "iou_percent": 73.44781283332702,
+                "intersection": 271303,
+                "union": 369382,
+                "mask_sha256": "6a0367e627901573ede2782da12a467f94ed0e9ca9cd7cf23de7aa2b6004db54"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-mobilesam-point-3-reference.png",
+                "iou_percent": 73.08800121276434,
+                "intersection": 269990,
+                "union": 369404,
+                "mask_sha256": "b509d06c9dce1443477ea47a72a80afedeea37741bc751b30091506c81689f06"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                1.43,
+                68.81,
+                586.0,
+                632.75
+              ],
+              "refined": {
+                "mask": "assets/examples/bear-mobilesam-box-1-refined.png",
+                "iou_percent": 93.35838723647997,
+                "intersection": 267300,
+                "union": 286316,
+                "mask_sha256": "5f9e5de6288cfb546265d1c1864886b725667c3dcb857d51a3c7941e56e0e736"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-mobilesam-box-1-reference.png",
+                "iou_percent": 93.25201831335407,
+                "intersection": 266822,
+                "union": 286130,
+                "mask_sha256": "f1da8781d931f3bda94a84b889e3248dd5a065af6051f1f49213c436002916ca"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 472.2985074626866,
+                  "y": 200.0,
+                  "label": 1
+                }
+              ],
+              "box": [
+                1.43,
+                68.81,
+                586.0,
+                632.75
+              ],
+              "refined": {
+                "mask": "assets/examples/bear-mobilesam-box-2-refined.png",
+                "iou_percent": 93.41132252103716,
+                "intersection": 267417,
+                "union": 286279,
+                "mask_sha256": "55e17d9a2e392bf85a9c7aa49793d84b2cf3a197e6d711d3faa85290317c7ed5"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-mobilesam-box-2-reference.png",
+                "iou_percent": 93.29016204957591,
+                "intersection": 266947,
+                "union": 286147,
+                "mask_sha256": "f327aca0cc0e72ba29e0d082bcb7bdc74e6477f73b3a237ab37b0e2e0343045b"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 472.2985074626866,
+                  "y": 200.0,
+                  "label": 1
+                },
+                {
+                  "x": 102.45628997867804,
+                  "y": 87.5,
+                  "label": 1
+                }
+              ],
+              "box": [
+                1.43,
+                68.81,
+                586.0,
+                632.75
+              ],
+              "refined": {
+                "mask": "assets/examples/bear-mobilesam-box-3-refined.png",
+                "iou_percent": 93.41598421484572,
+                "intersection": 267492,
+                "union": 286345,
+                "mask_sha256": "968e87b69157a87bfd003826cc8705dac8b7219711456ae19f650a346830a864"
+              },
+              "reference": {
+                "mask": "assets/examples/bear-mobilesam-box-3-reference.png",
+                "iou_percent": 93.3156771148155,
+                "intersection": 267076,
+                "union": 286207,
+                "mask_sha256": "f5be39e039c5bd487307e28d6f860fcaf79f14d0c936af48449a5348b39e391b"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "giraffe",
+      "title": "Giraffe",
+      "dataset": "LVIS",
+      "image_id": 25,
+      "annotation_id": 169795,
+      "width": 640,
+      "height": 426,
+      "image": "assets/examples/giraffe.jpg",
+      "image_sha256": "d8f12a26d8803701cabac80494b080f998e5ed9bafaf61a2825ce6212c85487a",
+      "source_url": "http://farm1.staticflickr.com/94/241612385_d9e5b891ed_z.jpg",
+      "license_id": 1,
+      "trajectories": {
+        "tinysam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 95.0,
+                  "y": 392.89442815249265,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/giraffe-tinysam-point-1-refined.png",
+                "iou_percent": 66.51318543323566,
+                "intersection": 1589,
+                "union": 2389,
+                "mask_sha256": "c485e035f8fc1297d466271b99c05735df9c7ad12d4c259f733d210e3e8a2c9d"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-tinysam-point-1-reference.png",
+                "iou_percent": 66.51318543323566,
+                "intersection": 1589,
+                "union": 2389,
+                "mask_sha256": "c485e035f8fc1297d466271b99c05735df9c7ad12d4c259f733d210e3e8a2c9d"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 95.0,
+                  "y": 392.89442815249265,
+                  "label": 1
+                },
+                {
+                  "x": 170.0,
+                  "y": 362.28739002932554,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/giraffe-tinysam-point-2-refined.png",
+                "iou_percent": 87.26489028213166,
+                "intersection": 2227,
+                "union": 2552,
+                "mask_sha256": "127cd2b89912ac6a583728e25d84f86f60f576817f05fb51e32986d7615f7418"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-tinysam-point-2-reference.png",
+                "iou_percent": 89.57816377171216,
+                "intersection": 2166,
+                "union": 2418,
+                "mask_sha256": "0730256eb57cf4cf4cd1fcad247387d04802e6ec0fb4a0d2cc4f93efb1a03a55"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 95.0,
+                  "y": 392.89442815249265,
+                  "label": 1
+                },
+                {
+                  "x": 170.0,
+                  "y": 362.28739002932554,
+                  "label": 1
+                },
+                {
+                  "x": 172.5,
+                  "y": 367.2844574780059,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/giraffe-tinysam-point-3-refined.png",
+                "iou_percent": 89.23395445134575,
+                "intersection": 2155,
+                "union": 2415,
+                "mask_sha256": "f31f6cdda78baa2d5396338dc3f485de8bddd3d98b8a73702be35b1b8fcb9dc8"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-tinysam-point-3-reference.png",
+                "iou_percent": 87.29096989966555,
+                "intersection": 2088,
+                "union": 2392,
+                "mask_sha256": "cce84b7ab6d5b771830b78138c75d99b93edd7397d8886b74ac76497aba234a2"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                52.08,
+                351.27,
+                181.81,
+                412.59
+              ],
+              "refined": {
+                "mask": "assets/examples/giraffe-tinysam-box-1-refined.png",
+                "iou_percent": 88.77467105263158,
+                "intersection": 2159,
+                "union": 2432,
+                "mask_sha256": "46b18ecdb2cc543b0bdef30db7bfdb09bc1453bf26fd01c93f8edfeaba604ef7"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-tinysam-box-1-reference.png",
+                "iou_percent": 87.46355685131195,
+                "intersection": 2100,
+                "union": 2401,
+                "mask_sha256": "3724d67071cd3d2ec04a2585d27f9478af11e49e27df6dba6cbb156655d7a8cc"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 180.0,
+                  "y": 382.2756598240469,
+                  "label": 1
+                }
+              ],
+              "box": [
+                52.08,
+                351.27,
+                181.81,
+                412.59
+              ],
+              "refined": {
+                "mask": "assets/examples/giraffe-tinysam-box-2-refined.png",
+                "iou_percent": 88.23055219669489,
+                "intersection": 2189,
+                "union": 2481,
+                "mask_sha256": "960f3c77dc3b860150a817e5fbb656d48973a0421767303ab0ec91c94f7dd620"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-tinysam-box-2-reference.png",
+                "iou_percent": 88.23055219669489,
+                "intersection": 2189,
+                "union": 2481,
+                "mask_sha256": "960f3c77dc3b860150a817e5fbb656d48973a0421767303ab0ec91c94f7dd620"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 180.0,
+                  "y": 382.2756598240469,
+                  "label": 1
+                },
+                {
+                  "x": 132.5,
+                  "y": 392.2697947214076,
+                  "label": 1
+                }
+              ],
+              "box": [
+                52.08,
+                351.27,
+                181.81,
+                412.59
+              ],
+              "refined": {
+                "mask": "assets/examples/giraffe-tinysam-box-3-refined.png",
+                "iou_percent": 88.47539015606243,
+                "intersection": 2211,
+                "union": 2499,
+                "mask_sha256": "165d7e28de2e2bccdc4efb53aee5a921ae09a8b0b26e4cb20610a7eb20be0ea2"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-tinysam-box-3-reference.png",
+                "iou_percent": 88.47539015606243,
+                "intersection": 2211,
+                "union": 2499,
+                "mask_sha256": "165d7e28de2e2bccdc4efb53aee5a921ae09a8b0b26e4cb20610a7eb20be0ea2"
+              }
+            }
+          ]
+        },
+        "mobilesam": {
+          "point": [
+            {
+              "round": 1,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 95.0,
+                  "y": 392.89442815249265,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/giraffe-mobilesam-point-1-refined.png",
+                "iou_percent": 67.04166666666667,
+                "intersection": 1609,
+                "union": 2400,
+                "mask_sha256": "ac2e8d8b51dd98942347dfdaf13f43c988b1005abe512d19e9f10cba6f6dba84"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-mobilesam-point-1-reference.png",
+                "iou_percent": 67.04166666666667,
+                "intersection": 1609,
+                "union": 2400,
+                "mask_sha256": "ac2e8d8b51dd98942347dfdaf13f43c988b1005abe512d19e9f10cba6f6dba84"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 95.0,
+                  "y": 392.89442815249265,
+                  "label": 1
+                },
+                {
+                  "x": 167.5,
+                  "y": 364.7859237536657,
+                  "label": 1
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/giraffe-mobilesam-point-2-refined.png",
+                "iou_percent": 85.0740600075959,
+                "intersection": 2240,
+                "union": 2633,
+                "mask_sha256": "4b4e2d31455c6e2412b9493137b4a6c5be61e932f39ebf5a682ce3cc573f5e41"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-mobilesam-point-2-reference.png",
+                "iou_percent": 83.60594795539033,
+                "intersection": 2249,
+                "union": 2690,
+                "mask_sha256": "5431330f6508e70a542c0b205706a14034c08e94a15641968cca121f44029ecb"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 0,
+              "points": [
+                {
+                  "x": 95.0,
+                  "y": 392.89442815249265,
+                  "label": 1
+                },
+                {
+                  "x": 167.5,
+                  "y": 364.7859237536657,
+                  "label": 1
+                },
+                {
+                  "x": 152.5,
+                  "y": 384.7741935483871,
+                  "label": 0
+                }
+              ],
+              "box": null,
+              "refined": {
+                "mask": "assets/examples/giraffe-mobilesam-point-3-refined.png",
+                "iou_percent": 90.86130206227254,
+                "intersection": 2247,
+                "union": 2473,
+                "mask_sha256": "d4cd637add7099fbeac44e571b2444f7851d1b5e93dca09d2d16fe73af7a9b74"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-mobilesam-point-3-reference.png",
+                "iou_percent": 90.10500807754443,
+                "intersection": 2231,
+                "union": 2476,
+                "mask_sha256": "fc544fb73fdc90cc195fe6d52d98771892b74080e64858191437e3ce6b8b12bf"
+              }
+            }
+          ],
+          "box": [
+            {
+              "round": 1,
+              "candidate": 1,
+              "points": [],
+              "box": [
+                52.08,
+                351.27,
+                181.81,
+                412.59
+              ],
+              "refined": {
+                "mask": "assets/examples/giraffe-mobilesam-box-1-refined.png",
+                "iou_percent": 87.26298433635614,
+                "intersection": 2117,
+                "union": 2426,
+                "mask_sha256": "3aa0a69e6d360e52411399406333ef2ec842cf86ec4057553085ac623d2a0958"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-mobilesam-box-1-reference.png",
+                "iou_percent": 75.23613963039014,
+                "intersection": 1832,
+                "union": 2435,
+                "mask_sha256": "512e807288a8cf65b8362a4d10c41a3386ff59c0dd169c49886f248c0f23cc8e"
+              }
+            },
+            {
+              "round": 2,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 167.5,
+                  "y": 359.78885630498536,
+                  "label": 1
+                }
+              ],
+              "box": [
+                52.08,
+                351.27,
+                181.81,
+                412.59
+              ],
+              "refined": {
+                "mask": "assets/examples/giraffe-mobilesam-box-2-refined.png",
+                "iou_percent": 89.43350743270389,
+                "intersection": 2226,
+                "union": 2489,
+                "mask_sha256": "b382397750ffa5ba273537fd92132438c046cd5811b1098a23f21e74cc5db6f9"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-mobilesam-box-2-reference.png",
+                "iou_percent": 84.6096654275093,
+                "intersection": 2276,
+                "union": 2690,
+                "mask_sha256": "06c3821658a142fc3fe1c32a216c5719a9624cbcf85f047eca76721d4265cbbe"
+              }
+            },
+            {
+              "round": 3,
+              "candidate": 1,
+              "points": [
+                {
+                  "x": 167.5,
+                  "y": 359.78885630498536,
+                  "label": 1
+                },
+                {
+                  "x": 57.5,
+                  "y": 409.75953079178885,
+                  "label": 0
+                }
+              ],
+              "box": [
+                52.08,
+                351.27,
+                181.81,
+                412.59
+              ],
+              "refined": {
+                "mask": "assets/examples/giraffe-mobilesam-box-3-refined.png",
+                "iou_percent": 89.74776240846217,
+                "intersection": 2206,
+                "union": 2458,
+                "mask_sha256": "8af04bec7f5b21b617a85fffadc7db5ba9841103951c88d46ccacf0575dbca58"
+              },
+              "reference": {
+                "mask": "assets/examples/giraffe-mobilesam-box-3-reference.png",
+                "iou_percent": 85.34645967436578,
+                "intersection": 2254,
+                "union": 2641,
+                "mask_sha256": "e23721a322a8b251c6cbf74002fdb4f19a41bf8d7966382ae5bec825d16223da"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "licenses": [
+    {
+      "url": "http://creativecommons.org/licenses/by-nc-sa/2.0/",
+      "id": 1,
+      "name": "Attribution-NonCommercial-ShareAlike License"
+    },
+    {
+      "url": "http://creativecommons.org/licenses/by-nc/2.0/",
+      "id": 2,
+      "name": "Attribution-NonCommercial License"
+    },
+    {
+      "url": "http://creativecommons.org/licenses/by-nc-nd/2.0/",
+      "id": 3,
+      "name": "Attribution-NonCommercial-NoDerivs License"
+    },
+    {
+      "url": "http://creativecommons.org/licenses/by/2.0/",
+      "id": 4,
+      "name": "Attribution License"
+    },
+    {
+      "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+      "id": 5,
+      "name": "Attribution-ShareAlike License"
+    },
+    {
+      "url": "http://creativecommons.org/licenses/by-nd/2.0/",
+      "id": 6,
+      "name": "Attribution-NoDerivs License"
+    },
+    {
+      "url": "http://flickr.com/commons/usage/",
+      "id": 7,
+      "name": "No known copyright restrictions"
+    },
+    {
+      "url": "http://www.usa.gov/copyright.shtml",
+      "id": 8,
+      "name": "United States Government Work"
+    }
+  ],
+  "models": {
+    "tinysam": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875",
+    "mobilesam": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2"
+  }
+}

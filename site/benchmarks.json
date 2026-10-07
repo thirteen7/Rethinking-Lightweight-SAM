@@ -1,0 +1,24 @@
+{
+  "metric": "legacy mIoU (%)",
+  "rounds": 3,
+  "datasets": {
+    "coco": {
+      "label": "COCO val2017", "images": 4952, "targets": 36335,
+      "coverage": "All annotated validation images · all non-crowd targets",
+      "tinysam": {"point": [55.651, 64.430, 69.438], "box": [76.515, 77.679, 78.364]},
+      "mobilesam": {"point": [54.998, 64.446, 69.502], "box": [76.027, 77.028, 77.228]}
+    },
+    "lvis": {
+      "label": "LVIS v1 val", "images": 19626, "targets": 244707,
+      "coverage": "All valid validation images · all targets",
+      "tinysam": {"point": [56.263, 62.702, 66.323], "box": [75.474, 76.569, 77.133]},
+      "mobilesam": {"point": [54.431, 60.915, 65.862], "box": [74.448, 75.362, 75.681]}
+    },
+    "sa1b": {
+      "label": "SA-1B official cap64", "images": 11186, "targets": 618098,
+      "coverage": "All validation images · up to 64 targets per image · fixed selection without replacement",
+      "tinysam": {"point": [70.137, 76.268, 78.729], "box": [84.156, 84.838, 85.183]},
+      "mobilesam": {"point": [68.205, 74.840, 79.202], "box": [83.503, 84.079, 84.317]}
+    }
+  }
+}

@@ -1,12 +1,16 @@
 # Rethinking Lightweight SAM
 
-论文 **Rethinking Lightweight SAM with Prompt-Adaptive Refinement and Efficient Segment Everything Inference** 的提示自适应精化代码与模型。
+**Prompt-Adaptive Refinement and Efficient Segment Everything Inference**
 
-支持 **TinySAM、MobileSAM、SAM ViT-H**。每个模型只需一份完整 `.pth`，包含官方基座、首点选择、交互反馈、局部残差、框选择、独立框解码器和编辑比较器。
+[Project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) · [Interactive demo](https://huggingface.co/spaces/thirteen7/Rethinking-Lightweight-SAM) · [Models](https://github.com/thirteen7/Rethinking-Lightweight-SAM/releases/tag/v1.0.0) · [Results](docs/results.md) · [中文](README.zh-CN.md)
 
-## 1. 安装
+Code and models for **Rethinking Lightweight SAM with Prompt-Adaptive Refinement and Efficient Segment Everything Inference**.
 
-Python 3.10+。先安装匹配的 PyTorch/torchvision；训练和数据集评估需要 CUDA，模型加载及交互 API 支持 CPU。
+The refinement interface supports **TinySAM, MobileSAM, and SAM ViT-H**. Each complete checkpoint includes the backbone and six refinement modules: first-click selection, interaction feedback, local residual repair, box selection, an independent box decoder, and an edit comparator.
+
+## Installation
+
+Python 3.10 or later. Install a compatible PyTorch/torchvision build first. Training and dataset evaluation use CUDA; model loading and the interactive API also support CPU.
 
 ```bash
 git clone https://github.com/thirteen7/Rethinking-Lightweight-SAM.git
@@ -15,47 +19,45 @@ pip install -r requirements.txt
 pip install -e . --no-deps
 ```
 
-建议复现实验时使用 PyTorch 2.0.0 / torchvision 0.15.1，并固定 CUDA、硬件与依赖版本。不同主机与版本可能产生数值差异。
+For experimental reproduction, use PyTorch 2.0.0 / torchvision 0.15.1 and keep the hardware, CUDA, and dependency versions fixed.
 
-## 2. 下载一份模型
+## Download models
 
 ```bash
 python download_models.py --model tinysam
-# 其它模型：--model mobilesam / vith；全部：--model all
+# Other options: mobilesam, vith, all
 ```
 
-文件保存在 `weights/`。ViT-H 的传输文件自动拼回一份完整 `.pth`，不改变参数精度。模型与每段传输文件的哈希见 [models.json](models.json)。
+Checkpoints are saved to `weights/`. The downloader verifies SHA256 and automatically assembles the ViT-H transport parts into one complete `.pth`. Model hashes are listed in [models.json](models.json).
 
-## 3. 评估
+## Evaluate
 
 ```bash
 python evaluate.py --model tinysam --checkpoint weights/tinysam_prompt_adaptive_v1.pth --dataset coco --data-root datasets/coco --output runs/tinysam-coco
 ```
 
-将 `--dataset` 改为 `lvis` 或 `sa1b` 即可。用 `--gpu 1` 选择显卡。用 `--dry-run` 检查数据覆盖；`--max-images 1` 用于明确标注的小样本检查。
+Select `lvis` or `sa1b` with `--dataset`, and choose a GPU with `--gpu 1`. Use `--dry-run` to inspect data coverage or `--max-images 1` for an explicitly limited check.
 
-协议：普通 **legacy mIoU**，中心首点，点/框各三轮，分块 64。COCO/LVIS 使用全部有效验证图与全部非 crowd 目标；SA-1B 采用官方读取器的每图最多 64 目标、按原索引播种的 `randperm` 无放回抽样。只保存逐目标数值、汇总及日志。评估使用 GT 生成初始提示、模拟纠错及评分。
+Evaluation uses ordinary **legacy mIoU**, a mask-center first click, three point/box interaction rounds, and chunks of 64 objects. COCO/LVIS include all valid validation images and non-crowd targets. SA-1B uses the official cap64 reader: sampling without replacement, seeded by the original image index. Ground truth generates initial prompts, simulated corrective clicks, and IoU scores.
 
-结果保存在 `runs/.../summary.json`，检查记录保存在 `verified.json`。不保存预测图片或掩码。
-
-数据布局：
+Outputs include `summary.json`, per-target numerical records, logs, and `verified.json`. Dataset evaluation does not save prediction images or masks.
 
 ```text
 datasets/coco/
   annotations/instances_val2017.json
   annotations/lvis_v1_val.json
-  val2017/                  # COCO 验证图
-  train2017/                # LVIS 验证也使用部分 COCO train2017 图
+  val2017/
+  train2017/                # Some LVIS validation images come from this split
 datasets/sa1b/
   images/val/*.jpg
   annotations/val/*.json
 ```
 
-已有 `coco/trainval/` 合并图目录也可直接使用。LVIS 只评估 `lvis_v1_val.json`，它包含来自 COCO train2017 与 val2017 的图像。
+A merged `coco/trainval/` image directory is also supported. LVIS evaluation uses `lvis_v1_val.json`, which includes images from both COCO train2017 and val2017.
 
-## 4. 训练并自动合并
+## Train and export
 
-拟合、校准、权重选择全部来自 **SA-1B train**，使用固定的 3500 图与不重叠的 2900/300/300 划分。首点拟合 1500 图；后续解码器/比较器使用 256/64/32 图。外部验证标签不参与训练。
+Fitting, calibration, and checkpoint selection use **SA-1B train only**. The fixed 3,500-image manifest defines disjoint 2,900/300/300 partitions. First-click fitting uses 1,500 images; later decoder/comparator stages use 256/64/32 images. External validation labels are excluded from training.
 
 ```bash
 python prepare_data.py --source datasets/sa1b --output datasets/sa1b_train3500
@@ -63,17 +65,17 @@ python download_models.py --model tinysam --base-only
 python train.py --model tinysam --base weights/tinysam_official_base.pth --data-root datasets/sa1b_train3500 --output runs/train-tinysam
 ```
 
-训练完成后自动生成 `runs/train-tinysam/tinysam_prompt_adaptive_v1.pth`。更换模型名即可使用其它骨干。默认训练解码分块为 4；可用 `--batch-size` 调整资源需求，复现时保持协议相同。
+Training exports `runs/train-tinysam/tinysam_prompt_adaptive_v1.pth` automatically. Replace the model name to train another backbone. The default training decode chunk is 4; `--batch-size` changes the memory requirement.
 
-添加 `--reuse-first weights/tinysam_prompt_adaptive_v1.pth` 可复用首点头；默认从头训练首点头。`--dry-run` 检查训练输入并打印阶段。
+Use `--reuse-first weights/tinysam_prompt_adaptive_v1.pth` to reuse a first-click module. By default, it is fitted from scratch. `--dry-run` inspects the inputs and prints the training stages.
 
-已有完整模块训练目录可单独合并：
+To export an existing complete set of modules:
 
 ```bash
 python merge.py --model tinysam --base weights/tinysam_official_base.pth --components runs/train-tinysam --output weights/tinysam_custom.pth
 ```
 
-## 5. 交互调用
+## Interactive API
 
 ```python
 from PIL import Image
@@ -83,24 +85,41 @@ from prompt_adaptive_sam import Predictor
 predictor = Predictor("weights/tinysam_prompt_adaptive_v1.pth", device="cuda")
 predictor.set_image(np.asarray(Image.open("example.jpg").convert("RGB")))
 mask, logits, choice = predictor.predict([[200, 150]], [1])
-# 后续点击需传入完整历史，并传入上轮 logits。
-mask, logits, choice = predictor.predict([[200, 150], [250, 180]], [1, 0], previous=logits)
-# 框使用原图坐标 [x0, y0, x1, y1]。
+
+# Pass the complete click history and the previous logits for correction.
+mask, logits, choice = predictor.predict(
+    [[200, 150], [250, 180]], [1, 0], previous=logits
+)
+
+# Boxes use original-image coordinates: [x0, y0, x1, y1].
 mask, logits, choice = predictor.predict(box=[100, 80, 350, 300])
 ```
 
-## 实验结果
+## Interactive application
 
-下表为发布权重第三轮普通 mIoU (%)。完整三轮结果和覆盖见 [docs/results.md](docs/results.md)。
+The [project page](https://thirteen7.github.io/Rethinking-Lightweight-SAM/) includes a qualitative example explorer, interactive benchmark charts, and model downloads. The example explorer displays recorded model predictions.
 
-| 数据集 | TinySAM 点 | TinySAM 框 | MobileSAM 点 | MobileSAM 框 |
+For inference on uploaded images, run the same frontend with the Python backend:
+
+```bash
+pip install -r demo/requirements.txt
+python demo/server.py --host 127.0.0.1 --port 7860
+```
+
+Open `http://127.0.0.1:7860`. The app supports foreground/background clicks, box prompts, previous-mask feedback, and model switching. See [demo/README.md](demo/README.md) for Hugging Face Space deployment.
+
+## Results
+
+Third-round ordinary mIoU (%). All three rounds and evaluation details appear in [docs/results.md](docs/results.md).
+
+| Dataset | TinySAM point | TinySAM box | MobileSAM point | MobileSAM box |
 |---|---:|---:|---:|---:|
 | SA-1B official cap64 | 78.729 | 85.183 | 79.202 | 84.317 |
-| COCO val2017 全目标 | 69.438 | 78.364 | 69.502 | 77.228 |
-| LVIS v1 val 全目标 | 66.323 | 77.133 | 65.862 | 75.681 |
+| COCO val2017, all targets | 69.438 | 78.364 | 69.502 | 77.228 |
+| LVIS v1 val, all targets | 66.323 | 77.133 | 65.862 | 75.681 |
 
-## 许可与致谢
+## License and acknowledgments
 
-许可文件：[LICENSE](LICENSE)、[NOTICE](NOTICE)。
+[LICENSE](LICENSE) · [NOTICE](NOTICE)
 
-致谢：[SAM](https://github.com/facebookresearch/segment-anything)、[TinySAM](https://github.com/xinghaochen/TinySAM)、[MobileSAM](https://github.com/ChaoningZhang/MobileSAM)。
+[SAM](https://github.com/facebookresearch/segment-anything) · [TinySAM](https://github.com/xinghaochen/TinySAM) · [MobileSAM](https://github.com/ChaoningZhang/MobileSAM)

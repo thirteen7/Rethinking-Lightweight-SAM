@@ -40,12 +40,12 @@ class Predictor:
         if box is None and not len(coords): raise ValueError('Supply a point or a box')
         if len(coords) and not np.isin(labels,[-2,-1,0,1]).all(): raise ValueError('Invalid point label')
         coords = self.transform.apply_coords(coords,self.native_hw)
-        coords = torch.as_tensor(coords,device=self.device)[None]
+        coords = torch.as_tensor(coords,device=self.device,dtype=torch.float32)[None]
         labels = torch.as_tensor(labels,device=self.device)[None]
         boxes = None
         if box is not None:
             boxes = self.transform.apply_boxes(np.asarray(box,dtype=np.float32).reshape(1,4),self.native_hw)
-            boxes = torch.as_tensor(boxes,device=self.device)
+            boxes = torch.as_tensor(boxes,device=self.device,dtype=torch.float32)
         if previous is not None:
             previous = torch.as_tensor(previous,device=self.device,dtype=torch.float32).reshape(1,1,256,256)
         mask,choice,low = self.model.predict(self.embedding,self.image,coords,labels,
