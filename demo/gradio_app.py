@@ -29,7 +29,7 @@ import torch
 from prompt_adaptive_sam import Predictor
 from prompt_adaptive_sam.everything import render_instances
 from download_models import download
-from demo.comparison import compare_everything, compare_prompts
+from demo.comparison import compare_everything, compare_prompt_stage
 
 LOG = logging.getLogger('segmentation-workspace')
 TEMPLATES = {}
@@ -38,7 +38,7 @@ TEMPLATES = {}
 def empty_state(image=None):
     return dict(image=image, points=[], box=None, corners=[], mask=None,
                 instances=[], details=None, comparison=None,
-                comparison_runs=0, prompt_comparison=None)
+                comparison_runs=0, prompt_comparison=None, prompt_stage=0)
 
 
 def fsd_walkthrough(details=None, *, image=None, dense_details=None, overlays=None):
@@ -139,9 +139,9 @@ def compute_comparison(state, grid):
 
 @gpu(duration=15)
 @torch.inference_mode()
-def compute_prompt_comparison(state, name):
-    return compare_prompts(TEMPLATES[name], name, state['image'],
-                           state['curated_trajectory'], state['truth'])
+def compute_prompt_comparison(state, name, prompt, previous_pair=None):
+    return compare_prompt_stage(TEMPLATES[name], name, state['image'],
+                                prompt, state['truth'], previous_pair)
 
 
 def pair_metrics(pair=None):
@@ -175,19 +175,34 @@ def prompt_overlay(state, row, field, opacity):
 def prompt_views(state, opacity=.48):
     pair = state.get('prompt_comparison')
     if pair is None:
-        return None,None,None,None
-    return tuple(prompt_overlay(state,row,field,opacity) for row in (pair['stages'][0],pair['stages'][-1]) for field in ('original','refined'))
+        return None,None
+    index = max(0,min(int(state.get('prompt_stage',len(pair['stages'])-1)),len(pair['stages'])-1))
+    return tuple(prompt_overlay(state,pair['stages'][index],field,opacity) for field in ('original','refined'))
 
 
-def prompt_metrics(pair=None):
+def prompt_metrics(pair=None,selected_stage=None):
     if pair is None:
-        return '<div class="prompt-result-intro">Press Run both models to compare the initial decoder output and the corrected output.</div>'
+        return '<div class="prompt-result-intro">Run the initial prompt, then add one foreground point at a time.</div>'
     rows = []
+    selected_stage = len(pair['stages'])-1 if selected_stage is None else selected_stage
     for stage,row in enumerate(pair['stages']):
         original,refined = row['original']['iou_percent'],row['refined']['iou_percent']
-        label = 'Initial prompt' if stage==0 else f'+{stage} foreground correction'+('s' if stage>1 else '')
-        rows.append(f'<tr><td>{label}</td><td>{original:.2f}%</td><td><b>{refined:.2f}%</b></td><td>{refined-original:+.2f} pp</td></tr>')
-    return '<div class="prompt-score-table"><table><thead><tr><th>Prompt stage</th><th>Original</th><th>Refined</th><th>Difference</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table><p>True target IoU · same prompts · independent previous-mask feedback. Curated COCO example; aggregate results are on the project page.</p></div>'
+        label = 'Initial prompt' if stage==0 else f'+{stage} point'+('s' if stage>1 else '')
+        current = ' class="current-stage"' if stage==selected_stage else ''
+        rows.append(f'<tr{current}><td>{label}</td><td>{original:.2f}%</td><td><b>{refined:.2f}%</b></td><td>{refined-original:+.2f} pp</td></tr>')
+    return '<div class="prompt-score-table"><table><thead><tr><th>Completed stage</th><th>Original IoU</th><th>Refined IoU</th><th>Difference</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table><p>Measured target IoU · same prompts · each model keeps its own mask feedback.</p></div>'
+
+
+def prompt_details(state):
+    pair = state.get('prompt_comparison')
+    if pair is None:
+        return None
+    result = {key:value for key,value in pair.items() if key not in ('_feedback','stages')}
+    result['stages'] = [dict(row,original={k:v for k,v in row['original'].items() if k!='mask'},
+        refined={k:v for k,v in row['refined'].items() if k!='mask'}) for row in pair['stages']]
+    result['example'] = state['example_id']
+    result['shown_stage'] = int(state.get('prompt_stage',len(pair['stages'])-1))
+    return result
 
 
 def run_workspace(state, model, mode, grid, opacity):
@@ -197,35 +212,62 @@ def run_workspace(state, model, mode, grid, opacity):
         if mode!='Everything':
             if not state.get('curated_trajectory') or state.get('curated_model')!=model.lower() or state.get('curated_mode')!=mode.lower():
                 raise gr.Error('Select a curated point/box example first.')
-            pair = compute_prompt_comparison(state,model.lower())
+            # The first run contains only the initial prompt. Corrections are
+            # separate callbacks, so future prompts cannot leak into this view.
+            state = dict(state)
+            prompt = state['curated_trajectory'][0]
+            pair = compute_prompt_comparison(state,model.lower(),prompt)
             state['prompt_comparison'] = pair
-            views = prompt_views(state,opacity)
-            name = model
-            stages = len(pair['stages'])-1
-            details = dict(pair,stages=[dict(row,original={k:v for k,v in row['original'].items() if k!='mask'},refined={k:v for k,v in row['refined'].items() if k!='mask'}) for row in pair['stages']],example=state['example_id'])
-            status = f'**{state["example_title"]} · {name}.** Both paths finished: initial prompt and **{stages} foreground corrections**. IoU is measured against the curated target annotation.'
-            LOG.info('prompt comparison example=%s model=%s mode=%s iou=%s',state['example_id'],model,mode,[(r['original']['iou_percent'],r['refined']['iou_percent']) for r in pair['stages']])
-            label = lambda field,stage: f'{name} / '+('Original' if field=='original' else 'Refined')+f' · {pair["stages"][stage][field]["iou_percent"]:.2f}% IoU'
-            return (state,prompt_view(state),gr.update(value=views[3],label=label('refined',-1)),status,
-                metrics(model,'One target',f'{len(pair["stages"])} stages','True IoU'),[],gr.update(choices=['All instances'],value='All instances'),fsd_walkthrough(),None,None,pair_metrics(),details,
-                gr.update(value=views[0],label=label('original',0)),gr.update(value=views[1],label=label('refined',0)),gr.update(value=views[2],label=label('original',-1)),prompt_metrics(pair))
+            state['prompt_stage'] = 0
+            state['points'],state['box'] = copy.deepcopy(prompt['points']),copy.deepcopy(prompt['box'])
+            LOG.info('prompt comparison example=%s model=%s mode=%s stage=0 iou=%s',state['example_id'],model,mode,
+                [(r['original']['iou_percent'],r['refined']['iou_percent']) for r in pair['stages']])
+            return state
         pair = compute_comparison(state,grid)
+        state = dict(state)
         state['comparison'],state['comparison_runs'] = pair,state.get('comparison_runs',0)+1
         right = pair['results']['fsd']
         state['instances'],state['details'] = right['masks'],right['info']
-        scores = [[f'Instance {i+1:02d}',m['area'],round(m['predicted_iou'],3),round(m['stability_score'],3)] for i,m in enumerate(state['instances'])]
-        choices = ['All instances']+[r[0] for r in scores]
-        left,right_view = comparison_views(state,opacity)
         dense_ms,fsd_ms = [pair['results'][key]['total_ms'] for key in ('dense','fsd')]
-        status = f'**Both models finished.** SAM ViT-H: **{dense_ms:,.1f} ms** · FSD-SAM: **{fsd_ms:,.1f} ms**. Same image and {int(grid)} × {int(grid)} grid.'
         LOG.info('paired result device=%s grid=%d retained=%d/%d dense_ms=%.3f fsd_ms=%.3f',pair['device'],int(grid),state['details']['native_points'],state['details']['total_points'],dense_ms,fsd_ms)
-        return (state,grid_view(state,grid),None,status,metrics('ViT-H vs FSD',len(scores),f'{int(grid)} × {int(grid)}','Measured / ms'),scores,
-            gr.update(choices=choices,value='All instances'),fsd_walkthrough(state['details'],image=state['image'],dense_details=pair['results']['dense']['info'],overlays=(left,right_view)),left,right_view,pair_metrics(pair),pair,None,None,None,prompt_metrics())
+        return state
     except Exception as error:
         LOG.exception('comparison failed')
         if isinstance(error,gr.Error):
             raise
         raise gr.Error(str(error)[:300]) from error
+
+
+def advance_workspace(state, model, mode, correction):
+    if mode=='Everything' or state.get('curated_model')!=model.lower() or state.get('curated_mode')!=mode.lower():
+        raise gr.Error('Choose a curated Point or Box example first.')
+    previous = state.get('prompt_comparison')
+    if previous is None:
+        raise gr.Error('Run the initial comparison before adding a correction.')
+    if correction not in (1,2) or len(previous['stages'])!=correction:
+        raise gr.Error('Add corrections in order: first +1 point, then +2 points.')
+    prompt = state['curated_trajectory'][correction]
+    try:
+        pair = compute_prompt_comparison(state,model.lower(),prompt,previous)
+    except Exception as error:
+        LOG.exception('corrective comparison failed')
+        raise gr.Error(str(error)[:300]) from error
+    result = dict(state,prompt_comparison=pair,prompt_stage=correction,points=copy.deepcopy(prompt['points']),box=copy.deepcopy(prompt['box']))
+    current = pair['stages'][-1]
+    LOG.info('prompt correction example=%s model=%s stage=%d original_iou=%.3f refined_iou=%.3f',
+        state['example_id'],model,correction,current['original']['iou_percent'],current['refined']['iou_percent'])
+    return result
+
+
+def browse_workspace(state, offset):
+    pair = state.get('prompt_comparison')
+    if pair is None:
+        raise gr.Error('Run the initial comparison before browsing saved results.')
+    index = int(state.get('prompt_stage',len(pair['stages'])-1))+offset
+    if not 0<=index<len(pair['stages']):
+        raise gr.Error('Only completed prompt stages can be viewed.')
+    row = pair['stages'][index]
+    return dict(state,prompt_stage=index,points=copy.deepcopy(row['points']),box=copy.deepcopy(row['box']))
 
 
 def build_demo(project):
@@ -247,7 +289,7 @@ def build_demo(project):
     default_image = np.asarray(Image.open(project/'site/assets/examples/fruit.jpg').convert('RGB'))
     default_state = empty_state(default_image)
     title = 'Rethinking Lightweight SAM with Prompt-Adaptive Refinement and Efficient Segment Everything Inference'
-    header = '<div class="studio-header"><div><span class="studio-eyebrow">RESEARCH STUDIO</span><h1>'+title+'</h1><p>One button compares baseline and refinement. See initial and corrected masks, or generate everything with two measured runtimes.</p><div class="studio-links"><a href="https://github.com/thirteen7/Rethinking-Lightweight-SAM" target="_blank" rel="noopener">Code ↗</a><a href="https://thirteen7.github.io/Rethinking-Lightweight-SAM/" target="_blank" rel="noopener">Project page ↗</a></div></div><div class="studio-summary"><span class="studio-summary-label">ONE IMAGE / TWO PATHS</span><div><b>Point &amp; Box</b><span>Original → refined IoU</span></div><div><b>Everything</b><span>ViT-H → FSD-SAM / ms</span></div><p>Curated prompt comparisons. Live automatic segmentation.</p></div></div>'
+    header = '<div class="studio-header"><div><span class="studio-eyebrow">RESEARCH STUDIO</span><h1>'+title+'</h1><p>Compare the same prompt on both models, then add corrections one point at a time.</p><div class="studio-links"><a href="https://github.com/thirteen7/Rethinking-Lightweight-SAM" target="_blank" rel="noopener">Code ↗</a><a href="https://thirteen7.github.io/Rethinking-Lightweight-SAM/" target="_blank" rel="noopener">Project page ↗</a></div></div><div class="studio-summary"><span class="studio-summary-label">ONE IMAGE / TWO PATHS</span><div><b>Point &amp; Box</b><span>Initial → +1 point → +2 points</span></div><div><b>Everything</b><span>ViT-H / FSD-SAM · measured ms</span></div></div></div>'
     source = urlsplit(ANIMATION_URL)
     origin = json.dumps(source.scheme+'://'+source.netloc)
     js = """() => {
@@ -279,32 +321,34 @@ def build_demo(project):
                 stats = gr.HTML(metrics('ViT-H vs FSD','—','32 × 32','Ready'),elem_id='metric-cards')
                 with gr.Row(equal_height=False,elem_id='workspace-row'):
                     with gr.Column(scale=1,min_width=220,elem_id='settings-card'):
-                        gr.Markdown('### Inference controls')
+                        gr.Markdown('### Image & prompts')
+                        image = gr.Image(value=grid_view(default_state,32),type='numpy',label='Input image · uploads welcome',sources=['upload'],height=190,elem_id='input-image')
                         with gr.Group(elem_id='every-controls') as every_controls:
                             grid = gr.Radio([8,16,32],value=32,label='Shared points per side')
-                            gr.Markdown('**Left: SAM ViT-H**\n\n**Right: FSD-SAM**\n\nOne button runs both on this image.',elem_id='every-note')
+                            gr.Markdown('Same image, grid and frozen ViT-H. One run measures both methods.',elem_id='every-note')
                         with gr.Group(visible=False,elem_id='point-controls') as point_controls:
-                            gr.Markdown('**Curated foreground prompts**\n\nThe initial point or box and two positive corrections are already set.\n\nRun once to compare the initial and corrected outputs of both models.',elem_id='point-note')
+                            gr.Markdown('Run the initial prompt, then add the two preset foreground corrections one at a time. Browse saved results with **Previous / Next**.',elem_id='point-note')
                         opacity = gr.Slider(0,1,value=.48,step=.01,label='Overlay opacity')
                         button = gr.Button('Run both models →',variant='primary',elem_id='run-segmentation')
+                        with gr.Row(visible=False,elem_id='correction-actions') as correction_actions:
+                            add_first = gr.Button('+1 point',interactive=False,size='sm',scale=1,min_width=85,elem_id='add-first-point')
+                            add_second = gr.Button('+2 points',interactive=False,size='sm',scale=1,min_width=85,elem_id='add-second-point')
                         reset_button = gr.Button('Reset comparison',elem_id='reset-target')
-                        gr.HTML('<p class="studio-note">Point / Box: curated annotated targets.<br>Everything: upload or use an example.<br>Frozen weights · FP32.</p>')
+                        gr.HTML('<p class="studio-note">Curated Point / Box targets · foreground clicks.<br>Everything supports uploads · FP32.</p>')
                     with gr.Column(scale=3,min_width=300,elem_id='canvas-card'):
-                        image = gr.Image(value=grid_view(default_state,32),type='numpy',label='Input image · Everything uploads',sources=['upload'],height=230,elem_id='input-image')
                         with gr.Group(visible=False,elem_id='prompt-pair-results') as prompt_group:
-                            gr.Markdown('#### Initial decoder output',elem_id='initial-stage-title')
-                            with gr.Row(equal_height=True):
-                                initial_left = gr.Image(label='Original · initial prompt',interactive=False,type='numpy',height=300)
-                                initial_right = gr.Image(label='Refined · initial prompt',interactive=False,type='numpy',height=300)
-                            gr.Markdown('#### After two foreground corrections',elem_id='corrected-stage-title')
-                            with gr.Row(equal_height=True):
-                                final_left = gr.Image(label='Original · corrected',interactive=False,type='numpy',height=300)
-                                output = gr.Image(label='Refined · corrected',interactive=False,type='numpy',height=300)
+                            stage_title = gr.HTML('<div class="prompt-stage-heading"><b>Initial prompt</b><span>Original / refined · same prompt</span></div>',elem_id='current-stage-title')
+                            with gr.Row(equal_height=True,elem_id='prompt-image-row'):
+                                original = gr.Image(label='Original · initial prompt',interactive=False,type='numpy',height=300,min_width=120,elem_id='prompt-original')
+                                refined = gr.Image(label='Refined · initial prompt',interactive=False,type='numpy',height=300,min_width=120,elem_id='prompt-refined')
+                            with gr.Row(elem_id='history-actions'):
+                                previous_result = gr.Button('← Previous result',interactive=False,size='sm',min_width=110,elem_id='previous-result')
+                                next_result = gr.Button('Next result →',interactive=False,size='sm',min_width=110,elem_id='next-result')
                             point_scores = gr.HTML(prompt_metrics(),elem_id='prompt-iou-results')
                         with gr.Group(elem_id='every-pair-results') as pair_group:
-                            with gr.Row(equal_height=True):
-                                pair_left = gr.Image(type='numpy',label='Left / SAM ViT-H · Dense SAM',interactive=False,height=460)
-                                pair_right = gr.Image(type='numpy',label='Right / FSD-SAM · ViT-H',interactive=False,height=460)
+                            with gr.Row(equal_height=True,elem_id='every-image-row'):
+                                pair_left = gr.Image(value=default_image,type='numpy',label='SAM ViT-H / Dense · ready',interactive=False,height=340,min_width=120,elem_id='every-dense')
+                                pair_right = gr.Image(value=default_image,type='numpy',label='FSD-SAM / ViT-H · ready',interactive=False,height=340,min_width=120,elem_id='every-fsd')
                             times = gr.HTML(pair_metrics(),elem_id='pair-timing')
                         pair_details = gr.JSON(visible=False,elem_id='comparison-details')
                         status = gr.Markdown('**Orange bowl is ready.** Press **Run both models** for both masks and measured times.',elem_id='studio-status')
@@ -312,36 +356,77 @@ def build_demo(project):
                             selected = gr.Dropdown(['All instances'],value='All instances',label='Inspect FSD instance')
                             table = gr.Dataframe(headers=['Instance','Area (px)','SAM predicted IoU','Stability'],datatype=['str','number','number','number'],interactive=False,wrap=True)
                 with gr.Group(visible=False,elem_id='curated-gallery') as curated_gallery:
-                    gallery = gr.Gallery([(str(project/'site'/row['image']),row['title']+' · '+row['demo_model']+' / '+row['demo_prompt']) for row in gallery_rows],label='Curated comparisons · select a thumbnail',columns=4,height=220,object_fit='cover',allow_preview=False)
+                    gallery = gr.Gallery([(str(project/'site'/row['image']),row['title']+' · '+row['demo_model']+' / '+row['demo_prompt']) for row in gallery_rows],label='Curated comparisons · select a thumbnail',columns=4,height=150,object_fit='cover',allow_preview=False)
                 with gr.Group(elem_id='everything-gallery') as every_gallery:
                     every_example_input = gr.Image(visible=False,type='numpy')
                     every_examples = gr.Examples(examples=[str(project/'site/assets/examples/fruit.jpg'),str(project/'site/assets/examples/bear.jpg')],inputs=[every_example_input],label='Everything examples')
             with gr.Tab('How FSD works'):
+                gr.Markdown('Follow the same two-dimensional grid through encoding, preview selection and mask completion. After an Everything run, this diagram uses the actual points selected on your image.',elem_id='flow-introduction')
                 diagram = gr.HTML(fsd_walkthrough(),elem_id='fsd-workspace')
         gr.HTML('<div class="studio-footer"><b>'+title+'</b><a href="https://github.com/thirteen7/Rethinking-Lightweight-SAM/blob/main/docs/results.md" target="_blank" rel="noopener">Paper results ↗</a></div>')
-        outputs = [session,image,output,status,stats,table,selected,diagram,pair_left,pair_right,times,pair_details,initial_left,initial_right,final_left,point_scores]
-        visibility = [every_controls,point_controls,inspector,prompt_group,pair_group,model,curated_gallery,every_gallery]
+        outputs = [session,image,original,refined,status,stats,table,selected,diagram,pair_left,pair_right,times,pair_details,point_scores,
+            stage_title,add_first,add_second,button,previous_result,next_result,correction_actions,every_controls,point_controls,inspector,prompt_group,pair_group,model,curated_gallery,every_gallery]
 
-        def ready(state,value,grid_size):
-            view = grid_view(state,grid_size) if value=='Everything' else prompt_view(state)
+        def render_workspace(state,value,grid_size,alpha=.48):
+            enabled = value=='Everything'
+            pair = state.get('prompt_comparison') if not enabled else None
+            every_pair = state.get('comparison') if enabled else None
             name = {'tinysam':'TinySAM','mobilesam':'MobileSAM'}.get(state.get('curated_model'),'Model')
-            message = '**Image ready.** Run both models to measure the two automatic generation paths.' if value=='Everything' else f'**{state["example_title"]} is ready.** Initial prompt and two foreground corrections are fixed. Run once for both lightweight models and every stage.'
-            return (state,view,gr.update(value=None,label=name+' / Refined · corrected'),message,
-                metrics('ViT-H vs FSD' if value=='Everything' else name,'—',f'{int(grid_size)} × {int(grid_size)}' if value=='Everything' else 'Initial + correction','Ready'),
-                [],gr.update(choices=['All instances'],value='All instances'),fsd_walkthrough(),None,None,pair_metrics(),None,
-                gr.update(value=None,label=name+' / Original · initial prompt'),gr.update(value=None,label=name+' / Refined · initial prompt'),
-                gr.update(value=None,label=name+' / Original · corrected'),prompt_metrics())
+            count = len(pair['stages']) if pair else 0
+            index = max(0,min(int(state.get('prompt_stage',count-1)),count-1)) if pair else 0
+            stage = 'Initial prompt' if index==0 else f'+{index} point'+('s' if index>1 else '')
+            view = grid_view(state,grid_size) if enabled else prompt_view(state)
+            left,right = comparison_views(state,alpha) if every_pair else (state['image'],state['image'])
+            prompt_left,prompt_right = prompt_views(state,alpha)
+            prompt_left = view if prompt_left is None and not enabled else prompt_left
+            prompt_right = view if prompt_right is None and not enabled else prompt_right
+            scores = [[f'Instance {i+1:02d}',m['area'],round(m['predicted_iou'],3),round(m['stability_score'],3)] for i,m in enumerate(state['instances'])] if every_pair else []
+            if enabled:
+                message = '**Image ready.** Run both models to measure the two generation paths.'
+                if every_pair:
+                    dense_ms,fsd_ms = [every_pair['results'][key]['total_ms'] for key in ('dense','fsd')]
+                    message = f'**Both models finished.** SAM ViT-H: **{dense_ms:,.1f} ms** · FSD-SAM: **{fsd_ms:,.1f} ms**. Same {int(grid_size)} × {int(grid_size)} grid.'
+            elif pair:
+                next_step = 'Add **+1 point** to continue.' if count==1 else 'Add **+2 points** to continue.' if count==2 else 'Two corrections complete. Reset to start again.'
+                if index<count-1:
+                    next_step = 'Viewing a saved result. The next correction continues from the latest completed stage.' if count<3 else 'Viewing a saved result. Use Next to compare a later stage.'
+                message = f'**{state["example_title"]} · {stage}.** Both models received the same foreground prompts. {next_step}'
+            else:
+                message = f'**{state["example_title"]} is ready.** Run the initial prompt first; corrections will appear one at a time.'
+            label = lambda field: field.title()+(f' · {pair["stages"][index][field]["iou_percent"]:.2f}% IoU' if pair else ' · ready')
+            result = {
+                session:state,image:gr.update(value=view,interactive=enabled,height=190,label='Input image · uploads welcome' if enabled else 'Curated target · current prompts'),
+                original:gr.update(value=prompt_left,label=label('original')),refined:gr.update(value=prompt_right,label=label('refined')),
+                status:message,stats:metrics('ViT-H vs FSD' if enabled else name,len(scores) if every_pair else 'One target' if pair else '—',
+                    f'{int(grid_size)} × {int(grid_size)}' if enabled else stage,'Measured / ms' if every_pair else 'True IoU' if pair else 'Ready'),
+                table:scores,selected:gr.update(choices=['All instances']+[r[0] for r in scores],value='All instances'),
+                diagram:fsd_walkthrough(state['details'],image=state['image'],dense_details=every_pair['results']['dense']['info'],overlays=(left,right)) if every_pair else gr.skip(),
+                pair_left:gr.update(value=left if enabled else None,label='SAM ViT-H / Dense'+(' · measured' if every_pair else ' · ready')),
+                pair_right:gr.update(value=right if enabled else None,label='FSD-SAM / ViT-H'+(' · measured' if every_pair else ' · ready')),
+                times:pair_metrics(every_pair),pair_details:every_pair if enabled else prompt_details(state),point_scores:prompt_metrics(pair,index),
+                stage_title:'<div class="prompt-stage-heading"><b>'+stage+'</b><span>'+(f'Saved result {index+1} / {count} · ' if pair else '')+'Original / refined · same prompt</span></div>',
+                add_first:gr.update(interactive=count==1,variant='primary' if count==1 else 'secondary'),
+                add_second:gr.update(interactive=count==2,variant='primary' if count==2 else 'secondary'),
+                button:gr.update(interactive=enabled or count==0,value='Run both models →' if enabled or count==0 else 'Initial comparison complete'),
+                previous_result:gr.update(interactive=bool(pair) and index>0),
+                next_result:gr.update(interactive=bool(pair) and index<count-1),
+                correction_actions:gr.update(visible=not enabled),
+            }
+            for component,show in zip([every_controls,point_controls,inspector,prompt_group,pair_group,model,curated_gallery,every_gallery],
+                [enabled,not enabled,enabled,not enabled,enabled,not enabled,not enabled,enabled]):
+                result[component] = gr.update(visible=show)
+            return result
 
-        def load_image(value,current_mode='Everything',grid_size=16):
+        def load_image(value,current_mode='Everything',grid_size=32):
             if current_mode!='Everything':
                 raise gr.Error('Point and Box use the curated annotated samples. Uploads are available in Everything.')
             if value is None:
-                return ready(empty_state(),'Everything',grid_size)
+                return render_workspace(empty_state(),'Everything',grid_size)
             photo = Image.fromarray(np.asarray(value,dtype=np.uint8)).convert('RGB')
             photo.thumbnail((1800,1800))
-            return ready(empty_state(np.asarray(photo).copy()),'Everything',grid_size)
+            return render_workspace(empty_state(np.asarray(photo).copy()),'Everything',grid_size)
 
-        def switch(state,value,backbone='TinySAM',grid_size=16):
+        def switch(state,value,backbone='TinySAM',grid_size=32):
             enabled = value=='Everything'
             if enabled:
                 state = empty_state(state.get('image') if state.get('curated_trajectory') is None and state.get('image') is not None else default_image)
@@ -352,32 +437,50 @@ def build_demo(project):
                 state.update(example_id=row['id'],example_title=row['title'],curated_model=backbone.lower(),curated_mode=value.lower(),
                     curated_trajectory=row['trajectories'][backbone.lower()][value.lower()],truth=np.asarray(Image.open(project/'site'/row['gt_mask']))>0)
                 state['points'],state['box'] = state['curated_trajectory'][0]['points'],state['curated_trajectory'][0]['box']
-            result = list(ready(state,value,grid_size))
-            result[1] = gr.update(value=result[1],interactive=enabled,height=230,label='Input image · Everything uploads' if enabled else 'Curated image · fixed foreground prompts')
-            return (*result,*[gr.update(visible=show) for show in [enabled,not enabled,enabled,not enabled,enabled,not enabled,not enabled,enabled]])
+            return render_workspace(state,value,grid_size)
 
         def reset_workspace(state,current_mode,backbone,grid_size):
             return switch(state,current_mode,backbone,grid_size)
 
         image.upload(load_image,inputs=[image,mode,grid],outputs=outputs,api_name='load_image')
         image.clear(lambda: load_image(None),outputs=outputs,api_name=False)
-        mode.change(switch,inputs=[session,mode,model,grid],outputs=outputs+visibility,api_name='switch_mode')
-        model.change(switch,inputs=[session,mode,model,grid],outputs=outputs+visibility,api_name=False)
-        reset_button.click(reset_workspace,inputs=[session,mode,model,grid],outputs=outputs+visibility,api_name='reset_image')
-        grid.change(reset_workspace,inputs=[session,mode,model,grid],outputs=outputs+visibility,api_name=False)
-        button.click(run_workspace,inputs=[session,model,mode,grid,opacity],outputs=outputs,api_name='segment',concurrency_limit=1)
+        mode.change(switch,inputs=[session,mode,model,grid],outputs=outputs,api_name='switch_mode')
+        model.change(switch,inputs=[session,mode,model,grid],outputs=outputs,api_name=False)
+        reset_button.click(reset_workspace,inputs=[session,mode,model,grid],outputs=outputs,api_name='reset_image')
+        grid.change(reset_workspace,inputs=[session,mode,model,grid],outputs=outputs,api_name=False)
+        def segment(state,backbone,value,size,alpha):
+            return render_workspace(run_workspace(state,backbone,value,size,alpha),value,size,alpha)
+        def add_correction(state,backbone,value,size,alpha,number):
+            return render_workspace(advance_workspace(state,backbone,value,number),value,size,alpha)
+        button.click(segment,inputs=[session,model,mode,grid,opacity],outputs=outputs,api_name='segment',concurrency_limit=1)
+        add_first.click(lambda state,backbone,value,size,alpha:add_correction(state,backbone,value,size,alpha,1),
+            inputs=[session,model,mode,grid,opacity],outputs=outputs,api_name='add_correction_1',concurrency_limit=1)
+        add_second.click(lambda state,backbone,value,size,alpha:add_correction(state,backbone,value,size,alpha,2),
+            inputs=[session,model,mode,grid,opacity],outputs=outputs,api_name='add_correction_2',concurrency_limit=1)
+        def browse_result(state,value,size,alpha,offset):
+            return render_workspace(browse_workspace(state,offset),value,size,alpha)
+        previous_result.click(lambda state,value,size,alpha:browse_result(state,value,size,alpha,-1),
+            inputs=[session,mode,grid,opacity],outputs=outputs,api_name='previous_result')
+        next_result.click(lambda state,value,size,alpha:browse_result(state,value,size,alpha,1),
+            inputs=[session,mode,grid,opacity],outputs=outputs,api_name='next_result')
 
         def choose_example(state,grid_size,event:gr.SelectData):
             row = gallery_rows[int(event.index)]
             new_mode,new_model = row['demo_prompt'].title(),row['demo_model']
-            return (*switch(state,new_mode,new_model,grid_size),gr.update(value=new_mode),gr.update(value=new_model))
-        gallery.select(choose_example,inputs=[session,grid],outputs=outputs+visibility+[mode,model],api_name=False)
+            result = switch(state,new_mode,new_model,grid_size)
+            result[mode],result[model] = gr.update(value=new_mode),gr.update(value=new_model,visible=True)
+            return result
+        gallery.select(choose_example,inputs=[session,grid],outputs=outputs+[mode],api_name=False)
         every_example_input.change(lambda value,size: load_image(value,'Everything',size),inputs=[every_example_input,grid],outputs=outputs,api_name=False)
 
         def opacity_changed(state,alpha,selection):
             left,right = comparison_views(state,alpha)
-            initial_a,initial_b,final_a,final_b = prompt_views(state,alpha)
-            return final_b,left,right,initial_a,initial_b,final_a
-        opacity.change(opacity_changed,inputs=[session,opacity,selected],outputs=[output,pair_left,pair_right,initial_left,initial_right,final_left],queue=False,api_name=False)
+            a,b = prompt_views(state,alpha)
+            if state.get('curated_trajectory') and a is None:
+                a = b = prompt_view(state)
+            if state.get('comparison') is None:
+                left = right = state['image']
+            return a,b,left,right
+        opacity.change(opacity_changed,inputs=[session,opacity,selected],outputs=[original,refined,pair_left,pair_right],queue=False,api_name=False)
         selected.change(lambda state,alpha,selection: output_view(state,alpha,selection),inputs=[session,opacity,selected],outputs=[pair_right],queue=False,api_name=False)
     return demo.queue(default_concurrency_limit=1,max_size=12)

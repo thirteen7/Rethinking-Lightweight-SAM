@@ -50,35 +50,65 @@ def measured_iou(mask, truth):
 
 
 @torch.inference_mode()
-def compare_prompts(template, name, image, trajectory, truth):
-    """Run both lightweight paths for every fixed foreground-only prompt stage.
+def _append_prompt_stage(predictor, name, prompt, truth, previous_pair=None):
+    stages = [] if previous_pair is None else list(previous_pair['stages'])
+    index = len(stages)
+    if index > 2:
+        raise ValueError('Reset the comparison before adding more than two corrections.')
+    if previous_pair is not None:
+        if previous_pair['model'] != name:
+            raise ValueError('Reset the comparison when changing the backbone.')
+        preceding = stages[-1]
+        if prompt.get('box') != preceding['box'] or prompt['points'][:-1] != preceding['points']:
+            raise ValueError('Each correction must add exactly one point to the previous prompt.')
+        feedback = previous_pair['_feedback']
+    else:
+        feedback = dict(original=None, refined=None)
+    points = [[p['x'], p['y']] for p in prompt['points']]
+    labels = [p['label'] for p in prompt['points']]
+    if any(label != 1 for label in labels):
+        raise ValueError('The curated demo supports foreground prompts only.')
+    box = prompt.get('box')
+    mode = 'box' if box is not None else 'point'
+    baseline, baseline_previous, base_choice = original_prediction(
+        predictor, name, mode, index, points, labels, box, feedback['original'])
+    refined, refined_previous, refined_choice = predictor.predict(
+        points, labels, box=box, previous=feedback['refined'])
+    if not np.isfinite(refined_previous).all():
+        raise RuntimeError('Non-finite refined output.')
+    predictor.model.last_trace = None
+    stages.append(dict(points=copy.deepcopy(prompt['points']), box=copy.deepcopy(box),
+        original=dict(mask=baseline, candidate=base_choice, **measured_iou(baseline, truth)),
+        refined=dict(mask=refined, candidate=refined_choice, **measured_iou(refined, truth))))
+    return dict(model=name, shared_prompts=True, independent_feedback=True,
+        iou_scope='curated target / legacy ground truth', stages=stages,
+        _feedback=dict(original=baseline_previous, refined=refined_previous))
 
-    Ground truth is used only for reporting IoU. Candidate selection uses model
-    scores; the baseline and refinement retain independent previous logits.
-    Curated prompt coordinates are fixed in the published example manifest.
+
+@torch.inference_mode()
+def compare_prompt_stage(template, name, image, prompt, truth, previous_pair=None):
+    """Decode just the newly requested stage, with independent CPU mask feedback.
+
+    No later prompts are decoded until the visitor adds another point. Image
+    encoding is recreated inside the GPU callback, so session state never keeps
+    a GPU tensor between requests. Ground truth is used only to report IoU.
     """
     predictor = copy.copy(template)
     predictor.set_image(image)
-    baseline_previous = refined_previous = None
-    stages = []
-    for index, prompt in enumerate(trajectory):
-        points = [[p['x'], p['y']] for p in prompt['points']]
-        labels = [p['label'] for p in prompt['points']]
-        if any(label != 1 for label in labels):
-            raise ValueError('The curated demo supports foreground prompts only.')
-        box = prompt.get('box')
-        mode = 'box' if box is not None else 'point'
-        baseline, baseline_previous, base_choice = original_prediction(
-            predictor, name, mode, index, points, labels, box, baseline_previous)
-        refined, refined_previous, refined_choice = predictor.predict(points, labels, box=box, previous=refined_previous)
-        if not np.isfinite(refined_previous).all():
-            raise RuntimeError('Non-finite refined output.')
-        predictor.model.last_trace = None
-        stages.append(dict(points=prompt['points'], box=box,
-            original=dict(mask=baseline, candidate=base_choice, **measured_iou(baseline, truth)),
-            refined=dict(mask=refined, candidate=refined_choice, **measured_iou(refined, truth))))
-    return dict(model=name, shared_prompts=True, independent_feedback=True,
-                iou_scope='curated target / legacy ground truth', stages=stages)
+    return _append_prompt_stage(predictor, name, prompt, truth, previous_pair)
+
+
+@torch.inference_mode()
+def compare_prompts(template, name, image, trajectory, truth):
+    """Run the complete fixed trajectory for offline comparison and verification."""
+    predictor = copy.copy(template)
+    predictor.set_image(image)
+    pair = None
+    for prompt in trajectory:
+        pair = _append_prompt_stage(predictor, name, prompt, truth, pair)
+    if pair is None:
+        raise ValueError('Supply at least the initial prompt.')
+    return {key: value for key, value in pair.items() if key != '_feedback'}
 
 
 def synchronize(device):

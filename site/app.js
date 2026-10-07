@@ -4,14 +4,6 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const names = {tinysam: "TinySAM", mobilesam: "MobileSAM", vith: "SAM ViT-H"};
 const state = {example: null, model: "tinysam", prompt: "point", round: 1, opacity: .5, dataset: "coco", benchmarkPrompt: "point", benchmarkStage: 0, everyView: "masks", pairShown: false};
 const pictures = new Map();
-window.addEventListener("message", event => {
-  if (event.origin !== location.origin || event.data?.type !== "fsd-animation-size") return;
-  const height = Number(event.data.height);
-  if (!Number.isFinite(height) || height < 250 || height > 4000) return;
-  $$("iframe.fsd-comparison-animation").forEach(frame => {
-    if (frame.contentWindow === event.source) frame.style.height = height + "px";
-  });
-});
 let records, benchmarks, manifest, config, everything, everyComparison, paperTiming, renderVersion = 0, toastTimer;
 const number = value => Number(value).toLocaleString("en-US");
 const svg = id => `<svg class="icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
@@ -121,7 +113,6 @@ async function renderExample() {
   $("#reference-heading").textContent = "Original " + names[state.model];
   $("#refined-heading").textContent = "Prompt-adaptive " + names[state.model];
   $("#refined-canvas").hidden = false;
-  $("#fsd-workflow-panel").hidden = true;
   $("#prediction-grid").classList.remove("is-flow");
   $("#reference-canvas").setAttribute("aria-label","Original lightweight model prediction with the same prompt");
   $("#refined-canvas").setAttribute("aria-label","Refined model mask and prompts");
@@ -387,7 +378,6 @@ function setEveryControls(enabled) {
   $("#example-model").closest("label").hidden = enabled;
   $(".opacity-control").hidden = enabled;
   $("#refined-canvas").hidden = false;
-  $("#fsd-workflow-panel").hidden = true;
   $("#prediction-grid").classList.remove("is-flow");
 }
 async function renderEverything(version) {
@@ -423,12 +413,6 @@ function wireEverything() {
   $("#run-every-comparison").addEventListener("click",()=>{
     state.pairShown=true;
     renderExample().catch(error=>toast(error.message));
-  });
-  $("#try-everything").addEventListener("click", () => {
-    state.prompt = "everything"; state.example = "fruit";
-    active($$("[data-prompt]"),$("[data-prompt=everything]"));
-    $("#explorer").scrollIntoView({behavior:"smooth"});
-    renderExample().catch(error => toast(error.message));
   });
 }
 start().catch(error => {toast(error.message); $("#example-caption").textContent = error.message; console.error(error);});

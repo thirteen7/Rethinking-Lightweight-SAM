@@ -26,10 +26,18 @@ in a hosted Space.
 
 Point and Box use only the curated annotated black-bear, elephant, bottle and
 bed examples. Select the mode/backbone or a gallery thumbnail, then press
-**Run both models** once. Four panels show original/refined outputs at the
-initial prompt and after two positive foreground corrections. Every stage's
-true target IoU is recomputed from the supplied legacy GT mask. The same
-prompts are sent to both paths with independent previous logits. There is no
+**Run both models** for the initial prompt. The **+1 point** button then adds
+the first preset foreground correction and runs both paths; **+2 points** adds
+the second one after the first has finished. Two fixed panels show the current
+stage, and the compact IoU table contains only completed stages. Add-point
+buttons live in the left controls. **Previous result / Next result** below
+the masks browse every completed stage without another GPU run; images,
+displayed prompts and highlighted IoU change together. Corrections always
+continue from the latest completed stage, even when an older result is shown.
+Each add-point click
+decodes that stage alone, with independent previous logits kept in CPU session
+memory. Every stage's true target IoU is recomputed from the supplied legacy GT
+mask. The same prompts are sent to both paths. There is no
 background-point option and no custom-image upload in these two modes.
 
 These are curated examples and prompt coordinates, not an estimate of average
@@ -45,6 +53,8 @@ encoding plus each generation time; loading, warm-up, queue and rendering are
 excluded. Repeat runs alternate execution order. The current-image numbers
 are separate from the paper's COCO100 dataset averages. Instance inspection
 reports SAM's predicted IoU, not measured target IoU for an unlabeled upload.
+The **How FSD works** tab is the sole workflow presentation in the public UI;
+the project page links to this studio instead of repeating the full animation.
 The FSD animation maps every prompt onto the image and shows the actual four
 selection waves and local-guard additions. Click a point to inspect its pixel
 coordinates and selection reason; playback and step controls explain the order.
