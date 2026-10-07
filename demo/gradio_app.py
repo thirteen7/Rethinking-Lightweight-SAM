@@ -109,14 +109,22 @@ def metrics(mode='READY', masks='—', requests='—', elapsed='—'):
         for label,value in fields)+'</div>'
 
 
-@gpu(duration=60)
+def comparison_duration(state, grid):
+    # Reserve more time for dense grids and large uploads; keep small demos
+    # within the visitor's available ZeroGPU quota.
+    image = state.get('image')
+    large_image = image is not None and image.shape[0]*image.shape[1]>1_500_000
+    return 60 if int(grid)==32 or large_image else 30
+
+
+@gpu(duration=comparison_duration)
 @torch.inference_mode()
 def compute_comparison(state, grid):
     return compare_everything(TEMPLATES['vith'], state['image'], int(grid),
                               run_index=state.get('comparison_runs', 0))
 
 
-@gpu(duration=30)
+@gpu(duration=15)
 @torch.inference_mode()
 def compute_prompt_comparison(state, name):
     return compare_prompts(TEMPLATES[name], name, state['image'],
