@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "model_count": 3,
+  "per_model_single_complete_checkpoint": true,
+  "exact_numeric_definitions": 101,
+  "cpu_parity": {
+    "tinysam": {
+      "passed": true,
+      "image_id": 139,
+      "targets": 2,
+      "scope": "CPU image embedding, point/box x3 mask/logit hashes, choices, IoU and RNG exactly equal"
+    },
+    "mobilesam": {
+      "passed": true,
+      "image_id": 139,
+      "targets": 2,
+      "scope": "CPU image embedding, point/box x3 mask/logit hashes, choices, IoU and RNG exactly equal"
+    }
+  },
+  "strict_cpu_loading_and_tensor_integrity": true,
+  "private_source_and_secret_scan_passed": true,
+  "release_parts_reconstruct_exact_bytes": true,
+  "testing_limit": "Packaged inference compared on a fixed two-object CPU fixture; no full training/evaluation rerun"
+}

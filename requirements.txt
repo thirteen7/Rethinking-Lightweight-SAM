@@ -1,0 +1,14 @@
+# Install a matched PyTorch/torchvision build for your CUDA version first.
+torch>=2.0,<2.8
+torchvision>=0.15,<0.23
+numpy>=1.24,<2
+Pillow>=9.4
+opencv-python>=4.8,<4.12
+pycocotools>=2.0.6
+kornia==0.7.1
+timm==0.4.12
+loralib==0.1.2
+yacs==0.1.8
+PyYAML>=6.0
+matplotlib>=3.7
+tqdm>=4.65

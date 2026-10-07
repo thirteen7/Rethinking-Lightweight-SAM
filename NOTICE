@@ -1,0 +1,28 @@
+Rethinking Lightweight SAM - prompt-adaptive refinement research release.
+
+The original research workspace is licensed under S-Lab License 1.0, which
+permits non-commercial redistribution with the required notices retained.
+The repository's LICENSE is preserved from that source distribution.
+
+SAM code: Copyright (c) Meta Platforms, Inc. and affiliates. Original license
+notices remain in the source files. Apache License 2.0 is included in licenses/.
+https://github.com/facebookresearch/segment-anything
+
+TinySAM: xinghaochen/TinySAM. Apache License 2.0, retained in its vendored folder.
+https://github.com/xinghaochen/TinySAM
+
+MobileSAM: ChaoningZhang/MobileSAM. Apache License 2.0, retained in its vendored folder.
+https://github.com/ChaoningZhang/MobileSAM
+
+Changes to vendored TinySAM and MobileSAM prompt encoders: ignored label -2
+embeddings are zeroed while retaining the token. The accepted versions are
+distributed verbatim. Research scripts are extracted to the symbols needed
+for training and point/box evaluation; numerical kernels retain their original
+definitions. Unused quality/scoring branches are removed. Data path resolution
+and public entry points are made portable. Source fingerprints are documented
+in docs/source_manifest.json.
+
+Pretrained tensors retain the upstream/model terms. Public model repacking
+removes private filesystem metadata and joins each backbone with its six
+active modules, without changing tensor values or precision. SHA256 and tensor
+fingerprints are included in models.json and each checkpoint.

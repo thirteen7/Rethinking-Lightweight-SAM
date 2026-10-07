@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-adaptive-sam"
+version = "1.0.0"
+description = "Prompt-adaptive refinement for lightweight SAM models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "S-Lab License 1.0; third-party files retain their original licenses"}
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+include = ["prompt_adaptive_sam*"]
+
+[tool.setuptools.package-data]
+prompt_adaptive_sam = ["_engine/**/*.py", "_engine/.local-deps/**/*.py", "_engine/.local-deps/**/LICENSE"]

@@ -1,0 +1,555 @@
+{
+  "prompt_adaptive_sam/_engine/data/coco_dataset.py": {
+    "source": "data/coco_dataset.py",
+    "source_sha256": "77303f39acb2c8758d491e69671ec7360744d1d408d56ff7d63b4cb923524642",
+    "retained_symbols": [
+      "COCODataset",
+      "F",
+      "Image",
+      "ResizeLongestSide",
+      "copy",
+      "json",
+      "mask_utils",
+      "np",
+      "os",
+      "pil_to_tensor",
+      "torch",
+      "xywh2xyxy"
+    ],
+    "published_sha256": "1c8369dc64bfdfa39e501fa73bce5fd8aea82c28e8c6b31275b9f7fa2dde69b4"
+  },
+  "prompt_adaptive_sam/_engine/data/sa1b_dataset.py": {
+    "source": "data/sa1b_dataset.py",
+    "source_sha256": "991b130a4001178c258acc044f26bf0904dcca3f06c4d63861a19438264989cb",
+    "retained_symbols": [
+      "F",
+      "Image",
+      "ImageFile",
+      "Path",
+      "ResizeLongestSide",
+      "SA1BDataset",
+      "copy",
+      "glob",
+      "json",
+      "mask_utils",
+      "np",
+      "os",
+      "pil_to_tensor",
+      "torch",
+      "xywh2xyxy",
+      "xyxy2xywh"
+    ],
+    "published_sha256": "da3a4aa942a1ead80bb6c0eec5a1722db9047758653f26bdfdf7000231aa92b3"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/box_decoder_current_anchor.py": {
+    "source": "scripts/flip_study/box_decoder_current_anchor.py",
+    "source_sha256": "425e3f314fbaddec63f18aea0f93163d2e953214890dd57d7f1160e4645e1553",
+    "retained_symbols": [
+      "CANDIDATE_ID_COLUMNS",
+      "QUALITY_COLUMNS",
+      "box_features",
+      "choose_anchor",
+      "pair_features",
+      "prediction_features",
+      "torch"
+    ],
+    "published_sha256": "b4a19abedb81cc2055ef3930297367b693137ea3d5c0066a8de60452f7a0dd5b"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/box_region_evidence.py": {
+    "source": "scripts/flip_study/box_region_evidence.py",
+    "source_sha256": "565949d8abb30dfe0dd76042bda07246381eb60dca433c4e67253a1d5d6eb9a0",
+    "retained_symbols": [
+      "F",
+      "REGION_DIM",
+      "RegionSelector",
+      "VARIANTS",
+      "nn",
+      "pair_prediction",
+      "region_features",
+      "torch",
+      "training_loss"
+    ],
+    "published_sha256": "ed29cf423d6c4598007b0491d01c4b5160a820b3931b4b1b59ca1a6910429ea5"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/box_specialist.py": {
+    "source": "scripts/flip_study/box_specialist.py",
+    "source_sha256": "d2dd7e50b7f9781216b0d13a495dc37cce1ce16697d1e4dbbdd7f024751c2c76",
+    "retained_symbols": [
+      "F",
+      "box_features",
+      "torch"
+    ],
+    "published_sha256": "aa1c314f2216501431a457540cf003050ce111a5308ef15d8c9ee812c0d47ff4"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/candidate_selector.py": {
+    "source": "scripts/flip_study/candidate_selector.py",
+    "source_sha256": "e5ced4a51ea2e356b707a39c94c20b834b07e7f4153068174f8cd02271c5351b",
+    "retained_symbols": [
+      "F",
+      "GainSelector",
+      "choose_candidates",
+      "nn",
+      "prediction_features",
+      "torch"
+    ],
+    "published_sha256": "b70c03b77524f684cdb16a4ea28c9746bea11ed7b5e6dad9ee00e0bfab197c4e"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/click_residual.py": {
+    "source": "scripts/flip_study/click_residual.py",
+    "source_sha256": "9e90b227fd027ef20326d569e812e56fb5e62bebd77b7c21d34d62249442fc05",
+    "retained_symbols": [
+      "CHANNELS",
+      "ClickResidualHead",
+      "F",
+      "PATCH",
+      "crop",
+      "geometry",
+      "make_inputs",
+      "nn",
+      "paste",
+      "torch"
+    ],
+    "published_sha256": "f2dd1bc6b74c56519d1173f69b633164e23b53b720086dfd3950ce0e7370db51"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/eval_box_augmented_feedback.py": {
+    "source": "scripts/flip_study/eval_box_augmented_feedback.py",
+    "source_sha256": "66725025f81157507e3828d8b29d00537651d895ce6bf1a70873d3c62de366ef",
+    "retained_symbols": [
+      "input_boxes",
+      "torch"
+    ],
+    "published_sha256": "42bee9f898bdf8a6bc5f2a299fde80eea48c48e1ba1d40862078c14f161014df"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/eval_candidate_onpolicy.py": {
+    "source": "scripts/flip_study/eval_candidate_onpolicy.py",
+    "source_sha256": "bed9efdab565ab26376642d0a33880b0c3bf2d7377dda27f63acb47b5174d3b8",
+    "retained_symbols": [
+      "F",
+      "chunk_inputs",
+      "get_centroid_from_mask",
+      "mask_utils",
+      "np",
+      "torch"
+    ],
+    "published_sha256": "862fd731f8f6a4e4b3b1479dd074bab53b3a14be6db46cf63f56e1f60bcde2ec"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/eval_legacy_box_versions.py": {
+    "source": "scripts/flip_study/eval_legacy_box_versions.py",
+    "source_sha256": "287a2878d8700eb508dde685539df44f3c48a4206f1d6c431f31b59259370545",
+    "retained_symbols": [
+      "original_next_point",
+      "sample_point_in_mask"
+    ],
+    "published_sha256": "f61ae6ac0afa14d73a54099af98beac5e811786dbc062d044e9fa32d2063560c"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/feedback_adaptation.py": {
+    "source": "scripts/flip_study/feedback_adaptation.py",
+    "source_sha256": "954611a30c37b6044615da05aa7c6e3b4e0fa7293a3c19f3923b98e3d15c2762",
+    "retained_symbols": [
+      "F",
+      "LocalSelector",
+      "TEMPORAL_DIM",
+      "TemporalSelector",
+      "latest_click",
+      "nn",
+      "point_violations",
+      "temporal_features",
+      "torch"
+    ],
+    "published_sha256": "1c6796ff29a8949567ae6887f100ed7eb699a9dfc58146dc536a5efd40d29d68"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/infer_light_sam_coco_full.py": {
+    "source": "scripts/flip_study/infer_light_sam_coco_full.py",
+    "source_sha256": "f6e5694a51d34065ce4841270d9a4df5ba5bc370e98d385485680a56036e850c",
+    "retained_symbols": [
+      "F",
+      "get_centroid_from_mask",
+      "input_boxes",
+      "prepare_chunk",
+      "torch"
+    ],
+    "published_sha256": "d55c593751781bc126adb74a987c2252f34253b01c4b951ff7ec5d8f6afe3893"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/light_sam_adapter.py": {
+    "source": "scripts/flip_study/light_sam_adapter.py",
+    "source_sha256": "bb37c2489aa2ed8658f1b71997d79d3dc369ad54bf0de6ecf4fd6f3a8804f6b8",
+    "retained_symbols": [
+      "CHECKPOINTS",
+      "FourCandidateEngine",
+      "Path",
+      "ROOT",
+      "load_sam",
+      "torch"
+    ],
+    "published_sha256": "c8d03b513844ab6c53c5c09da7e49d81a74d537240a49618d75545feeb117895"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/light_sam_combined.py": {
+    "source": "scripts/flip_study/light_sam_combined.py",
+    "source_sha256": "ffde50a72476fcedb4aead71c09641bc74cb7b9c9b1a56bf66b1c3ebb26203ee",
+    "retained_symbols": [
+      "BOX_GATE",
+      "ClickResidualHead",
+      "F",
+      "FourCandidateEngine",
+      "GainSelector",
+      "LightCombinedModel",
+      "LightFeatureEngine",
+      "LocalSelector",
+      "POINT_GATE",
+      "Path",
+      "TemporalSelector",
+      "_load",
+      "choose_candidates",
+      "choose_point",
+      "crop",
+      "geometry",
+      "latest_click",
+      "load_sam",
+      "local_grid",
+      "make_inputs",
+      "paste",
+      "point_violations",
+      "prediction_features",
+      "repair_point",
+      "score_point",
+      "temporal_features",
+      "torch"
+    ],
+    "published_sha256": "ac130a937084ac8b1ef0bb21fc0744e52e63dd4331a4e2e300e90a155ffd2b61"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/local_attention_selector.py": {
+    "source": "scripts/flip_study/local_attention_selector.py",
+    "source_sha256": "4e5378cbb2e075b84f11eb3ddedbf1e0b7acb2951e43b7fc70264fe9e35b905f",
+    "retained_symbols": [
+      "GainSelector",
+      "KINDS",
+      "LocalSelector",
+      "local_grid",
+      "nn",
+      "torch"
+    ],
+    "published_sha256": "849c1cf40c70b109cf8ea019604e155c1240b4d0437a1c9f8d7d52841d479780"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/pack_sa1b_subset.py": {
+    "source": "scripts/flip_study/pack_sa1b_subset.py",
+    "source_sha256": "3815699f20b3632753dad9163b3a37cac1fe8bf809af9b2b821e51a06f815b49",
+    "retained_symbols": [
+      "hashlib",
+      "sha256"
+    ],
+    "published_sha256": "6eb0991d8283180f9db3a17f139068ddc14ab41f287607fc1d431633c1450857"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/prepare_local_attention.py": {
+    "source": "scripts/flip_study/prepare_local_attention.py",
+    "source_sha256": "25b112f0fe36bc0a1f22f32340aa7aebd3750dba6c7f17ba16b8b4d2386ecaec",
+    "retained_symbols": [
+      "cap_dataset",
+      "torch"
+    ],
+    "published_sha256": "1ddc132af8f14a479b0ea17c5ad4a3e726e18ad9bb29928ba3b639440978e531"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/run_candidate_experiment.py": {
+    "source": "scripts/flip_study/run_candidate_experiment.py",
+    "source_sha256": "502c90f791a62e97ac4a06b42364578db2b180a0ff50ff9ce4bab1af8fb76fa1",
+    "retained_symbols": [
+      "ious",
+      "torch"
+    ],
+    "published_sha256": "79d837edc29760d8cc0771f34acd847a4d46c2f9d62f76911228add257d8b0be"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/run_expanded_validation.py": {
+    "source": "scripts/flip_study/run_expanded_validation.py",
+    "source_sha256": "b4f550a2ea22b4a25b5230c51d6e3659e6ee4f3641d20dc09ae5f0a5678a5202",
+    "retained_symbols": [
+      "COCODataset"
+    ],
+    "published_sha256": "553a25036181f3479597c502bbeef4e1f4f178beeeab67feef909d9bb75db78a"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/train_click_residual.py": {
+    "source": "scripts/flip_study/train_click_residual.py",
+    "source_sha256": "6228e8f604e14d2de13c76a2bf89078ae7237f80e8dd2985dbaabf5f6ee6bae0",
+    "retained_symbols": [
+      "CFG",
+      "CHANNELS",
+      "DATA",
+      "F",
+      "PATCH",
+      "PilotDataset",
+      "TrainingDataset",
+      "loss_fn",
+      "read",
+      "save_torch",
+      "torch"
+    ],
+    "published_sha256": "03b689960c7588a9471bfb824d595834ec20f3fd7c66aed8840debc6845d747e"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/train_feedback_adaptation.py": {
+    "source": "scripts/flip_study/train_feedback_adaptation.py",
+    "source_sha256": "14c5579c0a8d712c0c100ee2962853efc6f43d6bfed49cc199228d130ca8de06",
+    "retained_symbols": [
+      "candidate_scores",
+      "ious",
+      "torch"
+    ],
+    "published_sha256": "a3fc81b4ffce6fcc267b5a750f83523b501554f8fed6310727ac8e5a2ae2d301"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/train_light_sam_combined.py": {
+    "source": "scripts/flip_study/train_light_sam_combined.py",
+    "source_sha256": "0f64211d510747c37a0364ab17a1369619c3ebcf7de30c567740b8286fbc5313",
+    "retained_symbols": [
+      "CHECKPOINTS",
+      "ClickResidualHead",
+      "DATA",
+      "EXPLICIT_ROWS",
+      "EXPLICIT_SPLITS",
+      "F",
+      "FLOAT_FIELDS",
+      "GainSelector",
+      "LightFeatureEngine",
+      "LocalSelector",
+      "Path",
+      "ROUTER_LOSS",
+      "SPLITS",
+      "TemporalSelector",
+      "all_phases",
+      "annotations",
+      "calibrate_residual",
+      "candidate_iou",
+      "checkpoint",
+      "choose_point",
+      "collect_base",
+      "collect_feedback",
+      "collect_residual",
+      "crop",
+      "dataset",
+      "fit_base",
+      "fit_feedback",
+      "fit_residual",
+      "fit_router",
+      "ids_for",
+      "json",
+      "load_head",
+      "load_rows",
+      "load_sam",
+      "load_torch",
+      "make_inputs",
+      "original_next_point",
+      "os",
+      "pack",
+      "prediction_features",
+      "prepare_chunk",
+      "protocol",
+      "repair_point",
+      "residual_epoch",
+      "residual_loss",
+      "router_loss",
+      "save_json",
+      "save_torch",
+      "score_point",
+      "seed_image",
+      "sha256",
+      "source_dataset",
+      "to_device",
+      "torch"
+    ],
+    "published_sha256": "aea5caea9d53eb10dca8169626e47f3e29729f6b6ccfb4469757d51b24dec872"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/train_light_sam_route.py": {
+    "source": "scripts/flip_study/train_light_sam_route.py",
+    "source_sha256": "b3d53364b968063f0ad5eca81291c7fb643acb328714691b803e57c7ee76f444",
+    "retained_symbols": [
+      "DATA",
+      "Path",
+      "ROOT",
+      "SPLITS",
+      "TrainingDataset",
+      "cap_dataset",
+      "dataset"
+    ],
+    "published_sha256": "b23be180d1009909c28b933bde9822ffef5526a931aaada75d486c95f42ea8fa"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/train_local_attention.py": {
+    "source": "scripts/flip_study/train_local_attention.py",
+    "source_sha256": "c4eac6b7c74d12c64fb5fd008b3bb85bdfbc7a2a2d2349a5ae8458513f657ea7",
+    "retained_symbols": [
+      "F",
+      "json",
+      "loss_fn",
+      "read",
+      "torch"
+    ],
+    "published_sha256": "cb192212468347349aa08e444ff5d9b91752f58737f5889f26a891ab6342da8c"
+  },
+  "prompt_adaptive_sam/_engine/scripts/flip_study/train_sa1b_selector.py": {
+    "source": "scripts/flip_study/train_sa1b_selector.py",
+    "source_sha256": "e26654682504c6d35a1ecd873b53d3d66b3dc626e4c2a600c60e4a9facdc387a",
+    "retained_symbols": [
+      "COCODataset",
+      "DATA",
+      "Path",
+      "ROOT",
+      "TrainingDataset",
+      "read"
+    ],
+    "published_sha256": "807b9a9f52a094a4be8e2c1b1e51a27462c722e6ec54bdd33dbc2eaff492bbeb"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/backbone_edit_model.py": {
+    "source": "scripts/side_coco_eval/backbone_edit_model.py",
+    "source_sha256": "fe5178ce6b92b74292522009501ce2e47329047c8209467a072e980f21bfec69",
+    "retained_symbols": [
+      "BOX_GATE",
+      "BackboneEditModel",
+      "FORMAT",
+      "MODELS",
+      "RegionSelector",
+      "canonical_candidates",
+      "choose_anchor",
+      "choose_candidates",
+      "choose_point",
+      "decode_independent",
+      "pair_features",
+      "pair_prediction",
+      "prediction_features",
+      "region_features",
+      "repair_point",
+      "torch"
+    ],
+    "published_sha256": "c1e538437b9c077d4d38219ef394de186f305d7217b5ed50186e2123dcdb03b9"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/box_only_training.py": {
+    "source": "scripts/side_coco_eval/box_only_training.py",
+    "source_sha256": "c5d727caf0356d977ce8206d408ec6391b4a11881f812b728e1266bb1a6ae280",
+    "retained_symbols": [
+      "BackboneEditModel",
+      "BoxOnlyTrainingModel",
+      "FORMAT",
+      "FourCandidateEngine",
+      "GainSelector",
+      "Path",
+      "SimpleNamespace",
+      "copy",
+      "load_sam",
+      "torch"
+    ],
+    "published_sha256": "078eee16f5cd0b70acb87b0b039019e0280dc2805e5a4954d303eaf5970845cb"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/eval_backbone_interactive.py": {
+    "source": "scripts/side_coco_eval/eval_backbone_interactive.py",
+    "source_sha256": "87b3013cb810cf5bb5e5109023d316cae4dae0f05a3f989aadb1f510221747a3",
+    "retained_symbols": [
+      "BackboneEditModel",
+      "COCODataset",
+      "F",
+      "Path",
+      "SA1BDataset",
+      "SAMPLER_VERSION",
+      "annotation_ids",
+      "evaluator_sha",
+      "format_progress",
+      "get_centroid_from_mask",
+      "hashlib",
+      "identity",
+      "iou",
+      "json",
+      "make_dataset",
+      "model_protocol",
+      "np",
+      "original_next_point",
+      "prepare",
+      "random_foreground_points",
+      "read",
+      "restore_rng",
+      "run",
+      "save_rng",
+      "sha",
+      "summarize",
+      "time",
+      "torch",
+      "write"
+    ],
+    "published_sha256": "13442cb478d64b4a8edfec8fc9745dd53439e41ede3680380553ac279758e9a2"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/eval_runtime.py": {
+    "source": "scripts/side_coco_eval/eval_runtime.py",
+    "source_sha256": "59baae9fc60f514c64e1be83fd35c6efa7bb5fa3048c107e78c0b11ad46ff259",
+    "retained_symbols": [
+      "F",
+      "distance_transform",
+      "legacy_centroid_batched",
+      "torch"
+    ],
+    "published_sha256": "70282ab39715c51b9f1260a01844b159d0bf07e717bf07b49505d12acc9bf44d"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/point_sampling.py": {
+    "source": "scripts/side_coco_eval/point_sampling.py",
+    "source_sha256": "c0dc22ac5724cee8cf7d8826927f58793ac818565fc876d1ea32f7db1c904233",
+    "retained_symbols": [
+      "SAMPLER_VERSION",
+      "hashlib",
+      "np",
+      "random",
+      "random_foreground_points",
+      "torch"
+    ],
+    "published_sha256": "244d9bfeafc264e727607b0d2f9422c1a207a4383a7b3a0f5366f31928f4d7e5"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/progress.py": {
+    "source": "scripts/side_coco_eval/progress.py",
+    "source_sha256": "9ad5f115c381c4fad1a561e3464451e028417a38f7689a16a632a601756a27cd",
+    "retained_symbols": [
+      "format_progress",
+      "math",
+      "time"
+    ],
+    "published_sha256": "957ac0d61f91124139f087daeed2da006962ad1d59ba577ff17234e1f3df220b"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/prompt_contract.py": {
+    "source": "scripts/side_coco_eval/prompt_contract.py",
+    "source_sha256": "5a07a51d479c4b7cc3d0a452e0df5d4b793d7980425ce5dacbdd9a86a1733d2e",
+    "retained_symbols": [
+      "Path",
+      "ROOT",
+      "VERSION",
+      "hashlib",
+      "prompt_contract"
+    ],
+    "published_sha256": "e2e6a2c41f028ae6f1b02a733b5e4bc3a0f3337a39f9d66c451964c95b022e09"
+  },
+  "prompt_adaptive_sam/_engine/scripts/side_coco_eval/train_backbone_edit.py": {
+    "source": "scripts/side_coco_eval/train_backbone_edit.py",
+    "source_sha256": "ea33458dbf676ab7560974409f403b495a48a5535900d9d62d44d43a7f03bf87",
+    "retained_symbols": [
+      "CHECKPOINTS",
+      "F",
+      "FORMAT",
+      "PilotDataset",
+      "RegionSelector",
+      "candidate_scores",
+      "choose_anchor",
+      "chunk_inputs",
+      "collect_comparator",
+      "comparator_epoch",
+      "copy",
+      "decode_independent",
+      "decoder_epoch",
+      "decoder_loss",
+      "input_boxes",
+      "json",
+      "load_comparator_cache",
+      "load_sam",
+      "np",
+      "original_next_point",
+      "pair_prediction",
+      "prepare",
+      "rows_for",
+      "save_torch",
+      "sha256",
+      "torch",
+      "train_comparator",
+      "train_decoder",
+      "training_loss",
+      "write_json"
+    ],
+    "published_sha256": "4a0f56afa48a56530b7b0e8fa0a485f2f488e59bb2dd4f6de41fee706ce20196"
+  }
+}

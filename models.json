@@ -1,0 +1,81 @@
+{
+  "format": "prompt_adaptive_model_index_v1",
+  "repository": "thirteen7/Rethinking-Lightweight-SAM",
+  "release": "v1.0.0",
+  "models": {
+    "tinysam": {
+      "filename": "tinysam_prompt_adaptive_v1.pth",
+      "bytes": 57634414,
+      "sha256": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875",
+      "source_checkpoint_sha256": "58d3c7bf7135a1eba9e8c824c40175b51033d3cf9c60be1754232d623f7e516f",
+      "tensor_sha256": {
+        "sam": "858fdf08ae2b60c609b374a51ad5adbae34dc637be533c6d753d2cd4da9767af",
+        "point_attention": "efbc82f9ae47ef62bc1ef231104f75a53e6b131e38e9ec69aabb0038f09a7917",
+        "point_feedback": "ef899006f3492d5829353df97cb9eaa52663203577289de95090926223d968ee",
+        "point_residual": "41e7cd693d8449f5107f5ad32eb98284ed6e445ff8d6e9124a926c66441926ae",
+        "box_selector": "5dc9e29a5336eceb81c832e0a851bd77192a6cc4366827c878a181dbda46a0d6",
+        "independent_decoder": "cae537ccae4b08c97d82327c6110fe27f496a6748e98277e331843dde5e12121",
+        "edit_comparator": "66726dae45d5957c121b1b7a11d1265aa562757b92dc05624f6b1c0e80b16830"
+      },
+      "assets": [
+        {
+          "name": "tinysam_prompt_adaptive_v1.pth",
+          "bytes": 57634414,
+          "sha256": "6ac9c597fc30ba0cf5026d1a9261d3afe9a2ccd87962da98520d41c843ab2875"
+        }
+      ],
+      "revision": "minus_two_zero_v1_retrained"
+    },
+    "mobilesam": {
+      "filename": "mobilesam_prompt_adaptive_v1.pth",
+      "bytes": 57657824,
+      "sha256": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2",
+      "source_checkpoint_sha256": "78bc8647c6c58e8aff0ae702493263f9e29e336fd29105f16b379df3572c82c6",
+      "tensor_sha256": {
+        "sam": "440bed3872707da8382ee31da9329f70e6f580f3e18e6f6ce5472c6eb1d90be1",
+        "point_attention": "28f672fa10f2578b03b47dee26c5ea77511ada74c32233b3302c753c57225764",
+        "point_feedback": "3a4b863b65f8897ec358c66bed5188f634f4a4eb2abbfc74673247adb0baf5d9",
+        "point_residual": "a69398feff898d57f0bf40f39d463013e9b010bf9b08fcc2a7d222b9a199d3df",
+        "box_selector": "4533c6b62cfcdbbbbf61a8e9d20df6d4646ee07efff87dc0eb19063e85996683",
+        "independent_decoder": "e8211b6406a8f9f25e4f8cb25632d34e4569d14a68751f0dc3d5ce47c5aac6f1",
+        "edit_comparator": "f95ed71d54788b2e209e0d868a0f3f419deb10828a91f4ebd544241590b82701"
+      },
+      "assets": [
+        {
+          "name": "mobilesam_prompt_adaptive_v1.pth",
+          "bytes": 57657824,
+          "sha256": "0d4fc51f9b9e9b5e05f44f177698f7eacda682a64a1c21b68109383c33169af2"
+        }
+      ],
+      "revision": "minus_two_zero_v1_retrained"
+    },
+    "vith": {
+      "filename": "vith_prompt_adaptive_v1.pth",
+      "bytes": 2581483151,
+      "sha256": "30caf60b821b5acc66585d83b016d279f94933f088c15e30a5bc4af20f207b37",
+      "source_checkpoint_sha256": "f081a3a1deb2e6a8b4bcbb5a9ff72c6d627f012601632747114d0c24b40ae1f1",
+      "tensor_sha256": {
+        "sam": "a0ea14e557d2143266de4a3b0c9c40d261e0e344669d21f038407bc4852f8788",
+        "point_attention": "f78ced1db6825368bdb7c544866ef53f9816334ade948fc13d523431626e2b4b",
+        "point_feedback": "408a929a027f1b929f9c44d13b1480b8abd7d2d5dea0b16caa73a4832abe04d4",
+        "point_residual": "649151db1d761f7764cdae921e2d955ac3b8289914863e1148a3d66663c74d3e",
+        "box_selector": "19e976fcad70aae7e3881ec16602bac1051a37e8fcc1884736ac1eff8634f56c",
+        "independent_decoder": "0bdb887f02220fde9316b5a541c7f083b20f6a46f2c29a7172f8e79bca6e962d",
+        "edit_comparator": "8c3c1daff9837dffe2f2622ca3c5b9ea8f766f70d858ecd1792968a34367e9d6"
+      },
+      "assets": [
+        {
+          "name": "vith_prompt_adaptive_v1.pth.part01",
+          "bytes": 1610612736,
+          "sha256": "e6779501b7f750e71e3a5e7f21c71b0bd23d574beaa74fa42ce229f19b2dab3d"
+        },
+        {
+          "name": "vith_prompt_adaptive_v1.pth.part02",
+          "bytes": 970870415,
+          "sha256": "9eae085347bf367530f4587a30462459aa9086cbf4a5f7618d2b1ef0c1b2500c"
+        }
+      ],
+      "revision": "verified_vith_adapters_reused"
+    }
+  }
+}
